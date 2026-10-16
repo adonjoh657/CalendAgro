@@ -33,6 +33,8 @@ namespace CalendAgro
             builder.Services.AddTransient<FicheCulturePage>();
             builder.Services.AddTransient<DetailTacheViewModel>();
             builder.Services.AddTransient<DetailTachePage>();
+            builder.Services.AddTransient<DetailEtapeViewModel>();
+            builder.Services.AddTransient<DetailEtapePage>();
             builder.Services.AddTransient<AjoutParcelleViewModel>();
             builder.Services.AddTransient<AjoutParcellePage>();
             builder.Services.AddTransient<DemarrageViewModel>();

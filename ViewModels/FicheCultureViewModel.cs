@@ -158,6 +158,28 @@ public sealed partial class FicheCultureViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task OuvrirEtapeAsync(Controls.StepKind kind)
+    {
+        try
+        {
+            var phase = kind switch
+            {
+                Controls.StepKind.Entretien => TypeEtape.Entretien,
+                Controls.StepKind.Recolte => TypeEtape.Recolte,
+                _ => TypeEtape.Semis,
+            };
+            await Shell.Current.GoToAsync(
+                $"detail-etape?cultureId={_cultureId}&phase={phase}" +
+                $"&zone={Uri.EscapeDataString(ZoneChoisie ?? string.Empty)}" +
+                $"&saison={Uri.EscapeDataString(SaisonChoisie ?? string.Empty)}");
+        }
+        catch
+        {
+            NavigationErreur = AppResources.Connexion_ErreurLien;
+        }
+    }
+
+    [RelayCommand]
     private Task RetourAsync() => Shell.Current.GoToAsync("..");
 
     [RelayCommand]

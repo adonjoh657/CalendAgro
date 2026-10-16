@@ -15,6 +15,7 @@ namespace CalendAgro
             Routing.RegisterRoute("mot-de-passe-oublie", typeof(MotDePasseOubliePage));
             Routing.RegisterRoute("fiche-culture", typeof(FicheCulturePage));
             Routing.RegisterRoute("detail-tache", typeof(DetailTachePage));
+            Routing.RegisterRoute("detail-etape", typeof(DetailEtapePage));
             Routing.RegisterRoute("ajout-parcelle", typeof(AjoutParcellePage));
         }
     }

@@ -275,4 +275,9 @@
   <data name="Parcelle_Ajouter" xml:space="preserve"><value>Ajouter la parcelle</value></data>
   <data name="Parcelle_NoteEnregistrer" xml:space="preserve"><value>Choisissez une culture et une date de semis pour enregistrer la parcelle.</value></data>
   <data name="Parcelle_Chargement" xml:space="preserve"><value>Enregistrement en cours…</value></data>
+  <!-- Détail d'étape -->
+  <data name="Etape_EnMois" xml:space="preserve"><value>En {0}</value></data>
+  <data name="Etape_PeriodeMois" xml:space="preserve"><value>De {0} à {1}</value></data>
+  <data name="Etape_Chargement" xml:space="preserve"><value>Chargement de l'étape…</value></data>
+  <data name="Etape_Introuvable" xml:space="preserve"><value>Étape introuvable.</value></data>
 </root>

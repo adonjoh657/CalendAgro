@@ -123,6 +123,10 @@ namespace CalendAgro.Resources.Strings
         public static string Fiche_Chargement => ResourceManager.GetString(nameof(Fiche_Chargement), _resourceCulture) ?? "Chargement de la fiche…";
         public static string Fiche_NoteCalendrier => ResourceManager.GetString(nameof(Fiche_NoteCalendrier), _resourceCulture) ?? "Dates indicatives : adaptez les périodes aux pluies locales et à votre région.";
         public static string Fiche_NoteConseils => ResourceManager.GetString(nameof(Fiche_NoteConseils), _resourceCulture) ?? "En cas de doute, demandez conseil à un accompagnateur local.";
+        public static string Etape_EnMois => ResourceManager.GetString(nameof(Etape_EnMois), _resourceCulture) ?? "En {0}";
+        public static string Etape_PeriodeMois => ResourceManager.GetString(nameof(Etape_PeriodeMois), _resourceCulture) ?? "De {0} à {1}";
+        public static string Etape_Chargement => ResourceManager.GetString(nameof(Etape_Chargement), _resourceCulture) ?? "Chargement de l'étape…";
+        public static string Etape_Introuvable => ResourceManager.GetString(nameof(Etape_Introuvable), _resourceCulture) ?? "Étape introuvable.";
         public static string Calendrier_Titre => ResourceManager.GetString(nameof(Calendrier_Titre), _resourceCulture) ?? "Calendrier";
         public static string Calendrier_Vide => ResourceManager.GetString(nameof(Calendrier_Vide), _resourceCulture) ?? "Vos repères culturaux apparaîtront ici.";
         public static string Parcelles_Titre => ResourceManager.GetString(nameof(Parcelles_Titre), _resourceCulture) ?? "Parcelles";

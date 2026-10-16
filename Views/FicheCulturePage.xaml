@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:CalendAgro.Controls"
     xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
     xmlns:vm="clr-namespace:CalendAgro.ViewModels"
     x:DataType="vm:FicheCultureViewModel"
     Title="{Binding Nom}">
@@ -162,9 +163,17 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="vm:PhaseConseils">
                             <VerticalStackLayout Spacing="8">
-                                <controls:StepBadge
-                                    Kind="{Binding Kind}"
-                                    Text="{Binding Titre}" />
+                                <HorizontalStackLayout Spacing="8">
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:FicheCulturePage}}, Path=BindingContext.OuvrirEtapeCommand}"
+                                            CommandParameter="{Binding Kind}" />
+                                    </HorizontalStackLayout.GestureRecognizers>
+                                    <controls:StepBadge
+                                        Kind="{Binding Kind}"
+                                        Text="{Binding Titre}"
+                                        VerticalOptions="Center" />
+                                </HorizontalStackLayout>
                                 <VerticalStackLayout
                                     Spacing="8"
                                     BindableLayout.ItemsSource="{Binding Textes}">
