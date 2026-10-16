@@ -230,6 +230,15 @@
   <data name="Fiche_Conseils" xml:space="preserve"><value>Sur le terrain</value></data>
   <data name="Fiche_RegionExemple" xml:space="preserve"><value>Exemple région {0}</value></data>
   <data name="Fiche_ZoneCentre" xml:space="preserve"><value>Centre</value></data>
+  <data name="Fiche_ZoneLittoral" xml:space="preserve"><value>Littoral</value></data>
+  <data name="Fiche_ZoneOuest" xml:space="preserve"><value>Ouest</value></data>
+  <data name="Fiche_ZoneExtremeNord" xml:space="preserve"><value>Extrême-Nord</value></data>
+  <data name="Fiche_SaisonGrandeSeche" xml:space="preserve"><value>Grande saison sèche</value></data>
+  <data name="Fiche_SaisonPetitePluies" xml:space="preserve"><value>Petite saison des pluies</value></data>
+  <data name="Fiche_SaisonPetiteSeche" xml:space="preserve"><value>Petite saison sèche</value></data>
+  <data name="Fiche_SaisonGrandePluies" xml:space="preserve"><value>Grande saison des pluies</value></data>
+  <data name="Fiche_Zone" xml:space="preserve"><value>Zone</value></data>
+  <data name="Fiche_Saison" xml:space="preserve"><value>Saison</value></data>
   <data name="Fiche_Introuvable" xml:space="preserve"><value>Culture introuvable.</value></data>
   <data name="Fiche_RetourCatalogue" xml:space="preserve"><value>Retour au catalogue</value></data>
   <data name="Fiche_AjouterParcelle" xml:space="preserve"><value>Ajouter à une parcelle</value></data>

@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text;
 using CalendAgro.Models;
+using CalendAgro.Resources.Strings;
 
 namespace CalendAgro.Services;
 
@@ -56,19 +57,53 @@ public sealed class FakeCultureService : ICultureService
         return Donnees.FirstOrDefault(c => c.Id == cultureId);
     }
 
-    public async Task<IReadOnlyList<Etape>> GetEtapesAsync(string cultureId)
+    public Task<IReadOnlyList<string>> GetZonesAsync() =>
+        Task.FromResult<IReadOnlyList<string>>(
+        [
+            AppResources.Fiche_ZoneLittoral,
+            AppResources.Fiche_ZoneCentre,
+            AppResources.Fiche_ZoneOuest,
+            AppResources.Fiche_ZoneExtremeNord,
+        ]);
+
+    public Task<IReadOnlyList<string>> GetSaisonsAsync() =>
+        Task.FromResult<IReadOnlyList<string>>(
+        [
+            AppResources.Fiche_SaisonGrandeSeche,
+            AppResources.Fiche_SaisonPetitePluies,
+            AppResources.Fiche_SaisonPetiteSeche,
+            AppResources.Fiche_SaisonGrandePluies,
+        ]);
+
+    public async Task<IReadOnlyList<Etape>> GetEtapesAsync(string cultureId, string zone, string saison)
     {
         await Task.Delay(200);
         // Exemple maïs appliqué à toutes les cultures en phase B.
-        return Etapes.Select(e => new Etape
+        // Les périodes glissent selon la zone et la saison (logique provisoire).
+        var zones = await GetZonesAsync();
+        var saisons = await GetSaisonsAsync();
+        var decalage = (Math.Max(0, zones.ToList().IndexOf(zone)) + Math.Max(0, saisons.ToList().IndexOf(saison))) % 12;
+        return Etapes.Select(e =>
         {
-            CultureId = cultureId,
-            Type = e.Type,
-            Zone = e.Zone,
-            Saison = e.Saison,
-            MoisDebut = e.MoisDebut,
-            MoisFin = e.MoisFin,
+            var (debut, fin) = Decaler(e.MoisDebut, e.MoisFin, decalage);
+            return new Etape
+            {
+                CultureId = cultureId,
+                Type = e.Type,
+                Zone = zone,
+                Saison = saison,
+                MoisDebut = debut,
+                MoisFin = fin,
+            };
         }).ToArray();
+    }
+
+    private static (int Debut, int Fin) Decaler(int debut, int fin, int decalage)
+    {
+        var nouveauDebut = ((debut - 1 + decalage) % 12) + 1;
+        var longueur = fin >= debut ? fin - debut : fin - debut + 12;
+        var nouveauFin = ((nouveauDebut - 1 + longueur) % 12) + 1;
+        return (nouveauDebut, nouveauFin);
     }
 
     public async Task<IReadOnlyList<Conseil>> GetConseilsAsync(string cultureId)

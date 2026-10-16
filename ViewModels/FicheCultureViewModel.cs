@@ -44,6 +44,16 @@ public sealed partial class FicheCultureViewModel : ObservableObject
 
     public ObservableCollection<PhaseConseils> Phases { get; } = [];
 
+    public ObservableCollection<string> Zones { get; } = [];
+
+    public ObservableCollection<string> Saisons { get; } = [];
+
+    [ObservableProperty]
+    public partial string? ZoneChoisie { get; set; }
+
+    [ObservableProperty]
+    public partial string? SaisonChoisie { get; set; }
+
     [ObservableProperty]
     public partial string Nom { get; set; } = string.Empty;
 
@@ -94,6 +104,22 @@ public sealed partial class FicheCultureViewModel : ObservableObject
 
     partial void OnNavigationErreurChanged(string value) => OnPropertyChanged(nameof(NavigationErreurVisible));
 
+    partial void OnZoneChoisieChanged(string? value)
+    {
+        if (value is not null && !IsBusy)
+        {
+            _ = RechargerAsync();
+        }
+    }
+
+    partial void OnSaisonChoisieChanged(string? value)
+    {
+        if (value is not null && !IsBusy)
+        {
+            _ = RechargerAsync();
+        }
+    }
+
     [RelayCommand]
     private async Task RechargerAsync()
     {
@@ -110,9 +136,12 @@ public sealed partial class FicheCultureViewModel : ObservableObject
             }
             Nom = culture.Nom;
             Cycle = string.Format(AppResources.Fiche_CycleIndicatif, culture.CycleTexte);
-            Region = string.Format(AppResources.Fiche_RegionExemple, AppResources.Fiche_ZoneCentre);
+            await ChargerListesAsync();
+            ZoneChoisie ??= AppResources.Fiche_ZoneCentre;
+            SaisonChoisie ??= AppResources.Fiche_SaisonPetitePluies;
+            Region = string.Format(AppResources.Fiche_RegionExemple, ZoneChoisie);
 
-            var etapes = await _cultures.GetEtapesAsync(_cultureId);
+            var etapes = await _cultures.GetEtapesAsync(_cultureId, ZoneChoisie, SaisonChoisie);
             RemplirMois(etapes);
 
             var conseils = await _cultures.GetConseilsAsync(_cultureId);
@@ -148,13 +177,36 @@ public sealed partial class FicheCultureViewModel : ObservableObject
         }
     }
 
+    private async Task ChargerListesAsync()
+    {
+        if (Zones.Count == 0)
+        {
+            foreach (var zone in await _cultures.GetZonesAsync())
+            {
+                Zones.Add(zone);
+            }
+        }
+        if (Saisons.Count == 0)
+        {
+            foreach (var saison in await _cultures.GetSaisonsAsync())
+            {
+                Saisons.Add(saison);
+            }
+        }
+    }
+
+    private static bool DansPeriode(int mois, Etape etape) =>
+        etape.MoisDebut <= etape.MoisFin
+            ? mois >= etape.MoisDebut && mois <= etape.MoisFin
+            : mois >= etape.MoisDebut || mois <= etape.MoisFin;
+
     private void RemplirMois(IReadOnlyList<Etape> etapes)
     {
         Mois.Clear();
         var noms = CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat.MonthNames;
         for (var m = 1; m <= 12; m++)
         {
-            var etape = etapes.FirstOrDefault(e => m >= e.MoisDebut && m <= e.MoisFin);
+            var etape = etapes.FirstOrDefault(e => DansPeriode(m, e));
             var kind = etape?.Type switch
             {
                 TypeEtape.Entretien => StepKind.Entretien,

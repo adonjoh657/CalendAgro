@@ -12,7 +12,11 @@ public interface ICultureService
 
     Task<Culture?> GetCultureAsync(string cultureId);
 
-    Task<IReadOnlyList<Etape>> GetEtapesAsync(string cultureId);
+    Task<IReadOnlyList<string>> GetZonesAsync();
+
+    Task<IReadOnlyList<string>> GetSaisonsAsync();
+
+    Task<IReadOnlyList<Etape>> GetEtapesAsync(string cultureId, string zone, string saison);
 
     Task<IReadOnlyList<Conseil>> GetConseilsAsync(string cultureId);
 }

@@ -61,6 +61,30 @@
                     <Label
                         Style="{StaticResource Title2}"
                         Text="{x:Static strings:AppResources.Fiche_Calendrier}" />
+                    <Grid
+                        ColumnDefinitions="Auto,*,Auto,*"
+                        ColumnSpacing="8">
+                        <Label
+                            Grid.Column="0"
+                            Style="{StaticResource Legend}"
+                            Text="{x:Static strings:AppResources.Fiche_Zone}"
+                            VerticalOptions="Center" />
+                        <Picker
+                            Grid.Column="1"
+                            ItemsSource="{Binding Zones}"
+                            SelectedItem="{Binding ZoneChoisie}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="2"
+                            Style="{StaticResource Legend}"
+                            Text="{x:Static strings:AppResources.Fiche_Saison}"
+                            VerticalOptions="Center" />
+                        <Picker
+                            Grid.Column="3"
+                            ItemsSource="{Binding Saisons}"
+                            SelectedItem="{Binding SaisonChoisie}"
+                            VerticalOptions="Center" />
+                    </Grid>
                     <HorizontalStackLayout Spacing="12">
                         <controls:StepBadge
                             Kind="Semis"

@@ -107,6 +107,15 @@ namespace CalendAgro.Resources.Strings
         public static string Fiche_Conseils => ResourceManager.GetString(nameof(Fiche_Conseils), _resourceCulture) ?? "Sur le terrain";
         public static string Fiche_RegionExemple => ResourceManager.GetString(nameof(Fiche_RegionExemple), _resourceCulture) ?? "Exemple région {0}";
         public static string Fiche_ZoneCentre => ResourceManager.GetString(nameof(Fiche_ZoneCentre), _resourceCulture) ?? "Centre";
+        public static string Fiche_ZoneLittoral => ResourceManager.GetString(nameof(Fiche_ZoneLittoral), _resourceCulture) ?? "Littoral";
+        public static string Fiche_ZoneOuest => ResourceManager.GetString(nameof(Fiche_ZoneOuest), _resourceCulture) ?? "Ouest";
+        public static string Fiche_ZoneExtremeNord => ResourceManager.GetString(nameof(Fiche_ZoneExtremeNord), _resourceCulture) ?? "Extrême-Nord";
+        public static string Fiche_SaisonGrandeSeche => ResourceManager.GetString(nameof(Fiche_SaisonGrandeSeche), _resourceCulture) ?? "Grande saison sèche";
+        public static string Fiche_SaisonPetitePluies => ResourceManager.GetString(nameof(Fiche_SaisonPetitePluies), _resourceCulture) ?? "Petite saison des pluies";
+        public static string Fiche_SaisonPetiteSeche => ResourceManager.GetString(nameof(Fiche_SaisonPetiteSeche), _resourceCulture) ?? "Petite saison sèche";
+        public static string Fiche_SaisonGrandePluies => ResourceManager.GetString(nameof(Fiche_SaisonGrandePluies), _resourceCulture) ?? "Grande saison des pluies";
+        public static string Fiche_Zone => ResourceManager.GetString(nameof(Fiche_Zone), _resourceCulture) ?? "Zone";
+        public static string Fiche_Saison => ResourceManager.GetString(nameof(Fiche_Saison), _resourceCulture) ?? "Saison";
         public static string Fiche_Introuvable => ResourceManager.GetString(nameof(Fiche_Introuvable), _resourceCulture) ?? "Culture introuvable.";
         public static string Fiche_RetourCatalogue => ResourceManager.GetString(nameof(Fiche_RetourCatalogue), _resourceCulture) ?? "Retour au catalogue";
         public static string Fiche_AjouterParcelle => ResourceManager.GetString(nameof(Fiche_AjouterParcelle), _resourceCulture) ?? "Ajouter à une parcelle";

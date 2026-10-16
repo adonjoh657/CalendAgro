@@ -28,7 +28,7 @@ Pour chaque écran : ViewModel + vue + service factice via interface, états nor
 - [x] **11. Recherche** (fusionnée dans le catalogue : champ, résultats, aucun résultat). Commit : `feat: recherche par culture (interface)`
 - [x] **12. Fiche culture** (infos, frise 12 mois, conseils, accès ajout parcelle). Commit : `feat: fiche culture`
 - [ ] **13. Détail d'étape** (période, conseils de 12 mots maximum). Commit : `feat: détail d'étape` — « détail d'une tâche » fait à la place (maquette), à ajouter
-- [ ] **14. Calendrier de la saison** (mois en cours fait ; reste choix zone et saison). Commit : `feat: calendrier de la saison`
+- [x] **14. Calendrier de la saison** (mois en cours, frise fiche avec choix zone et saison). Commit : `feat: calendrier de la saison`
 - [x] **15. Mes parcelles** (liste, état vide avec action). Commit : `feat: liste des parcelles`
 - [ ] **16. Créer une parcelle et fiche parcelle** (formulaire fait ; reste la fiche). Commit : `feat: création et fiche parcelle`
 - [ ] **17. Rappels** (liste, activer / désactiver). Commit : `feat: écran des rappels`
