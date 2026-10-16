@@ -280,4 +280,12 @@
   <data name="Etape_PeriodeMois" xml:space="preserve"><value>De {0} à {1}</value></data>
   <data name="Etape_Chargement" xml:space="preserve"><value>Chargement de l'étape…</value></data>
   <data name="Etape_Introuvable" xml:space="preserve"><value>Étape introuvable.</value></data>
+  <!-- Fiche parcelle -->
+  <data name="FicheParcelle_Culture" xml:space="preserve"><value>Culture</value></data>
+  <data name="FicheParcelle_DateSemis" xml:space="preserve"><value>Semée le {0}</value></data>
+  <data name="FicheParcelle_Prochain" xml:space="preserve"><value>Prochain travail</value></data>
+  <data name="FicheParcelle_SansTravail" xml:space="preserve"><value>Aucun travail prévu.</value></data>
+  <data name="FicheParcelle_Supprimer" xml:space="preserve"><value>Supprimer la parcelle</value></data>
+  <data name="FicheParcelle_Chargement" xml:space="preserve"><value>Chargement de la parcelle…</value></data>
+  <data name="FicheParcelle_Introuvable" xml:space="preserve"><value>Parcelle introuvable.</value></data>
 </root>

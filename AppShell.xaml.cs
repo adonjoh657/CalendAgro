@@ -17,6 +17,7 @@ namespace CalendAgro
             Routing.RegisterRoute("detail-tache", typeof(DetailTachePage));
             Routing.RegisterRoute("detail-etape", typeof(DetailEtapePage));
             Routing.RegisterRoute("ajout-parcelle", typeof(AjoutParcellePage));
+            Routing.RegisterRoute("fiche-parcelle", typeof(FicheParcellePage));
         }
     }
 }

@@ -29,6 +29,19 @@ public sealed class FakeParcelleService : IParcelleService
         return _parcelles.ToArray();
     }
 
+    public async Task<Parcelle?> GetParcelleAsync(string parcelleId)
+    {
+        await Task.Delay(200);
+        await GetParcellesAsync();
+        return _parcelles.FirstOrDefault(p => p.Id == parcelleId);
+    }
+
+    public async Task SupprimerAsync(string parcelleId)
+    {
+        await Task.Delay(300);
+        _parcelles.RemoveAll(p => p.Id == parcelleId);
+    }
+
     public async Task<Parcelle> AjouterAsync(string nom, string cultureId, double? surfaceHa, string region, DateOnly dateSemis)
     {
         await Task.Delay(400);

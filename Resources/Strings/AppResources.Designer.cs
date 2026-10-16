@@ -84,6 +84,13 @@ namespace CalendAgro.Resources.Strings
         public static string Parcelle_Ajouter => ResourceManager.GetString(nameof(Parcelle_Ajouter), _resourceCulture) ?? "Ajouter la parcelle";
         public static string Parcelle_NoteEnregistrer => ResourceManager.GetString(nameof(Parcelle_NoteEnregistrer), _resourceCulture) ?? "Choisissez une culture et une date de semis pour enregistrer la parcelle.";
         public static string Parcelle_Chargement => ResourceManager.GetString(nameof(Parcelle_Chargement), _resourceCulture) ?? "Enregistrement en cours…";
+        public static string FicheParcelle_Culture => ResourceManager.GetString(nameof(FicheParcelle_Culture), _resourceCulture) ?? "Culture";
+        public static string FicheParcelle_DateSemis => ResourceManager.GetString(nameof(FicheParcelle_DateSemis), _resourceCulture) ?? "Semée le {0}";
+        public static string FicheParcelle_Prochain => ResourceManager.GetString(nameof(FicheParcelle_Prochain), _resourceCulture) ?? "Prochain travail";
+        public static string FicheParcelle_SansTravail => ResourceManager.GetString(nameof(FicheParcelle_SansTravail), _resourceCulture) ?? "Aucun travail prévu.";
+        public static string FicheParcelle_Supprimer => ResourceManager.GetString(nameof(FicheParcelle_Supprimer), _resourceCulture) ?? "Supprimer la parcelle";
+        public static string FicheParcelle_Chargement => ResourceManager.GetString(nameof(FicheParcelle_Chargement), _resourceCulture) ?? "Chargement de la parcelle…";
+        public static string FicheParcelle_Introuvable => ResourceManager.GetString(nameof(FicheParcelle_Introuvable), _resourceCulture) ?? "Parcelle introuvable.";
         public static string Cultures_Titre => ResourceManager.GetString(nameof(Cultures_Titre), _resourceCulture) ?? "Cultures";
         public static string Cultures_Recherche => ResourceManager.GetString(nameof(Cultures_Recherche), _resourceCulture) ?? "Rechercher une culture";
         public static string Cultures_Categorie => ResourceManager.GetString(nameof(Cultures_Categorie), _resourceCulture) ?? "Catégorie";
