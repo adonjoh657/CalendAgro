@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.DetailTachePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:models="clr-namespace:CalendAgro.Models"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:DetailTacheViewModel"
+    Title="{Binding Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="24"
+            Spacing="24">
+
+            <Button
+                Command="{Binding RetourCommand}"
+                ContentLayout="Left,8"
+                HorizontalOptions="Start"
+                ImageSource="arrow_left.svg"
+                Style="{StaticResource TextButton}"
+                Text="{x:Static strings:AppResources.Detail_Retour}" />
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Detail_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RechargerCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <controls:StateView
+                ActionCommand="{Binding RetourCommand}"
+                ActionText="{x:Static strings:AppResources.Detail_RetourListe}"
+                IsVisible="{Binding Introuvable}"
+                Message="{x:Static strings:AppResources.Detail_Introuvable}"
+                State="Empty" />
+
+            <VerticalStackLayout
+                Spacing="24"
+                IsVisible="{Binding IsContenuVisible}">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        Style="{StaticResource Body}"
+                        Text="{Binding Titre}" />
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{Binding Accroche}" />
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Spacing="8">
+                    <controls:StepBadge
+                        Kind="{Binding Kind}"
+                        Text="{Binding Phase}"
+                        VerticalOptions="Center" />
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{Binding Statut}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label
+                            Style="{StaticResource Legend}"
+                            Text="{x:Static strings:AppResources.Detail_DatePrevue}" />
+                        <Label
+                            Style="{StaticResource BodySmall}"
+                            Text="{Binding DatePrevue}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label
+                            Style="{StaticResource Legend}"
+                            Text="{Binding ParcelleNom}" />
+                        <Label
+                            Style="{StaticResource BodySmall}"
+                            Text="{Binding ParcelleMeta}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        Style="{StaticResource Title2}"
+                        Text="{x:Static strings:AppResources.Fiche_Conseils}" />
+                    <VerticalStackLayout
+                        Spacing="16"
+                        BindableLayout.ItemsSource="{Binding Conseils}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:ConseilBloc">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label
+                                        Style="{StaticResource Legend}"
+                                        Text="{Binding Titre}" />
+                                    <Label
+                                        Style="{StaticResource Body}"
+                                        Text="{Binding Texte}" />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Detail_NoteIndicative}" />
+
+                <controls:AppButton
+                    Command="{Binding MarquerTermineeCommand}"
+                    Text="{x:Static strings:AppResources.Detail_MarquerTerminee}"
+                    Variant="Accent" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Detail_NoteEnregistree}" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

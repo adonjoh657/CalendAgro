@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.DemarragePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:DemarrageViewModel"
+    Title="{x:Static strings:AppResources.App_Nom}">
+
+    <VerticalStackLayout
+        Padding="24"
+        Spacing="16"
+        VerticalOptions="Center">
+
+        <Image
+            HeightRequest="96"
+            HorizontalOptions="Center"
+            Source="logo.svg"
+            WidthRequest="96" />
+
+        <Label
+            Style="{StaticResource Title1}"
+            HorizontalTextAlignment="Center"
+            Text="{x:Static strings:AppResources.App_Nom}" />
+        <Label
+            Style="{StaticResource Body}"
+            HorizontalTextAlignment="Center"
+            Text="{x:Static strings:AppResources.Demarrage_Accroche}" />
+
+        <HorizontalStackLayout
+            HorizontalOptions="Center"
+            Spacing="8"
+            VerticalOptions="Center">
+            <Border
+                BackgroundColor="{StaticResource Success}"
+                Padding="10,6"
+                StrokeShape="RoundRectangle 999"
+                StrokeThickness="0">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="✓"
+                    TextColor="{StaticResource OnPrimary}"
+                    VerticalOptions="Center" />
+            </Border>
+            <Label
+                Style="{StaticResource Legend}"
+                Text="{x:Static strings:AppResources.Demarrage_HorsLigne}"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <controls:StateView
+            IsVisible="{Binding IsLoading}"
+            Message="{x:Static strings:AppResources.Demarrage_Chargement}"
+            State="Loading" />
+
+        <controls:StateView
+            ActionCommand="{Binding ReloadCommand}"
+            ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+            IsVisible="{Binding HasError}"
+            Message="{Binding ErrorMessage}"
+            State="Error" />
+
+        <VerticalStackLayout
+            Spacing="12"
+            IsVisible="{Binding IsReady}">
+            <controls:AppButton
+                Command="{Binding SeConnecterCommand}"
+                Text="{x:Static strings:AppResources.Demarrage_SeConnecter}" />
+            <controls:AppButton
+                Command="{Binding ContinuerSansCompteCommand}"
+                Text="{x:Static strings:AppResources.Demarrage_SansCompte}"
+                Variant="Accent" />
+            <Label
+                Style="{StaticResource BodySmall}"
+                HorizontalTextAlignment="Center"
+                IsVisible="{Binding ShowGuestNote}"
+                Text="{x:Static strings:AppResources.Demarrage_Invite}" />
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+
+</ContentPage>

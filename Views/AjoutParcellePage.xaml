@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.AjoutParcellePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:AjoutParcelleViewModel"
+    Title="{x:Static strings:AppResources.Parcelle_Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="24"
+            Spacing="24">
+
+            <VerticalStackLayout Spacing="8">
+                <Button
+                    Command="{Binding RetourCommand}"
+                    ContentLayout="Left,8"
+                    HorizontalOptions="Start"
+                    ImageSource="arrow_left.svg"
+                    Style="{StaticResource TextButton}"
+                    Text="{x:Static strings:AppResources.Parcelle_Retour}" />
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Parcelle_SousTitre}" />
+            </VerticalStackLayout>
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Parcelle_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RetourCommand}"
+                ActionText="{x:Static strings:AppResources.Parcelle_Retour}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsFormVisible}">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Parcelle_Nom}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            ReturnType="Next"
+                            Text="{Binding Nom}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{x:Static strings:AppResources.Parcelle_NomAide}" />
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding NomErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding NomErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Parcelle_Region}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            ReturnType="Next"
+                            Text="{Binding Region}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{x:Static strings:AppResources.Parcelle_RegionAide}" />
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding RegionErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding RegionErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Parcelle_Culture}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Picker
+                            ItemsSource="{Binding CultureNoms}"
+                            SelectedItem="{Binding CultureChoisie}"
+                            Title="{x:Static strings:AppResources.Parcelle_CultureExemple}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding CultureErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding CultureErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Parcelle_Surface}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Keyboard="Numeric"
+                            ReturnType="Next"
+                            Text="{Binding SurfaceTexte}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding SurfaceErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding SurfaceErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Parcelle_DateSemis}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <DatePicker
+                            Date="{Binding DateSemis}"
+                            Format="d MMM yyyy"
+                            IsEnabled="{Binding CultureEstChoisie}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{x:Static strings:AppResources.Parcelle_DateAide}" />
+                </VerticalStackLayout>
+
+                <controls:AppButton
+                    Command="{Binding AjouterCommand}"
+                    Text="{x:Static strings:AppResources.Parcelle_Ajouter}"
+                    Variant="Accent" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Parcelle_NoteEnregistrer}" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

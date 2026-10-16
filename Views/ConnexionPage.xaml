@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.ConnexionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:ConnexionViewModel"
+    Title="{x:Static strings:AppResources.Connexion_Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="24"
+            Spacing="24">
+
+            <Label
+                Style="{StaticResource BodySmall}"
+                Text="{x:Static strings:AppResources.Connexion_SousTitre}" />
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Connexion_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding SeConnecterCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsFormVisible}">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Connexion_Identifiant}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Placeholder="{x:Static strings:AppResources.Connexion_IdentifiantExemple}"
+                            ReturnType="Next"
+                            Text="{Binding Identifiant}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding IdentifiantErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding IdentifiantErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Connexion_MotDePasse}" />
+                    <Grid ColumnDefinitions="*,80" ColumnSpacing="8">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Surface}"
+                            HeightRequest="56"
+                            Padding="16,0"
+                            Stroke="{StaticResource Border}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                IsPassword="{Binding MotDePasseMasque}"
+                                ReturnType="Go"
+                                Text="{Binding MotDePasse}"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding BasculerMotDePasseCommand}"
+                            Style="{StaticResource TextButton}"
+                            Text="{Binding MotDePasseBouton}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding MotDePasseErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding MotDePasseErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <Button
+                    Command="{Binding MotDePasseOublieCommand}"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TextButton}"
+                    Text="{x:Static strings:AppResources.Connexion_Oublie}" />
+
+                <Border
+                    Style="{StaticResource Card}"
+                    IsVisible="{Binding HasFormErreur}">
+                    <HorizontalStackLayout Spacing="12">
+                        <Image
+                            HeightRequest="24"
+                            Source="alert_circle.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="24" />
+                        <Label
+                            Style="{StaticResource Legend}"
+                            Text="{Binding FormErreur}"
+                            TextColor="{StaticResource Error}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <controls:AppButton
+                    Command="{Binding SeConnecterCommand}"
+                    Text="{x:Static strings:AppResources.Connexion_SeConnecter}"
+                    Variant="Accent" />
+
+                <Button
+                    Command="{Binding InscriptionCommand}"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TextButton}"
+                    Text="{x:Static strings:AppResources.Connexion_LienInscription}" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Spacing="12"
+                IsVisible="{Binding IsFormVisible}">
+                <controls:AppButton
+                    Command="{Binding ContinuerSansCompteCommand}"
+                    Text="{x:Static strings:AppResources.Demarrage_SansCompte}"
+                    Variant="Secondary" />
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label
+                            Style="{StaticResource Legend}"
+                            Text="{x:Static strings:AppResources.Connexion_InfoTitre}"
+                            TextColor="{StaticResource Primary}" />
+                        <Label
+                            Style="{StaticResource BodySmall}"
+                            Text="{x:Static strings:AppResources.Connexion_InfoLocal}" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <Label
+                Style="{StaticResource BodySmall}"
+                Text="{x:Static strings:AppResources.Connexion_Pied}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

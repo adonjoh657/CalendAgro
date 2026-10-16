@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CalendAgro.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
+    FlyoutBehavior="Disabled"
+    Title="CalendAgro">
+
+    <ShellContent
+        Title="{x:Static strings:AppResources.App_Nom}"
+        ContentTemplate="{DataTemplate views:DemarragePage}"
+        Route="demarrage"
+        Shell.NavBarIsVisible="False" />
+
+    <TabBar Route="tabs">
+        <ShellContent
+            Title="{x:Static strings:AppResources.Tab_Accueil}"
+            ContentTemplate="{DataTemplate views:AccueilPage}"
+            Icon="tab_home.svg"
+            Route="accueil" />
+        <ShellContent
+            Title="{x:Static strings:AppResources.Tab_Cultures}"
+            ContentTemplate="{DataTemplate views:CulturesPage}"
+            Icon="tab_cultures.svg"
+            Route="cultures" />
+        <ShellContent
+            Title="{x:Static strings:AppResources.Tab_Calendrier}"
+            ContentTemplate="{DataTemplate views:CalendrierPage}"
+            Icon="tab_calendar.svg"
+            Route="calendrier" />
+        <ShellContent
+            Title="{x:Static strings:AppResources.Tab_Parcelles}"
+            ContentTemplate="{DataTemplate views:ParcellesPage}"
+            Icon="tab_parcelles.svg"
+            Route="parcelles" />
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.CalendrierPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:CalendrierViewModel"
+    Title="{x:Static strings:AppResources.Calendrier_Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="16"
+            Spacing="16">
+
+            <Label
+                Style="{StaticResource BodySmall}"
+                Text="{x:Static strings:AppResources.Calendrier_SousTitre}" />
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Calendrier_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RechargerCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsContenuVisible}">
+
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                            <Button
+                                Grid.Column="0"
+                                Command="{Binding MoisPrecedentCommand}"
+                                Style="{StaticResource TextButton}"
+                                Text="{x:Static strings:AppResources.Calendrier_Precedent}" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource Title2}"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding TitreMois}"
+                                VerticalOptions="Center" />
+                            <Button
+                                Grid.Column="2"
+                                Command="{Binding MoisSuivantCommand}"
+                                Style="{StaticResource TextButton}"
+                                Text="{x:Static strings:AppResources.Calendrier_Suivant}" />
+                        </Grid>
+                        <Grid
+                            ColumnDefinitions="*,*,*,*,*,*,*"
+                            BindableLayout.ItemsSource="{Binding JoursSemaine}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Label
+                                        Style="{StaticResource BodySmall}"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding .}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </Grid>
+                        <CollectionView
+                            ItemsSource="{Binding Jours}"
+                            SelectionMode="None">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="7" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:JourCalendrier">
+                                    <Border
+                                        BackgroundColor="{Binding Fond}"
+                                        HeightRequest="48"
+                                        Stroke="{Binding Bordure}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="2"
+                                        WidthRequest="48">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:CalendrierPage}}, Path=BindingContext.ChoisirJourCommand}"
+                                                CommandParameter="{Binding Date}" />
+                                        </Border.GestureRecognizers>
+                                        <VerticalStackLayout
+                                            Spacing="2"
+                                            IsVisible="{Binding EstJour}"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="Inter"
+                                                FontSize="14"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Numero}"
+                                                TextColor="{Binding Texte}" />
+                                            <HorizontalStackLayout
+                                                Spacing="2"
+                                                BindableLayout.ItemsSource="{Binding Points}"
+                                                HorizontalOptions="Center">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate x:DataType="Color">
+                                                        <BoxView
+                                                            CornerRadius="4"
+                                                            HeightRequest="8"
+                                                            Color="{Binding .}"
+                                                            WidthRequest="8" />
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <HorizontalStackLayout
+                            Spacing="16"
+                            HorizontalOptions="Center">
+                            <HorizontalStackLayout Spacing="4">
+                                <BoxView
+                                    CornerRadius="4"
+                                    HeightRequest="8"
+                                    Color="{StaticResource Semis}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="8" />
+                                <Label
+                                    Style="{StaticResource BodySmall}"
+                                    Text="{x:Static strings:AppResources.Charte_BadgeSemis}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="4">
+                                <BoxView
+                                    CornerRadius="4"
+                                    HeightRequest="8"
+                                    Color="{StaticResource Entretien}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="8" />
+                                <Label
+                                    Style="{StaticResource BodySmall}"
+                                    Text="{x:Static strings:AppResources.Charte_BadgeEntretien}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="4">
+                                <BoxView
+                                    CornerRadius="4"
+                                    HeightRequest="8"
+                                    Color="{StaticResource Recolte}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="8" />
+                                <Label
+                                    Style="{StaticResource BodySmall}"
+                                    Text="{x:Static strings:AppResources.Charte_BadgeRecolte}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        Style="{StaticResource Title2}"
+                        Text="{Binding JourSelectionTitre}" />
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{Binding JourSelectionDetail}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Spacing="12"
+                    BindableLayout.ItemsSource="{Binding TachesJour}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:TravailCarte">
+                            <Border Style="{StaticResource Card}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type views:CalendrierPage}}, Path=BindingContext.OuvrirDetailCommand}"
+                                        CommandParameter="{Binding Id}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <controls:StepBadge
+                                            Kind="{Binding Kind}"
+                                            Text="{Binding Phase}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Style="{StaticResource BodySmall}"
+                                            Text="{Binding Jour}"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                    <Label
+                                        Style="{StaticResource Title2}"
+                                        Text="{Binding Titre}" />
+                                    <Label
+                                        Style="{StaticResource BodySmall}"
+                                        Text="{Binding Parcelle}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                    <BindableLayout.EmptyView>
+                        <Label
+                            Style="{StaticResource Body}"
+                            Text="{x:Static strings:AppResources.Calendrier_AucuneTache}" />
+                    </BindableLayout.EmptyView>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Spacing="8"
+                    IsVisible="{Binding EnsuiteVisible}">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Calendrier_Ensuite}" />
+                    <VerticalStackLayout
+                        Spacing="4"
+                        BindableLayout.ItemsSource="{Binding Ensuite}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label
+                                    Style="{StaticResource BodySmall}"
+                                    Text="{Binding .}" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding NavigationErreurVisible}"
+                    Text="{Binding NavigationErreur}" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Calendrier_NoteExemple}" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

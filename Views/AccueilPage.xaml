@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.AccueilPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:AccueilViewModel"
+    Title="{x:Static strings:AppResources.Accueil_Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="16"
+            Spacing="16">
+
+            <VerticalStackLayout Spacing="4">
+                <Label
+                    Style="{StaticResource Title1}"
+                    Text="{Binding Bonjour}" />
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{Binding DateLigne}" />
+            </VerticalStackLayout>
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Accueil_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RechargerCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsContenuVisible}">
+
+                <Grid
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="12">
+                    <Border
+                        Grid.Column="0"
+                        BackgroundColor="{StaticResource Primary}"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0">
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="Inter"
+                                FontSize="24"
+                                Text="{Binding NbTravaux}"
+                                TextColor="{StaticResource OnPrimary}" />
+                            <Label
+                                FontFamily="Inter"
+                                FontSize="14"
+                                Text="{x:Static strings:AppResources.Accueil_CetteSemaine}"
+                                TextColor="{StaticResource OnPrimary}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Column="1"
+                        BackgroundColor="{StaticResource Primary}"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0">
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="Inter"
+                                FontSize="24"
+                                Text="{Binding NbParcelles}"
+                                TextColor="{StaticResource OnPrimary}" />
+                            <Label
+                                FontFamily="Inter"
+                                FontSize="14"
+                                Text="{x:Static strings:AppResources.Accueil_DansCarnet}"
+                                TextColor="{StaticResource OnPrimary}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Label
+                    Style="{StaticResource Title2}"
+                    Text="{x:Static strings:AppResources.Accueil_TravauxAVenir}" />
+
+                <VerticalStackLayout
+                    Spacing="12"
+                    BindableLayout.ItemsSource="{Binding Travaux}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:TravailCarte">
+                            <Border Style="{StaticResource Card}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type views:AccueilPage}}, Path=BindingContext.OuvrirDetailCommand}"
+                                        CommandParameter="{Binding Id}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8">
+                                    <HorizontalStackLayout Spacing="8">
+                                        <controls:StepBadge
+                                            Kind="{Binding Kind}"
+                                            Text="{Binding Phase}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Style="{StaticResource BodySmall}"
+                                            Text="{Binding Jour}"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                    <Label
+                                        Style="{StaticResource Title2}"
+                                        Text="{Binding Titre}" />
+                                    <Label
+                                        Style="{StaticResource BodySmall}"
+                                        Text="{Binding Parcelle}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                    <BindableLayout.EmptyView>
+                        <Label
+                            Style="{StaticResource Body}"
+                            Text="{x:Static strings:AppResources.Accueil_AucunTravail}" />
+                    </BindableLayout.EmptyView>
+                </VerticalStackLayout>
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{Binding VenirAussi}" />
+
+                <VerticalStackLayout Spacing="4">
+                    <Label
+                        Style="{StaticResource Title2}"
+                        Text="{x:Static strings:AppResources.Accueil_VosParcelles}" />
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{Binding CulturesResume}" />
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{Binding SurfaceTotale}" />
+                </VerticalStackLayout>
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Accueil_NoteIndicative}" />
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding NavigationErreurVisible}"
+                    Text="{Binding NavigationErreur}" />
+
+                <controls:AppButton
+                    Command="{Binding OpenDemoCommand}"
+                    Text="{x:Static strings:AppResources.Composants_VoirDemo}" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

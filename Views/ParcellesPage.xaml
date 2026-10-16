@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.ParcellesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:ParcellesViewModel"
+    Title="{x:Static strings:AppResources.Parcelles_Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="16"
+            Spacing="16">
+
+            <VerticalStackLayout Spacing="4">
+                <Label
+                    Style="{StaticResource Body}"
+                    Text="{Binding Resume}" />
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Parcelles_Exploitation}" />
+            </VerticalStackLayout>
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Parcelles_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RechargerCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsContenuVisible}">
+
+                <controls:StateView
+                    ActionCommand="{Binding AjouterParcelleCommand}"
+                    ActionText="{x:Static strings:AppResources.Parcelles_Ajouter}"
+                    IsVisible="{Binding ListeVide}"
+                    Message="{x:Static strings:AppResources.Parcelles_AucuneAide}"
+                    State="Empty" />
+
+                <VerticalStackLayout
+                    Spacing="12"
+                    BindableLayout.ItemsSource="{Binding Items}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ParcelleCarte">
+                            <Border Style="{StaticResource Card}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type views:ParcellesPage}}, Path=BindingContext.OuvrirFicheParcelleCommand}"
+                                        CommandParameter="{Binding Id}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="4">
+                                    <Label
+                                        Style="{StaticResource Title2}"
+                                        Text="{Binding CultureNom}" />
+                                    <Label
+                                        Style="{StaticResource Body}"
+                                        Text="{Binding Surface}" />
+                                    <Label
+                                        Style="{StaticResource Legend}"
+                                        Text="{Binding Nom}" />
+                                    <HorizontalStackLayout
+                                        Spacing="8"
+                                        IsVisible="{Binding AvecTravail}">
+                                        <HorizontalStackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:ParcellesPage}}, Path=BindingContext.OuvrirTravailCommand}"
+                                                CommandParameter="{Binding TravailId}" />
+                                        </HorizontalStackLayout.GestureRecognizers>
+                                        <controls:StepBadge
+                                            Kind="{Binding Kind}"
+                                            Text="{Binding Phase}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Style="{StaticResource BodySmall}"
+                                            Text="{Binding Prochain}"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <controls:AppButton
+                    Command="{Binding AjouterParcelleCommand}"
+                    Text="{x:Static strings:AppResources.Parcelles_Ajouter}"
+                    Variant="Accent" />
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding NavigationErreurVisible}"
+                    Text="{Binding NavigationErreur}" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Parcelles_NoteConnexion}" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

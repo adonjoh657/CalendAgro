@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.CulturesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:models="clr-namespace:CalendAgro.Models"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:CulturesViewModel"
+    Title="{x:Static strings:AppResources.Cultures_Titre}">
+
+    <VerticalStackLayout
+        Padding="16"
+        Spacing="16"
+        VerticalOptions="Fill">
+        <VerticalStackLayout.GestureRecognizers>
+            <SwipeGestureRecognizer Direction="Left" Command="{Binding GoNextCommand}" />
+            <SwipeGestureRecognizer Direction="Right" Command="{Binding GoPreviousCommand}" />
+        </VerticalStackLayout.GestureRecognizers>
+
+        <Border
+            BackgroundColor="{StaticResource Surface}"
+            HeightRequest="56"
+            Padding="16,0"
+            Stroke="{StaticResource Border}"
+            StrokeShape="RoundRectangle 8"
+            StrokeThickness="1">
+            <Entry
+                Placeholder="{x:Static strings:AppResources.Cultures_Recherche}"
+                ReturnType="Search"
+                Text="{Binding Recherche}"
+                VerticalOptions="Center" />
+        </Border>
+
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+            <Label
+                Grid.Column="0"
+                Style="{StaticResource Legend}"
+                Text="{x:Static strings:AppResources.Cultures_Categorie}"
+                VerticalOptions="Center" />
+            <Picker
+                Grid.Column="1"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding CategorieChoisie}"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <controls:StateView
+            IsVisible="{Binding IsBusy}"
+            Message="{x:Static strings:AppResources.Cultures_Chargement}"
+            State="Loading" />
+
+        <controls:StateView
+            ActionCommand="{Binding RechargerCommand}"
+            ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+            IsVisible="{Binding HasError}"
+            Message="{x:Static strings:AppResources.Connexion_Erreur}"
+            State="Error" />
+
+        <Label
+            Style="{StaticResource ErrorText}"
+            IsVisible="{Binding NavigationErreurVisible}"
+            Text="{Binding NavigationErreur}" />
+
+        <CollectionView
+            IsVisible="{Binding IsListeVisible}"
+            ItemsSource="{Binding Resultats}"
+            SelectionMode="None"
+            VerticalOptions="Fill">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Culture">
+                    <Border
+                        Style="{StaticResource Card}"
+                        Margin="0,0,0,12">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:CulturesPage}}, Path=BindingContext.OuvrirFicheCommand}"
+                                CommandParameter="{Binding Id}" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                Style="{StaticResource Title2}"
+                                Text="{Binding Nom}" />
+                            <Label
+                                Style="{StaticResource BodySmall}"
+                                Text="{Binding MetaLabel}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <controls:StateView
+                    ActionCommand="{Binding EffacerRechercheCommand}"
+                    ActionText="{x:Static strings:AppResources.Cultures_Effacer}"
+                    Message="{x:Static strings:AppResources.Cultures_AucunResultat}"
+                    State="Empty" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Label
+            Style="{StaticResource BodySmall}"
+            Text="{x:Static strings:AppResources.Cultures_NoteExemple}" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

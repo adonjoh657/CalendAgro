@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.InscriptionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:InscriptionViewModel"
+    Title="{x:Static strings:AppResources.Inscription_Titre}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="24"
+            Spacing="24">
+
+            <VerticalStackLayout Spacing="8">
+                <Button
+                    Command="{Binding RetourCommand}"
+                    ContentLayout="Left,8"
+                    HorizontalOptions="Start"
+                    ImageSource="arrow_left.svg"
+                    Style="{StaticResource TextButton}"
+                    Text="{x:Static strings:AppResources.Inscription_Retour}" />
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Inscription_SousTitre}" />
+            </VerticalStackLayout>
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Inscription_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding CreerCompteCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsFormVisible}">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Inscription_Nom}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Placeholder="{x:Static strings:AppResources.Inscription_NomExemple}"
+                            ReturnType="Next"
+                            Text="{Binding Nom}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding NomErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding NomErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding NomSuccesVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="check.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource SuccessText}"
+                            Text="{Binding NomSucces}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Connexion_Identifiant}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Keyboard="Telephone"
+                            Placeholder="{x:Static strings:AppResources.Inscription_TelephoneExemple}"
+                            ReturnType="Next"
+                            Text="{Binding Identifiant}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding IdentifiantErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding IdentifiantErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Connexion_MotDePasse}" />
+                    <Grid ColumnDefinitions="*,80" ColumnSpacing="8">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Surface}"
+                            HeightRequest="56"
+                            Padding="16,0"
+                            Stroke="{StaticResource Border}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                IsPassword="{Binding MotDePasseMasque}"
+                                ReturnType="Next"
+                                Text="{Binding MotDePasse}"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding BasculerMotDePasseCommand}"
+                            Style="{StaticResource TextButton}"
+                            Text="{Binding MotDePasseBouton}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding MotDePasseErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding MotDePasseErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding MotDePasseSuccesVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="check.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource SuccessText}"
+                            Text="{Binding MotDePasseSucces}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Inscription_Confirmation}" />
+                    <Grid ColumnDefinitions="*,80" ColumnSpacing="8">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Surface}"
+                            HeightRequest="56"
+                            Padding="16,0"
+                            Stroke="{StaticResource Border}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                IsPassword="{Binding ConfirmationMasquee}"
+                                Placeholder="{x:Static strings:AppResources.Inscription_ConfirmationExemple}"
+                                ReturnType="Go"
+                                Text="{Binding Confirmation}"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding BasculerConfirmationCommand}"
+                            Style="{StaticResource TextButton}"
+                            Text="{Binding ConfirmationBouton}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                    <HorizontalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding ConfirmationErreurVisible}">
+                        <Image
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding ConfirmationErreur}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{x:Static strings:AppResources.Inscription_ConfirmationAide}" />
+                </VerticalStackLayout>
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    Text="{Binding FormErreur}" />
+
+                <controls:AppButton
+                    Command="{Binding CreerCompteCommand}"
+                    Text="{x:Static strings:AppResources.Inscription_Creer}"
+                    Variant="Accent" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    IsVisible="{Binding ResumeVisible}"
+                    Text="{x:Static strings:AppResources.Inscription_Resume}" />
+
+                <Button
+                    Command="{Binding AllerConnexionCommand}"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TextButton}"
+                    Text="{x:Static strings:AppResources.Inscription_LienConnexion}" />
+
+            </VerticalStackLayout>
+
+            <Label
+                Style="{StaticResource BodySmall}"
+                Text="{x:Static strings:AppResources.Connexion_Pied}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
