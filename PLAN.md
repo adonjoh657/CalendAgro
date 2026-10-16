@@ -30,7 +30,7 @@ Pour chaque écran : ViewModel + vue + service factice via interface, états nor
 - [x] **13. Détail d'étape** (période, conseils de 12 mots maximum, ouvert depuis la fiche). Commit : `feat: détail d'étape`
 - [x] **14. Calendrier de la saison** (mois en cours, frise fiche avec choix zone et saison). Commit : `feat: calendrier de la saison`
 - [x] **15. Mes parcelles** (liste, état vide avec action). Commit : `feat: liste des parcelles`
-- [ ] **16. Créer une parcelle et fiche parcelle** (formulaire fait ; reste la fiche). Commit : `feat: création et fiche parcelle`
+- [x] **16. Créer une parcelle et fiche parcelle** (formulaire validé, fiche avec suppression). Commit : `feat: création et fiche parcelle`
 - [ ] **17. Rappels** (liste, activer / désactiver). Commit : `feat: écran des rappels`
 - [ ] **18. Profil et paramètres** (avatar, langue, mise à jour des données, déconnexion). Commit : `feat: profil et paramètres`
 
