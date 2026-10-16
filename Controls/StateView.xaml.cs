@@ -56,8 +56,7 @@ public partial class StateView : ContentView
     private void Refresh()
     {
         var loading = State == StateKind.Loading;
-        Loader.IsVisible = loading;
-        Loader.IsRunning = loading;
+        Skeleton.IsVisible = loading;
         ActionButton.Text = ActionText;
         ActionButton.IsVisible = !loading && !string.IsNullOrWhiteSpace(ActionText);
     }

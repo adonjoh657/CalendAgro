@@ -26,7 +26,7 @@ public sealed partial class FakeAuthService : IAuthService
         return new AuthResult(ok);
     }
 
-    public async Task<AuthResult> SignUpAsync(string nom, string identifiant, string motDePasse)
+    public async Task<AuthResult> SignUpAsync(string nom, string identifiant, string motDePasse, string telephone)
     {
         await Task.Delay(600);
         if (string.Equals(identifiant.Trim(), DemoIdentifiant, StringComparison.OrdinalIgnoreCase))
@@ -57,6 +57,12 @@ public sealed partial class FakeAuthService : IAuthService
     {
         var valeur = identifiant.Trim().Replace(" ", string.Empty, StringComparison.Ordinal);
         return EmailRegex().IsMatch(valeur) || TelephoneRegex().IsMatch(valeur);
+    }
+
+    public bool IsTelephoneValide(string telephone)
+    {
+        var valeur = telephone.Trim().Replace(" ", string.Empty, StringComparison.Ordinal);
+        return TelephoneRegex().IsMatch(valeur);
     }
 
     public bool IsNomValid(string nom) => nom.Trim().Length >= NomLongueurMinimale;

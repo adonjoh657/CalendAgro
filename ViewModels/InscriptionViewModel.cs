@@ -5,8 +5,8 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CalendAgro.ViewModels;
 
-// Écran d'inscription : validation directe sous chaque champ, bouton
-// désactivé tant que le formulaire est invalide, résumé après tentative.
+// Écran d'inscription : validation directe, téléphone optionnel,
+// consentement obligatoire, bouton désactivé tant qu'invalide.
 public sealed partial class InscriptionViewModel : ObservableObject
 {
     private readonly IAuthService _auth;
@@ -24,10 +24,10 @@ public sealed partial class InscriptionViewModel : ObservableObject
     public partial string Confirmation { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial bool MotDePasseVisible { get; set; }
+    public partial string Telephone { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial bool ConfirmationVisible { get; set; }
+    public partial bool Consentement { get; set; }
 
     [ObservableProperty]
     public partial string NomErreur { get; set; } = string.Empty;
@@ -48,6 +48,12 @@ public sealed partial class InscriptionViewModel : ObservableObject
     public partial string ConfirmationErreur { get; set; } = string.Empty;
 
     [ObservableProperty]
+    public partial string TelephoneErreur { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string ConsentementErreur { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial string FormErreur { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -59,31 +65,7 @@ public sealed partial class InscriptionViewModel : ObservableObject
     [ObservableProperty]
     public partial bool ResumeVisible { get; set; }
 
-    public bool MotDePasseMasque => !MotDePasseVisible;
-
-    public string MotDePasseBouton => MotDePasseVisible
-        ? AppResources.Connexion_Masquer
-        : AppResources.Connexion_Afficher;
-
-    public bool ConfirmationMasquee => !ConfirmationVisible;
-
-    public string ConfirmationBouton => ConfirmationVisible
-        ? AppResources.Connexion_Masquer
-        : AppResources.Connexion_Afficher;
-
     public bool IsFormVisible => !IsBusy && !HasError;
-
-    public bool NomSuccesVisible => NomSucces.Length > 0;
-
-    public bool MotDePasseSuccesVisible => MotDePasseSucces.Length > 0;
-
-    public bool NomErreurVisible => NomErreur.Length > 0;
-
-    public bool IdentifiantErreurVisible => IdentifiantErreur.Length > 0;
-
-    public bool MotDePasseErreurVisible => MotDePasseErreur.Length > 0;
-
-    public bool ConfirmationErreurVisible => ConfirmationErreur.Length > 0;
 
     public InscriptionViewModel(IAuthService auth) => _auth = auth;
 
@@ -117,29 +99,17 @@ public sealed partial class InscriptionViewModel : ObservableObject
         ClearSubmitState();
     }
 
-    partial void OnMotDePasseVisibleChanged(bool value)
+    partial void OnTelephoneChanged(string value)
     {
-        OnPropertyChanged(nameof(MotDePasseMasque));
-        OnPropertyChanged(nameof(MotDePasseBouton));
+        TelephoneErreur = ValidateTelephone(value);
+        ClearSubmitState();
     }
 
-    partial void OnConfirmationVisibleChanged(bool value)
+    partial void OnConsentementChanged(bool value)
     {
-        OnPropertyChanged(nameof(ConfirmationMasquee));
-        OnPropertyChanged(nameof(ConfirmationBouton));
+        ConsentementErreur = value ? string.Empty : AppResources.Inscription_ConsentementErreur;
+        ClearSubmitState();
     }
-
-    partial void OnNomSuccesChanged(string value) => OnPropertyChanged(nameof(NomSuccesVisible));
-
-    partial void OnMotDePasseSuccesChanged(string value) => OnPropertyChanged(nameof(MotDePasseSuccesVisible));
-
-    partial void OnNomErreurChanged(string value) => OnPropertyChanged(nameof(NomErreurVisible));
-
-    partial void OnIdentifiantErreurChanged(string value) => OnPropertyChanged(nameof(IdentifiantErreurVisible));
-
-    partial void OnMotDePasseErreurChanged(string value) => OnPropertyChanged(nameof(MotDePasseErreurVisible));
-
-    partial void OnConfirmationErreurChanged(string value) => OnPropertyChanged(nameof(ConfirmationErreurVisible));
 
     partial void OnIsBusyChanged(bool value)
     {
@@ -149,12 +119,6 @@ public sealed partial class InscriptionViewModel : ObservableObject
 
     partial void OnHasErrorChanged(bool value) => OnPropertyChanged(nameof(IsFormVisible));
 
-    [RelayCommand]
-    private void BasculerMotDePasse() => MotDePasseVisible = !MotDePasseVisible;
-
-    [RelayCommand]
-    private void BasculerConfirmation() => ConfirmationVisible = !ConfirmationVisible;
-
     [RelayCommand(CanExecute = nameof(CanCreerCompte))]
     private async Task CreerCompteAsync()
     {
@@ -162,6 +126,8 @@ public sealed partial class InscriptionViewModel : ObservableObject
         IdentifiantErreur = ValidateIdentifiant(Identifiant);
         (MotDePasseErreur, MotDePasseSucces) = ValidateMotDePasse(MotDePasse);
         ConfirmationErreur = ValidateConfirmation(Confirmation);
+        TelephoneErreur = ValidateTelephone(Telephone);
+        ConsentementErreur = Consentement ? string.Empty : AppResources.Inscription_ConsentementErreur;
         if (!CanCreerCompte())
         {
             ResumeVisible = true;
@@ -172,7 +138,7 @@ public sealed partial class InscriptionViewModel : ObservableObject
         HasError = false;
         try
         {
-            var result = await _auth.SignUpAsync(Nom.Trim(), Identifiant.Trim(), MotDePasse);
+            var result = await _auth.SignUpAsync(Nom.Trim(), Identifiant.Trim(), MotDePasse, Telephone.Trim());
             if (result.Succeeded)
             {
                 await Shell.Current.GoToAsync("///accueil");
@@ -204,6 +170,9 @@ public sealed partial class InscriptionViewModel : ObservableObject
         && IdentifiantErreur.Length == 0
         && MotDePasseErreur.Length == 0
         && ConfirmationErreur.Length == 0
+        && TelephoneErreur.Length == 0
+        && ConsentementErreur.Length == 0
+        && Consentement
         && Nom.Length > 0
         && Identifiant.Length > 0
         && MotDePasse.Length > 0
@@ -251,6 +220,17 @@ public sealed partial class InscriptionViewModel : ObservableObject
         return value == MotDePasse
             ? string.Empty
             : AppResources.Inscription_ConfirmationDifferente;
+    }
+
+    private string ValidateTelephone(string value)
+    {
+        if (value.Length == 0)
+        {
+            return string.Empty;
+        }
+        return _auth.IsTelephoneValide(value)
+            ? string.Empty
+            : AppResources.Inscription_TelephoneInvalide;
     }
 
     private void ClearSubmitState()

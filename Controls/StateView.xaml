@@ -7,11 +7,25 @@
         <VerticalStackLayout
             Spacing="12"
             HorizontalOptions="Center">
-            <ActivityIndicator
-                x:Name="Loader"
-                HeightRequest="48"
-                HorizontalOptions="Center"
-                WidthRequest="48" />
+            <VerticalStackLayout
+                x:Name="Skeleton"
+                Spacing="8">
+                <BoxView
+                    CornerRadius="8"
+                    HeightRequest="16"
+                    Color="{StaticResource Border}"
+                    WidthRequest="180" />
+                <BoxView
+                    CornerRadius="8"
+                    HeightRequest="16"
+                    Color="{StaticResource Border}"
+                    WidthRequest="140" />
+                <BoxView
+                    CornerRadius="8"
+                    HeightRequest="16"
+                    Color="{StaticResource Border}"
+                    WidthRequest="100" />
+            </VerticalStackLayout>
             <Label
                 x:Name="MessageLabel"
                 Style="{StaticResource Body}"

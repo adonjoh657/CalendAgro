@@ -8,13 +8,15 @@ public interface IAuthService
 {
     Task<AuthResult> SignInAsync(string identifiant, string motDePasse);
 
-    Task<AuthResult> SignUpAsync(string nom, string identifiant, string motDePasse);
+    Task<AuthResult> SignUpAsync(string nom, string identifiant, string motDePasse, string telephone);
 
     Task DemanderCodeAsync(string identifiant);
 
     Task<AuthResult> RedefinirMotDePasseAsync(string code, string nouveauMotDePasse);
 
     bool IsIdentifiantValid(string identifiant);
+
+    bool IsTelephoneValide(string telephone);
 
     bool IsNomValid(string nom);
 

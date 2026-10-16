@@ -11,26 +11,26 @@ Statut : `[ ]` à faire · `[~]` en test · `[x]` validé et commité.
 ## Phase A : Fondations
 
 - [ ] **1. Solution et structure** — Créer la solution .NET MAUI (Android), les dossiers de AGENTS.md §4, le projet `tests/CalendAgro.Tests` (xUnit). Test : l'app se lance vide sur l'émulateur ; `dotnet test` passe. Commit : `chore: initialise la solution et la structure`
-- [ ] **2. Charte graphique** — `Colors.xaml` (tokens §8), `Styles.xaml` (titre 24, corps 16, bouton 56, rayon 12), police Inter seule, `AppResources.resx` (fr). Test : une page de démo affiche couleurs, textes et boutons. Commit : `feat: ajoute la charte graphique`
-- [ ] **3. Navigation Shell** — 4 onglets (Accueil, Cultures, Calendrier, Parcelles), pages vides, icônes SVG + libellé. Test : les 4 onglets s'ouvrent. Commit : `feat: ajoute la navigation par onglets`
-- [ ] **4. Composants réutilisables** (`Controls/`) — bouton principal/secondaire, carte, badge d'étape (icône + libellé Semis/Entretien/Récolte), champ de saisie avec erreur, vues état vide / chargement (squelette) / erreur (« Réessayer »). Test : page de démo des composants. Commit : `feat: ajoute les composants réutilisables`
+- [x] **2. Charte graphique** — `Colors.xaml` (tokens §8), `Styles.xaml` (titre 24, corps 16, bouton 56, rayon 12), police Inter seule, `AppResources.resx` (fr). Test : une page de démo affiche couleurs, textes et boutons. Commit : `feat: ajoute la charte graphique`
+- [x] **3. Navigation Shell** — 4 onglets (Accueil, Cultures, Calendrier, Parcelles), pages vides, icônes SVG + libellé. Test : les 4 onglets s'ouvrent. Commit : `feat: ajoute la navigation par onglets`
+- [x] **4. Composants réutilisables** (`Controls/`) — bouton principal/secondaire, carte, badge d'étape (pastille + libellé Semis/Entretien/Récolte), champ de saisie avec erreur (`ValidatedField`), vues état vide / chargement (squelette) / erreur (« Réessayer »). Test : page de démo des composants. Commit : `feat: ajoute les composants réutilisables`
 
 ## Phase B : Écrans avec données factices
 
 Pour chaque écran : ViewModel + vue + service factice via interface, états normal / chargement / vide / erreur, respect de la maquette Figma.
 
-- [ ] **5. Démarrage** (logo, accroche, accès connexion / « Continuer sans compte »). Commit : `feat: écran de démarrage`
-- [ ] **6. Connexion** (email, mot de passe, erreurs, lien mot de passe oublié). Commit : `feat: écran de connexion`
-- [ ] **7. Inscription** (nom, email, mot de passe, confirmation, case de consentement à la sauvegarde en ligne, téléphone `+237` optionnel, messages d'erreur). Commit : `feat: écran d'inscription`
-- [ ] **8. Mot de passe oublié** (saisie de l'email, message « lien envoyé »). Commit : `feat: écran mot de passe oublié`
-- [ ] **9. Accueil** (saison en cours, tâches à venir, raccourcis). Commit : `feat: écran d'accueil`
-- [ ] **10. Catalogue de cultures** (liste virtualisée, `CollectionView`). Commit : `feat: catalogue de cultures`
-- [ ] **11. Recherche** (champ, résultats, aucun résultat). Commit : `feat: recherche par culture (interface)`
-- [ ] **12. Fiche culture** (infos, étapes, accès au calendrier). Commit : `feat: fiche culture`
-- [ ] **13. Détail d'étape** (période, conseils de 12 mots maximum). Commit : `feat: détail d'étape`
-- [ ] **14. Calendrier de la saison** (frise semis / entretien / récolte, choix zone et saison). Commit : `feat: calendrier de la saison`
-- [ ] **15. Mes parcelles** (liste, état vide avec action). Commit : `feat: liste des parcelles`
-- [ ] **16. Créer une parcelle et fiche parcelle** (formulaire validé, fiche). Commit : `feat: création et fiche parcelle`
+- [x] **5. Démarrage** (logo, accroche, accès connexion / « Continuer sans compte »). Commit : `feat: écran de démarrage`
+- [x] **6. Connexion** (email, mot de passe, erreurs, lien mot de passe oublié). Commit : `feat: écran de connexion`
+- [x] **7. Inscription** (nom, email, mot de passe, confirmation, case de consentement à la sauvegarde en ligne, téléphone `+237` optionnel, messages d'erreur). Commit : `feat: écran d'inscription`
+- [x] **8. Mot de passe oublié** (flux code en 2 étapes, maquette Figma ; le lien email viendra en phase E tâche 30). Commit : `feat: écran mot de passe oublié`
+- [x] **9. Accueil** (tâches à venir, chiffres, résumé parcelles). Commit : `feat: écran d'accueil`
+- [x] **10. Catalogue de cultures** (liste virtualisée, `CollectionView`). Commit : `feat: catalogue de cultures`
+- [x] **11. Recherche** (fusionnée dans le catalogue : champ, résultats, aucun résultat). Commit : `feat: recherche par culture (interface)`
+- [x] **12. Fiche culture** (infos, frise 12 mois, conseils, accès ajout parcelle). Commit : `feat: fiche culture`
+- [ ] **13. Détail d'étape** (période, conseils de 12 mots maximum). Commit : `feat: détail d'étape` — « détail d'une tâche » fait à la place (maquette), à ajouter
+- [ ] **14. Calendrier de la saison** (mois en cours fait ; reste choix zone et saison). Commit : `feat: calendrier de la saison`
+- [x] **15. Mes parcelles** (liste, état vide avec action). Commit : `feat: liste des parcelles`
+- [ ] **16. Créer une parcelle et fiche parcelle** (formulaire fait ; reste la fiche). Commit : `feat: création et fiche parcelle`
 - [ ] **17. Rappels** (liste, activer / désactiver). Commit : `feat: écran des rappels`
 - [ ] **18. Profil et paramètres** (avatar, langue, mise à jour des données, déconnexion). Commit : `feat: profil et paramètres`
 

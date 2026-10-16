@@ -152,6 +152,7 @@ namespace CalendAgro.Resources.Strings
         public static string Composants_Reessayer => ResourceManager.GetString(nameof(Composants_Reessayer), _resourceCulture) ?? "Réessayer";
         public static string Composants_ChangerEtat => ResourceManager.GetString(nameof(Composants_ChangerEtat), _resourceCulture) ?? "Changer d'état";
         public static string Composants_VoirDemo => ResourceManager.GetString(nameof(Composants_VoirDemo), _resourceCulture) ?? "Voir la démo des composants";
+        public static string Composants_SectionChamps => ResourceManager.GetString(nameof(Composants_SectionChamps), _resourceCulture) ?? "Champs";
         public static string App_Nom => ResourceManager.GetString(nameof(App_Nom), _resourceCulture) ?? "CalendAgro";
         public static string Demarrage_Accroche => ResourceManager.GetString(nameof(Demarrage_Accroche), _resourceCulture) ?? "Votre calendrier cultural, même sans connexion.";
         public static string Demarrage_HorsLigne => ResourceManager.GetString(nameof(Demarrage_HorsLigne), _resourceCulture) ?? "Utilisable hors ligne";
@@ -199,6 +200,11 @@ namespace CalendAgro.Resources.Strings
         public static string Inscription_LienConnexion => ResourceManager.GetString(nameof(Inscription_LienConnexion), _resourceCulture) ?? "Déjà un compte ? Connexion";
         public static string Inscription_CompteExistant => ResourceManager.GetString(nameof(Inscription_CompteExistant), _resourceCulture) ?? "Un compte existe déjà.";
         public static string Inscription_Chargement => ResourceManager.GetString(nameof(Inscription_Chargement), _resourceCulture) ?? "Création du compte…";
+        public static string Inscription_Telephone => ResourceManager.GetString(nameof(Inscription_Telephone), _resourceCulture) ?? "Téléphone (optionnel)";
+        public static string Inscription_TelExemple => ResourceManager.GetString(nameof(Inscription_TelExemple), _resourceCulture) ?? "+237 6XX XX XX XX";
+        public static string Inscription_TelephoneInvalide => ResourceManager.GetString(nameof(Inscription_TelephoneInvalide), _resourceCulture) ?? "Numéro invalide.";
+        public static string Inscription_Consentement => ResourceManager.GetString(nameof(Inscription_Consentement), _resourceCulture) ?? "J'accepte la sauvegarde en ligne de mes données.";
+        public static string Inscription_ConsentementErreur => ResourceManager.GetString(nameof(Inscription_ConsentementErreur), _resourceCulture) ?? "Cochez la case pour continuer.";
         public static string Mdp_Titre => ResourceManager.GetString(nameof(Mdp_Titre), _resourceCulture) ?? "Mot de passe oublié";
         public static string Mdp_SousTitre => ResourceManager.GetString(nameof(Mdp_SousTitre), _resourceCulture) ?? "Retrouvez l'accès à votre compte.";
         public static string Mdp_Explication => ResourceManager.GetString(nameof(Mdp_Explication), _resourceCulture) ?? "Saisissez le téléphone ou l'e-mail utilisé à l'inscription. Nous vous enverrons un code de récupération.";

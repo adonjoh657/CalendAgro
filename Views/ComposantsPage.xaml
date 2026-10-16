@@ -40,6 +40,19 @@
 
             <Label
                 Style="{StaticResource Title2}"
+                Text="{x:Static strings:AppResources.Composants_SectionChamps}" />
+            <controls:ValidatedField
+                Aide="{x:Static strings:AppResources.Parcelle_NomAide}"
+                Label="{x:Static strings:AppResources.Parcelle_Nom}"
+                Succes="{x:Static strings:AppResources.Inscription_NomValide}"
+                Text="{x:Static strings:AppResources.Inscription_NomExemple}" />
+            <controls:ValidatedField
+                Erreur="{x:Static strings:AppResources.Connexion_IdentifiantInvalide}"
+                Label="{x:Static strings:AppResources.Connexion_Identifiant}"
+                Text="mireille@" />
+
+            <Label
+                Style="{StaticResource Title2}"
                 Text="{x:Static strings:AppResources.Composants_SectionBadges}" />
             <controls:StepBadge
                 Kind="Semis"

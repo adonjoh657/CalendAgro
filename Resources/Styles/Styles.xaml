@@ -103,6 +103,13 @@
         <Setter Property="MinimumWidthRequest" Value="48" />
     </Style>
 
+    <!-- Case à cocher : couleur primaire, tactile 48 min -->
+    <Style TargetType="CheckBox">
+        <Setter Property="Color" Value="{StaticResource Primary}" />
+        <Setter Property="MinimumHeightRequest" Value="48" />
+        <Setter Property="MinimumWidthRequest" Value="48" />
+    </Style>
+
     <!-- Message d'erreur sous un champ : 14, jamais de couleur seule (texte explicite) -->
     <Style TargetType="Label" x:Key="ErrorText">
         <Setter Property="TextColor" Value="{StaticResource Error}" />

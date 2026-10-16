@@ -43,181 +43,53 @@
                 Spacing="16"
                 IsVisible="{Binding IsFormVisible}">
 
-                <VerticalStackLayout Spacing="8">
-                    <Label
-                        Style="{StaticResource Legend}"
-                        Text="{x:Static strings:AppResources.Inscription_Nom}" />
-                    <Border
-                        BackgroundColor="{StaticResource Surface}"
-                        HeightRequest="56"
-                        Padding="16,0"
-                        Stroke="{StaticResource Border}"
-                        StrokeShape="RoundRectangle 8"
-                        StrokeThickness="1">
-                        <Entry
-                            Placeholder="{x:Static strings:AppResources.Inscription_NomExemple}"
-                            ReturnType="Next"
-                            Text="{Binding Nom}"
-                            VerticalOptions="Center" />
-                    </Border>
-                    <HorizontalStackLayout
-                        Spacing="8"
-                        IsVisible="{Binding NomErreurVisible}">
-                        <Image
-                            HeightRequest="20"
-                            Source="x.svg"
-                            VerticalOptions="Center"
-                            WidthRequest="20" />
-                        <Label
-                            Style="{StaticResource ErrorText}"
-                            Text="{Binding NomErreur}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout
-                        Spacing="8"
-                        IsVisible="{Binding NomSuccesVisible}">
-                        <Image
-                            HeightRequest="20"
-                            Source="check.svg"
-                            VerticalOptions="Center"
-                            WidthRequest="20" />
-                        <Label
-                            Style="{StaticResource SuccessText}"
-                            Text="{Binding NomSucces}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
+                <controls:ValidatedField
+                    Erreur="{Binding NomErreur}"
+                    Label="{x:Static strings:AppResources.Inscription_Nom}"
+                    Placeholder="{x:Static strings:AppResources.Inscription_NomExemple}"
+                    Succes="{Binding NomSucces}"
+                    Text="{Binding Nom}" />
 
-                <VerticalStackLayout Spacing="8">
-                    <Label
-                        Style="{StaticResource Legend}"
-                        Text="{x:Static strings:AppResources.Connexion_Identifiant}" />
-                    <Border
-                        BackgroundColor="{StaticResource Surface}"
-                        HeightRequest="56"
-                        Padding="16,0"
-                        Stroke="{StaticResource Border}"
-                        StrokeShape="RoundRectangle 8"
-                        StrokeThickness="1">
-                        <Entry
-                            Keyboard="Telephone"
-                            Placeholder="{x:Static strings:AppResources.Inscription_TelephoneExemple}"
-                            ReturnType="Next"
-                            Text="{Binding Identifiant}"
-                            VerticalOptions="Center" />
-                    </Border>
-                    <HorizontalStackLayout
-                        Spacing="8"
-                        IsVisible="{Binding IdentifiantErreurVisible}">
-                        <Image
-                            HeightRequest="20"
-                            Source="x.svg"
-                            VerticalOptions="Center"
-                            WidthRequest="20" />
-                        <Label
-                            Style="{StaticResource ErrorText}"
-                            Text="{Binding IdentifiantErreur}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
+                <controls:ValidatedField
+                    Erreur="{Binding IdentifiantErreur}"
+                    Keyboard="Telephone"
+                    Label="{x:Static strings:AppResources.Connexion_Identifiant}"
+                    Placeholder="{x:Static strings:AppResources.Inscription_TelephoneExemple}"
+                    Text="{Binding Identifiant}" />
 
-                <VerticalStackLayout Spacing="8">
-                    <Label
-                        Style="{StaticResource Legend}"
-                        Text="{x:Static strings:AppResources.Connexion_MotDePasse}" />
-                    <Grid ColumnDefinitions="*,80" ColumnSpacing="8">
-                        <Border
-                            Grid.Column="0"
-                            BackgroundColor="{StaticResource Surface}"
-                            HeightRequest="56"
-                            Padding="16,0"
-                            Stroke="{StaticResource Border}"
-                            StrokeShape="RoundRectangle 8"
-                            StrokeThickness="1">
-                            <Entry
-                                IsPassword="{Binding MotDePasseMasque}"
-                                ReturnType="Next"
-                                Text="{Binding MotDePasse}"
-                                VerticalOptions="Center" />
-                        </Border>
-                        <Button
-                            Grid.Column="1"
-                            Command="{Binding BasculerMotDePasseCommand}"
-                            Style="{StaticResource TextButton}"
-                            Text="{Binding MotDePasseBouton}"
-                            VerticalOptions="Center" />
-                    </Grid>
-                    <HorizontalStackLayout
-                        Spacing="8"
-                        IsVisible="{Binding MotDePasseErreurVisible}">
-                        <Image
-                            HeightRequest="20"
-                            Source="x.svg"
-                            VerticalOptions="Center"
-                            WidthRequest="20" />
-                        <Label
-                            Style="{StaticResource ErrorText}"
-                            Text="{Binding MotDePasseErreur}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout
-                        Spacing="8"
-                        IsVisible="{Binding MotDePasseSuccesVisible}">
-                        <Image
-                            HeightRequest="20"
-                            Source="check.svg"
-                            VerticalOptions="Center"
-                            WidthRequest="20" />
-                        <Label
-                            Style="{StaticResource SuccessText}"
-                            Text="{Binding MotDePasseSucces}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
+                <controls:ValidatedField
+                    Erreur="{Binding MotDePasseErreur}"
+                    IsPasswordField="True"
+                    Label="{x:Static strings:AppResources.Connexion_MotDePasse}"
+                    Succes="{Binding MotDePasseSucces}"
+                    Text="{Binding MotDePasse}" />
 
-                <VerticalStackLayout Spacing="8">
-                    <Label
-                        Style="{StaticResource Legend}"
-                        Text="{x:Static strings:AppResources.Inscription_Confirmation}" />
-                    <Grid ColumnDefinitions="*,80" ColumnSpacing="8">
-                        <Border
-                            Grid.Column="0"
-                            BackgroundColor="{StaticResource Surface}"
-                            HeightRequest="56"
-                            Padding="16,0"
-                            Stroke="{StaticResource Border}"
-                            StrokeShape="RoundRectangle 8"
-                            StrokeThickness="1">
-                            <Entry
-                                IsPassword="{Binding ConfirmationMasquee}"
-                                Placeholder="{x:Static strings:AppResources.Inscription_ConfirmationExemple}"
-                                ReturnType="Go"
-                                Text="{Binding Confirmation}"
-                                VerticalOptions="Center" />
-                        </Border>
-                        <Button
-                            Grid.Column="1"
-                            Command="{Binding BasculerConfirmationCommand}"
-                            Style="{StaticResource TextButton}"
-                            Text="{Binding ConfirmationBouton}"
-                            VerticalOptions="Center" />
-                    </Grid>
-                    <HorizontalStackLayout
-                        Spacing="8"
-                        IsVisible="{Binding ConfirmationErreurVisible}">
-                        <Image
-                            HeightRequest="20"
-                            Source="x.svg"
-                            VerticalOptions="Center"
-                            WidthRequest="20" />
+                <controls:ValidatedField
+                    Aide="{x:Static strings:AppResources.Inscription_ConfirmationAide}"
+                    Erreur="{Binding ConfirmationErreur}"
+                    IsPasswordField="True"
+                    Label="{x:Static strings:AppResources.Inscription_Confirmation}"
+                    Placeholder="{x:Static strings:AppResources.Inscription_ConfirmationExemple}"
+                    Text="{Binding Confirmation}" />
+
+                <controls:ValidatedField
+                    Erreur="{Binding TelephoneErreur}"
+                    Keyboard="Telephone"
+                    Label="{x:Static strings:AppResources.Inscription_Telephone}"
+                    Placeholder="{x:Static strings:AppResources.Inscription_TelExemple}"
+                    Text="{Binding Telephone}" />
+
+                <VerticalStackLayout Spacing="4">
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox IsChecked="{Binding Consentement}" VerticalOptions="Center" />
                         <Label
-                            Style="{StaticResource ErrorText}"
-                            Text="{Binding ConfirmationErreur}"
+                            Style="{StaticResource Body}"
+                            Text="{x:Static strings:AppResources.Inscription_Consentement}"
                             VerticalOptions="Center" />
                     </HorizontalStackLayout>
                     <Label
-                        Style="{StaticResource BodySmall}"
-                        Text="{x:Static strings:AppResources.Inscription_ConfirmationAide}" />
+                        Style="{StaticResource ErrorText}"
+                        Text="{Binding ConsentementErreur}" />
                 </VerticalStackLayout>
 
                 <Label

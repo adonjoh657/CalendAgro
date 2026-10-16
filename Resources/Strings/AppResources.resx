@@ -146,6 +146,7 @@
   <data name="Composants_Reessayer" xml:space="preserve"><value>Réessayer</value></data>
   <data name="Composants_ChangerEtat" xml:space="preserve"><value>Changer d'état</value></data>
   <data name="Composants_VoirDemo" xml:space="preserve"><value>Voir la démo des composants</value></data>
+  <data name="Composants_SectionChamps" xml:space="preserve"><value>Champs</value></data>
   <!-- Écran de démarrage -->
   <data name="App_Nom" xml:space="preserve"><value>CalendAgro</value></data>
   <data name="Demarrage_Accroche" xml:space="preserve"><value>Votre calendrier cultural, même sans connexion.</value></data>
@@ -196,6 +197,11 @@
   <data name="Inscription_LienConnexion" xml:space="preserve"><value>Déjà un compte ? Connexion</value></data>
   <data name="Inscription_CompteExistant" xml:space="preserve"><value>Un compte existe déjà.</value></data>
   <data name="Inscription_Chargement" xml:space="preserve"><value>Création du compte…</value></data>
+  <data name="Inscription_Telephone" xml:space="preserve"><value>Téléphone (optionnel)</value></data>
+  <data name="Inscription_TelExemple" xml:space="preserve"><value>+237 6XX XX XX XX</value></data>
+  <data name="Inscription_TelephoneInvalide" xml:space="preserve"><value>Numéro invalide.</value></data>
+  <data name="Inscription_Consentement" xml:space="preserve"><value>J'accepte la sauvegarde en ligne de mes données.</value></data>
+  <data name="Inscription_ConsentementErreur" xml:space="preserve"><value>Cochez la case pour continuer.</value></data>
   <!-- Écran mot de passe oublié -->
   <data name="Mdp_Titre" xml:space="preserve"><value>Mot de passe oublié</value></data>
   <data name="Mdp_SousTitre" xml:space="preserve"><value>Retrouvez l'accès à votre compte.</value></data>
