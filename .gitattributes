@@ -1,0 +1,11 @@
+# Normalisation des fins de ligne : dépôt en LF, cohérent sur toutes les plateformes.
+* text=auto eol=lf
+
+# Fichiers binaires (pas de conversion)
+*.png binary
+*.jpg binary
+*.gif binary
+*.ttf binary
+*.otf binary
+*.ico binary
+*.zip binary
