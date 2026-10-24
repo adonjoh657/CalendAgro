@@ -29,6 +29,30 @@ public sealed class CalendrierService : ICalendrierService
             .ToArray();
     }
 
+    public async Task<IReadOnlyList<PeriodeTravail>> GetPeriodesAsync(Parcelle parcelle)
+    {
+        var etapes = await GetEtapesCampagneAsync(parcelle).ConfigureAwait(false);
+        if (etapes is null)
+        {
+            return [];
+        }
+
+        var semis = etapes.First(e => e.Type == TypeEtape.Semis);
+
+        return etapes
+            .GroupBy(e => e.Type)
+            .Select(groupe => groupe.First())
+            .Select(etape =>
+            {
+                var debut = parcelle.DateSemis.AddMonths(EcartMois(semis.MoisDebut, etape.MoisDebut));
+                var fin = FinDuMois(parcelle.DateSemis.AddMonths(EcartMois(semis.MoisDebut, etape.MoisFin)));
+                return CreerPeriode(parcelle, etape.Type, debut, fin < debut ? debut : fin);
+            })
+            .OrderBy(p => p.Debut)
+            .ThenBy(p => Ordre(p.Phase))
+            .ToArray();
+    }
+
     public async Task<DateOnly?> GetDatePhaseAsync(Parcelle parcelle, TypeEtape phase)
     {
         var dates = await GetDatesAsync(parcelle).ConfigureAwait(false);
@@ -55,27 +79,33 @@ public sealed class CalendrierService : ICalendrierService
     private async Task<Dictionary<TypeEtape, DateOnly>> GetDatesAsync(Parcelle parcelle)
     {
         var dates = new Dictionary<TypeEtape, DateOnly>();
-        var saison = await TrouverSaisonAsync(parcelle).ConfigureAwait(false);
-        if (saison is null)
+        var etapes = await GetEtapesCampagneAsync(parcelle).ConfigureAwait(false);
+        if (etapes is null)
         {
             return dates;
         }
 
-        var etapes = await _cultures
-            .GetEtapesAsync(parcelle.CultureId, parcelle.Region, saison)
-            .ConfigureAwait(false);
-        var semis = etapes.FirstOrDefault(e => e.Type == TypeEtape.Semis);
-        if (semis is null)
-        {
-            return dates;
-        }
-
+        var semis = etapes.First(e => e.Type == TypeEtape.Semis);
         foreach (var etape in etapes)
         {
             dates[etape.Type] = parcelle.DateSemis.AddMonths(EcartMois(semis.MoisDebut, etape.MoisDebut));
         }
 
         return dates;
+    }
+
+    private async Task<IReadOnlyList<Etape>?> GetEtapesCampagneAsync(Parcelle parcelle)
+    {
+        var saison = await TrouverSaisonAsync(parcelle).ConfigureAwait(false);
+        if (saison is null)
+        {
+            return null;
+        }
+
+        var etapes = await _cultures
+            .GetEtapesAsync(parcelle.CultureId, parcelle.Region, saison)
+            .ConfigureAwait(false);
+        return etapes.Any(e => e.Type == TypeEtape.Semis) ? etapes : null;
     }
 
     private async Task<string?> TrouverSaisonAsync(Parcelle parcelle)
@@ -121,6 +151,24 @@ public sealed class CalendrierService : ICalendrierService
         Date = date,
         Phase = phase,
     };
+
+    private static PeriodeTravail CreerPeriode(
+        Parcelle parcelle,
+        TypeEtape phase,
+        DateOnly debut,
+        DateOnly fin) => new()
+    {
+        Id = TravailId.Creer(parcelle.Id, phase),
+        Titre = TitreDe(phase),
+        ParcelleNom = parcelle.Nom,
+        CultureNom = parcelle.CultureNom,
+        Debut = debut,
+        Fin = fin,
+        Phase = phase,
+    };
+
+    private static DateOnly FinDuMois(DateOnly date) =>
+        new(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
 
     private static int EcartMois(int moisReference, int mois) => ((mois - moisReference) + MoisParAn) % MoisParAn;
 

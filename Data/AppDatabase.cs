@@ -34,6 +34,7 @@ public sealed class AppDatabase
                 await connexion.CreateTableAsync<ParcelleRow>().ConfigureAwait(false);
                 await connexion.CreateTableAsync<TravailTermineRow>().ConfigureAwait(false);
                 await connexion.CreateTableAsync<RappelRow>().ConfigureAwait(false);
+                await connexion.CreateTableAsync<RappelPersonnelRow>().ConfigureAwait(false);
                 await connexion.CreateTableAsync<ProfilRow>().ConfigureAwait(false);
                 await connexion.CreateTableAsync<CultureRow>().ConfigureAwait(false);
                 await connexion.CreateTableAsync<EtapeRow>().ConfigureAwait(false);

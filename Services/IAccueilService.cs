@@ -15,6 +15,9 @@ public interface IAccueilService
 {
     Task<AccueilDonnees> GetAccueilAsync();
 
+    // Toutes les périodes (semis, entretien, récolte) de toutes les parcelles, passées ou non.
+    Task<IReadOnlyList<PeriodeTravail>> GetCalendrierAsync();
+
     Task<DetailTravail?> GetDetailAsync(string travailId);
 
     Task MarquerTermineeAsync(string travailId);

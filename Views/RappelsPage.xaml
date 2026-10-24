@@ -13,7 +13,7 @@
         <controls:PageHeader
             Grid.Row="0"
             BackCommand="{Binding RetourCommand}"
-            Title="{x:Static strings:AppResources.Rappels_Entete}" />
+            Title="{x:Static strings:AppResources.Rappels_Titre}" />
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout
@@ -44,62 +44,126 @@
                     State="Empty" />
 
                 <VerticalStackLayout
-                    Spacing="12"
-                    BindableLayout.ItemsSource="{Binding Items}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="vm:RappelCarte">
-                            <Border Style="{StaticResource Card}">
-                                <VerticalStackLayout Spacing="12">
-                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
-                                            <controls:StepBadge
-                                                HorizontalOptions="Start"
-                                                Kind="{Binding Kind}"
-                                                Text="{Binding Phase}" />
+                    Spacing="8"
+                    IsVisible="{Binding PersonnelsVisible}">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Rappels_Personnels}" />
+                    <VerticalStackLayout
+                        Spacing="12"
+                        BindableLayout.ItemsSource="{Binding Personnels}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RappelPersonnelCarte">
+                                <Border Style="{StaticResource Card}">
+                                    <VerticalStackLayout Spacing="12">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                                <Label
+                                                    Style="{StaticResource Title2}"
+                                                    Text="{Binding Titre}" />
+                                                <Label
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding Detail}" />
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout
+                                                Grid.Column="1"
+                                                Spacing="2"
+                                                VerticalOptions="Center">
+                                                <Switch
+                                                    HorizontalOptions="Center"
+                                                    IsToggled="{Binding Actif, Mode=TwoWay}"
+                                                    SemanticProperties.Description="{Binding DescriptionBascule}" />
+                                                <Label
+                                                    HorizontalTextAlignment="Center"
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding EtatLibelle}" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Button
+                                                Grid.Column="1"
+                                                Command="{Binding SupprimerCommand}"
+                                                SemanticProperties.Description="{Binding DescriptionSuppression}"
+                                                Style="{StaticResource TextButton}"
+                                                Text="{x:Static strings:AppResources.Rappels_Supprimer}"
+                                                TextColor="{StaticResource Error}" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Spacing="8"
+                    IsVisible="{Binding SaisonVisible}">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Rappels_Entete}" />
+                    <VerticalStackLayout
+                        Spacing="12"
+                        BindableLayout.ItemsSource="{Binding Items}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RappelCarte">
+                                <Border Style="{StaticResource Card}">
+                                    <VerticalStackLayout Spacing="12">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                                <controls:StepBadge
+                                                    HorizontalOptions="Start"
+                                                    Kind="{Binding Kind}"
+                                                    Text="{Binding Phase}" />
+                                                <Label
+                                                    Style="{StaticResource Title2}"
+                                                    Text="{Binding Titre}" />
+                                                <Label
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding Parcelle}" />
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout
+                                                Grid.Column="1"
+                                                Spacing="2"
+                                                VerticalOptions="Center">
+                                                <Switch
+                                                    HorizontalOptions="Center"
+                                                    IsToggled="{Binding Actif, Mode=TwoWay}"
+                                                    SemanticProperties.Description="{Binding DescriptionBascule}" />
+                                                <Label
+                                                    HorizontalTextAlignment="Center"
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding EtatLibelle}" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                            <Image
+                                                Grid.Column="0"
+                                                HeightRequest="18"
+                                                Source="calendar_days.svg"
+                                                VerticalOptions="Center"
+                                                WidthRequest="18" />
                                             <Label
-                                                Style="{StaticResource Title2}"
-                                                Text="{Binding Titre}" />
-                                            <Label
+                                                Grid.Column="1"
                                                 Style="{StaticResource BodySmall}"
-                                                Text="{Binding Parcelle}" />
-                                        </VerticalStackLayout>
-                                        <VerticalStackLayout
-                                            Grid.Column="1"
-                                            Spacing="2"
-                                            VerticalOptions="Center">
-                                            <Switch
-                                                HorizontalOptions="Center"
-                                                IsToggled="{Binding Actif, Mode=TwoWay}"
-                                                SemanticProperties.Description="{Binding DescriptionBascule}" />
-                                            <Label
-                                                HorizontalTextAlignment="Center"
-                                                Style="{StaticResource BodySmall}"
-                                                Text="{Binding EtatLibelle}" />
-                                        </VerticalStackLayout>
-                                    </Grid>
-                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                                        <Image
-                                            Grid.Column="0"
-                                            HeightRequest="18"
-                                            Source="calendar_days.svg"
-                                            VerticalOptions="Center"
-                                            WidthRequest="18" />
-                                        <Label
-                                            Grid.Column="1"
-                                            Style="{StaticResource BodySmall}"
-                                            Text="{Binding Date}"
-                                            VerticalOptions="Center" />
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                                                Text="{Binding Date}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
 
                 <Label
                     Style="{StaticResource ErrorText}"
                     IsVisible="{Binding ErreurBasculeVisible}"
                     Text="{Binding ErreurBascule}" />
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding ErreurSuppressionVisible}"
+                    Text="{Binding ErreurSuppression}" />
 
                 <Label
                     Style="{StaticResource BodySmall}"

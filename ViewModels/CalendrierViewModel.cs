@@ -31,13 +31,23 @@ public sealed class JourCalendrier
     public IReadOnlyList<Color> Points { get; init; } = [];
 }
 
+// Rappel personnel affiché sur le jour sélectionné.
+public sealed class RappelJour
+{
+    public string Titre { get; init; } = string.Empty;
+
+    public string Detail { get; init; } = string.Empty;
+}
+
 // Calendrier mensuel : grille, jour sélectionné, ensuite.
 public sealed partial class CalendrierViewModel : ObservableObject
 {
     private static readonly CultureInfo Francais = CultureInfo.GetCultureInfo("fr-FR");
     private readonly IAccueilService _travaux;
+    private readonly IRappelPersonnelService _rappelsPersonnels;
     private readonly ITabNavigationService _tabs;
-    private readonly List<Travail> _cache = [];
+    private readonly List<PeriodeTravail> _cache = [];
+    private readonly List<RappelPersonnel> _rappelsCache = [];
     private bool _started;
     private int _annee;
     private int _mois;
@@ -46,6 +56,8 @@ public sealed partial class CalendrierViewModel : ObservableObject
     public ObservableCollection<JourCalendrier> Jours { get; } = [];
 
     public ObservableCollection<TravailCarte> TachesJour { get; } = [];
+
+    public ObservableCollection<RappelJour> RappelsJour { get; } = [];
 
     public ObservableCollection<string> Ensuite { get; } = [];
 
@@ -65,6 +77,9 @@ public sealed partial class CalendrierViewModel : ObservableObject
     public partial bool EnsuiteVisible { get; set; }
 
     [ObservableProperty]
+    public partial bool RappelsJourVisible { get; set; }
+
+    [ObservableProperty]
     public partial bool IsBusy { get; set; } = true;
 
     [ObservableProperty]
@@ -77,9 +92,13 @@ public sealed partial class CalendrierViewModel : ObservableObject
 
     public bool NavigationErreurVisible => NavigationErreur.Length > 0;
 
-    public CalendrierViewModel(IAccueilService travaux, ITabNavigationService tabs)
+    public CalendrierViewModel(
+        IAccueilService travaux,
+        IRappelPersonnelService rappelsPersonnels,
+        ITabNavigationService tabs)
     {
         _travaux = travaux;
+        _rappelsPersonnels = rappelsPersonnels;
         _tabs = tabs;
         var aujourdHui = DateOnly.FromDateTime(DateTime.Today);
         _annee = aujourdHui.Year;
@@ -88,7 +107,8 @@ public sealed partial class CalendrierViewModel : ObservableObject
     }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public CalendrierViewModel() : this(DefaultServices.Accueil, DefaultServices.Navigation)
+    public CalendrierViewModel()
+        : this(DefaultServices.Accueil, DefaultServices.RappelsPersonnels, DefaultServices.Navigation)
     {
     }
 
@@ -117,9 +137,12 @@ public sealed partial class CalendrierViewModel : ObservableObject
         HasError = false;
         try
         {
-            var donnees = await _travaux.GetAccueilAsync();
+            var periodes = await _travaux.GetCalendrierAsync();
+            var rappels = await _rappelsPersonnels.GetRappelsAsync();
             _cache.Clear();
-            _cache.AddRange(donnees.Travaux);
+            _cache.AddRange(periodes);
+            _rappelsCache.Clear();
+            _rappelsCache.AddRange(rappels);
             ConstruireMois();
         }
         catch
@@ -151,10 +174,33 @@ public sealed partial class CalendrierViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ChoisirJour(DateOnly date)
+    private async Task ChoisirJourAsync(DateOnly date)
     {
         _selection = date;
         ConstruireMois();
+        try
+        {
+            var valeur = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            await Shell.Current.GoToAsync($"detail-jour?date={valeur}");
+        }
+        catch
+        {
+            NavigationErreur = AppResources.Calendrier_NavigationErreur;
+        }
+    }
+
+    [RelayCommand]
+    private async Task AjouterRappelAsync()
+    {
+        try
+        {
+            var date = _selection.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            await Shell.Current.GoToAsync($"edition-rappel?date={date}");
+        }
+        catch
+        {
+            NavigationErreur = AppResources.Rappel_NavigationErreur;
+        }
     }
 
     [RelayCommand]
@@ -191,7 +237,7 @@ public sealed partial class CalendrierViewModel : ObservableObject
         for (var j = 1; j <= joursDansMois; j++)
         {
             var date = new DateOnly(_annee, _mois, j);
-            var phases = _cache.Where(t => t.Date == date).Select(t => t.Phase).Distinct().ToArray();
+            var phases = _cache.Where(p => p.Contient(date)).Select(p => p.Phase).Distinct().ToArray();
             var selectionne = date == _selection;
             Jours.Add(new JourCalendrier
             {
@@ -209,35 +255,59 @@ public sealed partial class CalendrierViewModel : ObservableObject
 
     private void RafraichirJour()
     {
-        var travaux = _cache.Where(t => t.Date == _selection).OrderBy(t => t.Titre).ToArray();
+        var periodes = _cache.Where(p => p.Contient(_selection)).ToArray();
+        var rappels = _rappelsCache
+            .Where(r => r.Actif && RappelOccurrences.TombeLe(r, _selection))
+            .OrderBy(r => r.Heure)
+            .ThenBy(r => r.Titre, StringComparer.CurrentCultureIgnoreCase)
+            .ToArray();
         JourSelectionTitre = Capitaliser(_selection.ToString("dddd d MMMM", Francais));
-        JourSelectionDetail = travaux.Length switch
+        var total = periodes.Length + rappels.Length;
+        JourSelectionDetail = total switch
         {
-            0 => AppResources.Calendrier_AucuneTache,
-            1 when _selection == DateOnly.FromDateTime(DateTime.Today) => AppResources.Calendrier_UneTache,
-            _ => string.Format(AppResources.Calendrier_TachesJour, travaux.Length),
+            0 => AppResources.Calendrier_AucunElement,
+            1 => AppResources.Calendrier_UnElement,
+            _ => string.Format(AppResources.Calendrier_ElementsJour, total),
         };
         TachesJour.Clear();
-        foreach (var travail in travaux)
+        foreach (var periode in periodes)
         {
             TachesJour.Add(new TravailCarte
             {
-                Id = travail.Id,
-                Titre = travail.Titre,
-                Parcelle = $"{travail.ParcelleNom} · {travail.CultureNom}",
-                Jour = travail.Date.ToString("d MMM", Francais),
-                Phase = TypeEtapeLabels.Libelle(travail.Phase),
-                Kind = BadgeDe(travail.Phase),
+                Id = periode.Id,
+                Titre = periode.Titre,
+                Parcelle = $"{periode.ParcelleNom} · {periode.CultureNom}",
+                Jour = periode.Debut == periode.Fin
+                    ? periode.Debut.ToString("d MMM", Francais)
+                    : string.Format(
+                        AppResources.Calendrier_Periode,
+                        periode.Debut.ToString("d MMM", Francais),
+                        periode.Fin.ToString("d MMM", Francais)),
+                Phase = TypeEtapeLabels.Libelle(periode.Phase),
+                Kind = BadgeDe(periode.Phase),
             });
         }
+        RappelsJour.Clear();
+        foreach (var rappel in rappels)
+        {
+            RappelsJour.Add(new RappelJour
+            {
+                Titre = rappel.Titre,
+                Detail = string.Format(
+                    AppResources.Rappel_Detail,
+                    rappel.Heure.ToString("HH:mm", Francais),
+                    FrequenceRappelLabels.Libelle(rappel.Frequence)),
+            });
+        }
+        RappelsJourVisible = RappelsJour.Count > 0;
         var suivantes = _cache
-            .Where(t => t.Date > _selection)
-            .OrderBy(t => t.Date)
+            .Where(p => p.Debut > _selection)
+            .OrderBy(p => p.Debut)
             .Take(2)
-            .Select(t => string.Format(
+            .Select(p => string.Format(
                 AppResources.Calendrier_EnsuiteLigne,
-                t.Date.ToString("d MMM", Francais),
-                $"{Minuscule(t.Titre)} de {Minuscule(t.CultureNom)}"))
+                p.Debut.ToString("d MMM", Francais),
+                $"{Minuscule(p.Titre)} de {Minuscule(p.CultureNom)}"))
             .ToArray();
         Ensuite.Clear();
         foreach (var ligne in suivantes)

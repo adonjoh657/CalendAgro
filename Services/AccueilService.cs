@@ -38,6 +38,21 @@ public sealed class AccueilService : IAccueilService
             travaux);
     }
 
+    public async Task<IReadOnlyList<PeriodeTravail>> GetCalendrierAsync()
+    {
+        var parcelles = await _parcelles.GetParcellesAsync().ConfigureAwait(false);
+        var periodes = new List<PeriodeTravail>();
+        foreach (var parcelle in parcelles)
+        {
+            periodes.AddRange(await _calendrier.GetPeriodesAsync(parcelle).ConfigureAwait(false));
+        }
+
+        return periodes
+            .OrderBy(p => p.Debut)
+            .ThenBy(p => p.ParcelleNom, StringComparer.CurrentCultureIgnoreCase)
+            .ToArray();
+    }
+
     public async Task<DetailTravail?> GetDetailAsync(string travailId)
     {
         if (!TravailId.TryLire(travailId, out var parcelleId, out var phase))

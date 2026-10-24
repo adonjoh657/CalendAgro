@@ -105,6 +105,35 @@
   <data name="Rappels_Basculer" xml:space="preserve"><value>Activer ou désactiver le rappel : {0}</value></data>
   <data name="Rappels_ErreurBascule" xml:space="preserve"><value>Modification impossible. Réessayez.</value></data>
   <data name="Rappels_Note" xml:space="preserve"><value>Vos choix restent sur cet appareil et fonctionnent hors ligne.</value></data>
+  <data name="Rappels_Personnels" xml:space="preserve"><value>Mes rappels</value></data>
+  <data name="Rappels_Supprimer" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="Rappels_SupprimerDescription" xml:space="preserve"><value>Supprimer le rappel : {0}</value></data>
+  <data name="Rappels_SupprimerTitre" xml:space="preserve"><value>Supprimer ce rappel ?</value></data>
+  <data name="Rappels_SupprimerMessage" xml:space="preserve"><value>Aucune notification ne sera plus envoyée pour ce rappel.</value></data>
+  <data name="Rappels_SupprimerOui" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="Rappels_SupprimerNon" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Rappels_SuppressionErreur" xml:space="preserve"><value>Suppression impossible. Réessayez.</value></data>
+  <data name="Rappels_CanalNom" xml:space="preserve"><value>Rappels</value></data>
+  <data name="Rappels_CanalDescription" xml:space="preserve"><value>Rappels créés dans le calendrier</value></data>
+  <!-- Rappel personnel créé depuis le calendrier -->
+  <data name="Rappel_Nouveau" xml:space="preserve"><value>Nouveau rappel</value></data>
+  <data name="Rappel_Ajouter" xml:space="preserve"><value>Créer un rappel</value></data>
+  <data name="Rappel_TitreChamp" xml:space="preserve"><value>Titre du rappel</value></data>
+  <data name="Rappel_TitreErreur" xml:space="preserve"><value>Indiquez un titre de 2 à 40 lettres.</value></data>
+  <data name="Rappel_Date" xml:space="preserve"><value>Première date</value></data>
+  <data name="Rappel_Heure" xml:space="preserve"><value>Heure de la notification</value></data>
+  <data name="Rappel_Frequence" xml:space="preserve"><value>Fréquence</value></data>
+  <data name="Rappel_FreqUneFois" xml:space="preserve"><value>Une seule fois</value></data>
+  <data name="Rappel_FreqQuotidienne" xml:space="preserve"><value>Chaque jour</value></data>
+  <data name="Rappel_FreqHebdomadaire" xml:space="preserve"><value>Chaque semaine</value></data>
+  <data name="Rappel_FreqMensuelle" xml:space="preserve"><value>Chaque mois</value></data>
+  <data name="Rappel_DatePasse" xml:space="preserve"><value>Choisissez une date et une heure à venir.</value></data>
+  <data name="Rappel_Enregistrer" xml:space="preserve"><value>Enregistrer le rappel</value></data>
+  <data name="Rappel_Note" xml:space="preserve"><value>Le rappel reste actif jusqu'à sa désactivation.</value></data>
+  <data name="Rappel_Erreur" xml:space="preserve"><value>Enregistrement impossible. Réessayez.</value></data>
+  <data name="Rappel_Detail" xml:space="preserve"><value>{0} · {1}</value></data>
+  <data name="Rappel_NotificationDescription" xml:space="preserve"><value>Rappel CalendAgro</value></data>
+  <data name="Rappel_NavigationErreur" xml:space="preserve"><value>Ouverture du rappel impossible. Réessayez.</value></data>
   <!-- Profil -->
   <data name="Profil_Titre" xml:space="preserve"><value>Profil</value></data>
   <data name="Profil_Entete" xml:space="preserve"><value>Mon profil</value></data>
@@ -130,9 +159,13 @@
   <data name="Calendrier_JoursLettres" xml:space="preserve"><value>L M M J V S D</value></data>
   <data name="Calendrier_Precedent" xml:space="preserve"><value>‹</value></data>
   <data name="Calendrier_Suivant" xml:space="preserve"><value>›</value></data>
-  <data name="Calendrier_UneTache" xml:space="preserve"><value>1 tâche prévue · aujourd'hui</value></data>
-  <data name="Calendrier_TachesJour" xml:space="preserve"><value>{0} tâches prévues</value></data>
-  <data name="Calendrier_AucuneTache" xml:space="preserve"><value>Aucune tâche ce jour.</value></data>
+  <data name="Calendrier_UnElement" xml:space="preserve"><value>1 élément prévu</value></data>
+  <data name="Calendrier_ElementsJour" xml:space="preserve"><value>{0} éléments prévus</value></data>
+  <data name="Calendrier_AucunElement" xml:space="preserve"><value>Aucun rappel ni tâche ce jour.</value></data>
+  <data name="Calendrier_Rappels" xml:space="preserve"><value>Rappels du jour</value></data>
+  <data name="Calendrier_Periode" xml:space="preserve"><value>Du {0} au {1}</value></data>
+  <data name="Calendrier_Travaux" xml:space="preserve"><value>Travaux</value></data>
+  <data name="Calendrier_NavigationErreur" xml:space="preserve"><value>Ouverture du jour impossible. Réessayez.</value></data>
   <data name="Calendrier_Ensuite" xml:space="preserve"><value>Ensuite dans votre calendrier</value></data>
   <data name="Calendrier_EnsuiteLigne" xml:space="preserve"><value>{0} · {1}</value></data>
   <data name="Calendrier_NoteExemple" xml:space="preserve"><value>Dates saisies à titre d'exemple, à ajuster aux conditions de vos parcelles.</value></data>

@@ -18,6 +18,10 @@ internal static class DefaultServices
         new SQLiteParcelleService(BaseDeDonnees, CalendrierUnique);
     private static readonly IRappelService RappelsUniques =
         new SQLiteRappelService(BaseDeDonnees, ParcellesUniques, CalendrierUnique);
+    private static readonly IRappelPersonnelService RappelsPersonnelsUniques =
+        new SQLiteRappelPersonnelService(BaseDeDonnees);
+    private static readonly IRappelNotificationService NotificationsUniques =
+        new RappelNotificationService();
     private static readonly IAccueilService AccueilUnique =
         new AccueilService(ParcellesUniques, CalendrierUnique, CulturesUniques);
 
@@ -34,6 +38,10 @@ internal static class DefaultServices
     internal static IParcelleService Parcelles => ParcellesUniques;
 
     internal static IRappelService Rappels => RappelsUniques;
+
+    internal static IRappelPersonnelService RappelsPersonnels => RappelsPersonnelsUniques;
+
+    internal static IRappelNotificationService Notifications => NotificationsUniques;
 
     internal static IAccueilService Accueil => AccueilUnique;
 }

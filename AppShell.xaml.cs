@@ -13,12 +13,14 @@ namespace CalendAgro
             Routing.RegisterRoute("mot-de-passe-oublie", typeof(MotDePasseOubliePage));
             Routing.RegisterRoute("fiche-culture", typeof(FicheCulturePage));
             Routing.RegisterRoute("detail-tache", typeof(DetailTachePage));
+            Routing.RegisterRoute("detail-jour", typeof(DetailJourPage));
             Routing.RegisterRoute("detail-etape", typeof(DetailEtapePage));
             Routing.RegisterRoute("edition-culture", typeof(EditionCulturePage));
             Routing.RegisterRoute("edition-etape", typeof(EditionEtapePage));
             Routing.RegisterRoute("ajout-parcelle", typeof(AjoutParcellePage));
             Routing.RegisterRoute("fiche-parcelle", typeof(FicheParcellePage));
             Routing.RegisterRoute("rappels", typeof(RappelsPage));
+            Routing.RegisterRoute("edition-rappel", typeof(EditionRappelPage));
             Routing.RegisterRoute("profil", typeof(ProfilPage));
         }
 

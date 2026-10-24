@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.EditionRappelPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:EditionRappelViewModel"
+    Title="{x:Static strings:AppResources.Rappel_Nouveau}">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{x:Static strings:AppResources.Rappel_Nouveau}" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="16">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Rappel_TitreChamp}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            MaxLength="40"
+                            ReturnType="Next"
+                            Text="{Binding Titre}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
+                        IsVisible="{Binding TitreErreurVisible}">
+                        <Image
+                            Grid.Column="0"
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding TitreErreur}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Rappel_Date}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <DatePicker
+                            Date="{Binding DateDebut}"
+                            Format="d MMM yyyy"
+                            VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Rappel_Heure}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <TimePicker
+                            Format="HH:mm"
+                            Time="{Binding Heure}"
+                            VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Rappel_Frequence}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Picker
+                            ItemsSource="{Binding Frequences}"
+                            SelectedItem="{Binding FrequenceChoisie}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource ErrorText}"
+                        IsVisible="{Binding DateInvalide}"
+                        Text="{x:Static strings:AppResources.Rappel_DatePasse}" />
+                </VerticalStackLayout>
+
+                <controls:AppButton
+                    Command="{Binding EnregistrerCommand}"
+                    Text="{x:Static strings:AppResources.Rappel_Enregistrer}"
+                    Variant="Accent" />
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding ErreurVisible}"
+                    Text="{Binding Erreur}" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Rappel_Note}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

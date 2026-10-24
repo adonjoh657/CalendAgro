@@ -18,7 +18,7 @@
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout
-                Padding="16,16,16,16"
+                Padding="16,16,16,88"
                 Spacing="16">
 
             <controls:StateView
@@ -205,11 +205,40 @@
                             </Border>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                    <BindableLayout.EmptyView>
-                        <Label
-                            Style="{StaticResource Body}"
-                            Text="{x:Static strings:AppResources.Calendrier_AucuneTache}" />
-                    </BindableLayout.EmptyView>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Spacing="8"
+                    IsVisible="{Binding RappelsJourVisible}">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Calendrier_Rappels}" />
+                    <VerticalStackLayout
+                        Spacing="12"
+                        BindableLayout.ItemsSource="{Binding RappelsJour}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RappelJour">
+                                <Border Style="{StaticResource Card}">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                        <Image
+                                            Grid.Column="0"
+                                            HeightRequest="20"
+                                            Source="bell.svg"
+                                            VerticalOptions="Center"
+                                            WidthRequest="20" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                            <Label
+                                                Style="{StaticResource Title2}"
+                                                Text="{Binding Titre}" />
+                                            <Label
+                                                Style="{StaticResource BodySmall}"
+                                                Text="{Binding Detail}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout
@@ -244,6 +273,19 @@
 
             </VerticalStackLayout>
         </ScrollView>
+
+        <Button
+            Grid.Row="1"
+            Margin="0,0,16,16"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding AjouterRappelCommand}"
+            CornerRadius="28"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            ImageSource="plus.svg"
+            SemanticProperties.Description="{x:Static strings:AppResources.Rappel_Ajouter}"
+            VerticalOptions="End"
+            WidthRequest="56" />
     </Grid>
 
 </ContentPage>

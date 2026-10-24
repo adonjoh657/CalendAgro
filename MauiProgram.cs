@@ -1,8 +1,11 @@
 ﻿using CalendAgro.Data;
+using CalendAgro.Resources.Strings;
 using CalendAgro.Services;
 using CalendAgro.ViewModels;
 using CalendAgro.Views;
 using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.Core.Models.AndroidOption;
 
 namespace CalendAgro
 {
@@ -13,6 +16,17 @@ namespace CalendAgro
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseLocalNotification(config => config.AddAndroid(android => android.AddChannel(
+                    new AndroidNotificationChannelRequest
+                    {
+                        Id = RappelNotificationService.Canal,
+                        Name = AppResources.Rappels_CanalNom,
+                        Description = AppResources.Rappels_CanalDescription,
+                        Importance = AndroidImportance.High,
+                        Sound = RappelNotificationService.Sonnerie,
+                        EnableSound = true,
+                        EnableVibration = true,
+                    })))
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("Inter-Variable.ttf", "Inter");
@@ -27,6 +41,8 @@ namespace CalendAgro
             builder.Services.AddSingleton<ICalendrierService, CalendrierService>();
             builder.Services.AddSingleton<IParcelleService, SQLiteParcelleService>();
             builder.Services.AddSingleton<IRappelService, SQLiteRappelService>();
+            builder.Services.AddSingleton<IRappelPersonnelService, SQLiteRappelPersonnelService>();
+            builder.Services.AddSingleton<IRappelNotificationService, RappelNotificationService>();
             builder.Services.AddSingleton<IAccueilService, AccueilService>();
             builder.Services.AddTransient<ConnexionViewModel>();
             builder.Services.AddTransient<ConnexionPage>();
@@ -38,6 +54,8 @@ namespace CalendAgro
             builder.Services.AddTransient<FicheCulturePage>();
             builder.Services.AddTransient<DetailTacheViewModel>();
             builder.Services.AddTransient<DetailTachePage>();
+            builder.Services.AddTransient<DetailJourViewModel>();
+            builder.Services.AddTransient<DetailJourPage>();
             builder.Services.AddTransient<DetailEtapeViewModel>();
             builder.Services.AddTransient<DetailEtapePage>();
             builder.Services.AddTransient<EditionCultureViewModel>();
@@ -60,6 +78,8 @@ namespace CalendAgro
             builder.Services.AddTransient<ParcellesPage>();
             builder.Services.AddTransient<RappelsViewModel>();
             builder.Services.AddTransient<RappelsPage>();
+            builder.Services.AddTransient<EditionRappelViewModel>();
+            builder.Services.AddTransient<EditionRappelPage>();
             builder.Services.AddTransient<ProfilViewModel>();
             builder.Services.AddTransient<ProfilPage>();
 

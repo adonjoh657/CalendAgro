@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.DetailJourPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:views="clr-namespace:CalendAgro.Views"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:DetailJourViewModel"
+    Title="{Binding TitreJour}">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding TitreJour}" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="16,16,16,88"
+                Spacing="16">
+
+                <controls:StateView
+                    IsVisible="{Binding IsBusy}"
+                    Message="{x:Static strings:AppResources.Calendrier_Chargement}"
+                    State="Loading" />
+
+                <controls:StateView
+                    ActionCommand="{Binding RechargerCommand}"
+                    ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                    IsVisible="{Binding HasError}"
+                    Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                    State="Error" />
+
+                <VerticalStackLayout
+                    Spacing="16"
+                    IsVisible="{Binding IsContenuVisible}">
+
+                    <controls:StateView
+                        ActionCommand="{Binding AjouterRappelCommand}"
+                        ActionText="{x:Static strings:AppResources.Rappel_Ajouter}"
+                        IsVisible="{Binding AucunEvenement}"
+                        Message="{x:Static strings:AppResources.Calendrier_AucunElement}"
+                        State="Empty" />
+
+                    <VerticalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding TravauxVisible}">
+                        <Label
+                            Style="{StaticResource Legend}"
+                            Text="{x:Static strings:AppResources.Calendrier_Travaux}" />
+                        <VerticalStackLayout
+                            Spacing="12"
+                            BindableLayout.ItemsSource="{Binding Travaux}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:TravailCarte">
+                                    <Border Style="{StaticResource Card}">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:DetailJourPage}}, Path=BindingContext.OuvrirDetailCommand}"
+                                                CommandParameter="{Binding Id}" />
+                                        </Border.GestureRecognizers>
+                                        <VerticalStackLayout Spacing="8">
+                                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                <controls:StepBadge
+                                                    Grid.Column="0"
+                                                    Kind="{Binding Kind}"
+                                                    Text="{Binding Phase}"
+                                                    VerticalOptions="Center" />
+                                                <Label
+                                                    Grid.Column="1"
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding Jour}"
+                                                    VerticalOptions="Center" />
+                                            </Grid>
+                                            <Label
+                                                Style="{StaticResource Title2}"
+                                                Text="{Binding Titre}" />
+                                            <Label
+                                                Style="{StaticResource BodySmall}"
+                                                Text="{Binding Parcelle}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout
+                        Spacing="8"
+                        IsVisible="{Binding RappelsVisible}">
+                        <Label
+                            Style="{StaticResource Legend}"
+                            Text="{x:Static strings:AppResources.Calendrier_Rappels}" />
+                        <VerticalStackLayout
+                            Spacing="12"
+                            BindableLayout.ItemsSource="{Binding Rappels}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:RappelJour">
+                                    <Border Style="{StaticResource Card}">
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                            <Image
+                                                Grid.Column="0"
+                                                HeightRequest="20"
+                                                Source="bell.svg"
+                                                VerticalOptions="Center"
+                                                WidthRequest="20" />
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                <Label
+                                                    Style="{StaticResource Title2}"
+                                                    Text="{Binding Titre}" />
+                                                <Label
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding Detail}" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Label
+                        Style="{StaticResource ErrorText}"
+                        IsVisible="{Binding NavigationErreurVisible}"
+                        Text="{Binding NavigationErreur}" />
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            Grid.Row="1"
+            Margin="0,0,16,16"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding AjouterRappelCommand}"
+            CornerRadius="28"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            ImageSource="plus.svg"
+            SemanticProperties.Description="{x:Static strings:AppResources.Rappel_Ajouter}"
+            VerticalOptions="End"
+            WidthRequest="56" />
+    </Grid>
+
+</ContentPage>
