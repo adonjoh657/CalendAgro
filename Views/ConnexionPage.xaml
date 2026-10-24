@@ -9,14 +9,16 @@
     x:DataType="vm:ConnexionViewModel"
     Title="{x:Static strings:AppResources.Connexion_Titre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{x:Static strings:AppResources.Connexion_Titre}" />
 
-            <Label
-                Style="{StaticResource BodySmall}"
-                Text="{x:Static strings:AppResources.Connexion_SousTitre}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -51,19 +53,22 @@
                             Text="{Binding Identifiant}"
                             VerticalOptions="Center" />
                     </Border>
-                    <HorizontalStackLayout
-                        Spacing="8"
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
                         IsVisible="{Binding IdentifiantErreurVisible}">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="20"
                             Source="x.svg"
                             VerticalOptions="Center"
                             WidthRequest="20" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource ErrorText}"
                             Text="{Binding IdentifiantErreur}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8">
@@ -92,19 +97,22 @@
                             Text="{Binding MotDePasseBouton}"
                             VerticalOptions="Center" />
                     </Grid>
-                    <HorizontalStackLayout
-                        Spacing="8"
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
                         IsVisible="{Binding MotDePasseErreurVisible}">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="20"
                             Source="x.svg"
                             VerticalOptions="Center"
                             WidthRequest="20" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource ErrorText}"
                             Text="{Binding MotDePasseErreur}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <Button
@@ -116,18 +124,22 @@
                 <Border
                     Style="{StaticResource Card}"
                     IsVisible="{Binding HasFormErreur}">
-                    <HorizontalStackLayout Spacing="12">
+                    <Grid
+                        ColumnDefinitions="24,*"
+                        ColumnSpacing="12">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="24"
                             Source="alert_circle.svg"
                             VerticalOptions="Center"
                             WidthRequest="24" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource Legend}"
                             Text="{Binding FormErreur}"
                             TextColor="{StaticResource Error}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </Border>
 
                 <controls:AppButton
@@ -167,7 +179,8 @@
                 Style="{StaticResource BodySmall}"
                 Text="{x:Static strings:AppResources.Connexion_Pied}" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

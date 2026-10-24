@@ -11,98 +11,134 @@
     x:DataType="vm:CulturesViewModel"
     Title="{x:Static strings:AppResources.Cultures_Titre}">
 
-    <VerticalStackLayout
-        Padding="16"
-        Spacing="16"
-        VerticalOptions="Fill">
-        <VerticalStackLayout.GestureRecognizers>
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            ShowBack="False"
+            Title="{x:Static strings:AppResources.Cultures_Entete}">
+            <controls:PageHeader.Actions>
+                <ImageButton
+                    BackgroundColor="Transparent"
+                    Command="{Binding BasculerRechercheCommand}"
+                    HeightRequest="48"
+                    Padding="12"
+                    SemanticProperties.Description="{x:Static strings:AppResources.Cultures_Recherche}"
+                    Source="search.svg"
+                    WidthRequest="48" />
+            </controls:PageHeader.Actions>
+        </controls:PageHeader>
+
+        <Grid
+            Grid.Row="1"
+            Padding="16,16,16,88"
+            RowDefinitions="Auto,*"
+            RowSpacing="16">
+        <Grid.GestureRecognizers>
             <SwipeGestureRecognizer Direction="Left" Command="{Binding GoNextCommand}" />
             <SwipeGestureRecognizer Direction="Right" Command="{Binding GoPreviousCommand}" />
-        </VerticalStackLayout.GestureRecognizers>
+        </Grid.GestureRecognizers>
 
-        <Border
-            BackgroundColor="{StaticResource Surface}"
-            HeightRequest="56"
-            Padding="16,0"
-            Stroke="{StaticResource Border}"
-            StrokeShape="RoundRectangle 8"
-            StrokeThickness="1">
-            <Entry
-                Placeholder="{x:Static strings:AppResources.Cultures_Recherche}"
-                ReturnType="Search"
-                Text="{Binding Recherche}"
-                VerticalOptions="Center" />
-        </Border>
+        <VerticalStackLayout
+            Grid.Row="0"
+            Spacing="16">
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                HeightRequest="56"
+                IsVisible="{Binding RechercheVisible}"
+                Padding="16,0"
+                Stroke="{StaticResource Border}"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+                <Entry
+                    Placeholder="{x:Static strings:AppResources.Cultures_Recherche}"
+                    ReturnType="Search"
+                    Text="{Binding Recherche}"
+                    VerticalOptions="Center" />
+            </Border>
 
-        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-            <Label
-                Grid.Column="0"
-                Style="{StaticResource Legend}"
-                Text="{x:Static strings:AppResources.Cultures_Categorie}"
-                VerticalOptions="Center" />
-            <Picker
-                Grid.Column="1"
-                ItemsSource="{Binding Categories}"
-                SelectedItem="{Binding CategorieChoisie}"
-                VerticalOptions="Center" />
-        </Grid>
+            <VerticalStackLayout Spacing="4">
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    IsVisible="{Binding NbResultatsVisible}"
+                    Text="{Binding NbResultats}" />
 
-        <controls:StateView
-            IsVisible="{Binding IsBusy}"
-            Message="{x:Static strings:AppResources.Cultures_Chargement}"
-            State="Loading" />
+                <controls:StateView
+                    IsVisible="{Binding IsBusy}"
+                    Message="{x:Static strings:AppResources.Cultures_Chargement}"
+                    State="Loading" />
 
-        <controls:StateView
-            ActionCommand="{Binding RechargerCommand}"
-            ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
-            IsVisible="{Binding HasError}"
-            Message="{x:Static strings:AppResources.Connexion_Erreur}"
-            State="Error" />
+                <controls:StateView
+                    ActionCommand="{Binding RechargerCommand}"
+                    ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                    IsVisible="{Binding HasError}"
+                    Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                    State="Error" />
 
-        <Label
-            Style="{StaticResource ErrorText}"
-            IsVisible="{Binding NavigationErreurVisible}"
-            Text="{Binding NavigationErreur}" />
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding NavigationErreurVisible}"
+                    Text="{Binding NavigationErreur}" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
 
         <CollectionView
+            Grid.Row="1"
             IsVisible="{Binding IsListeVisible}"
             ItemsSource="{Binding Resultats}"
-            SelectionMode="None"
-            VerticalOptions="Fill">
+            SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Culture">
                     <Border
                         Style="{StaticResource Card}"
-                        Margin="0,0,0,12">
+                        Margin="0,0,0,8"
+                        Padding="16,12">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type views:CulturesPage}}, Path=BindingContext.OuvrirFicheCommand}"
                                 CommandParameter="{Binding Id}" />
                         </Border.GestureRecognizers>
-                        <VerticalStackLayout Spacing="4">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                             <Label
-                                Style="{StaticResource Title2}"
-                                Text="{Binding Nom}" />
-                            <Label
-                                Style="{StaticResource BodySmall}"
-                                Text="{Binding MetaLabel}" />
-                        </VerticalStackLayout>
+                                Grid.Column="0"
+                                Style="{StaticResource Body}"
+                                Text="{Binding Nom}"
+                                VerticalOptions="Center" />
+                            <Image
+                                Grid.Column="1"
+                                HeightRequest="20"
+                                Source="chevron_right.svg"
+                                VerticalOptions="Center"
+                                WidthRequest="20" />
+                        </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
                 <controls:StateView
                     ActionCommand="{Binding EffacerRechercheCommand}"
-                    ActionText="{x:Static strings:AppResources.Cultures_Effacer}"
-                    Message="{x:Static strings:AppResources.Cultures_AucunResultat}"
+                    ActionText="{Binding ActionVide}"
+                    Message="{Binding MessageVide}"
                     State="Empty" />
             </CollectionView.EmptyView>
         </CollectionView>
 
-        <Label
-            Style="{StaticResource BodySmall}"
-            Text="{x:Static strings:AppResources.Cultures_NoteExemple}" />
+        </Grid>
 
-    </VerticalStackLayout>
+        <Button
+            Grid.Row="1"
+            SemanticProperties.Description="{x:Static strings:AppResources.Cultures_Ajouter}"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding AjouterCultureCommand}"
+            CornerRadius="28"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            ImageSource="plus.svg"
+            Margin="0,0,16,16"
+            Padding="0"
+            VerticalOptions="End"
+            WidthRequest="56" />
+
+    </Grid>
 
 </ContentPage>

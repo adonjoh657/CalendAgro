@@ -43,9 +43,6 @@ public sealed partial class ParcellesViewModel : ObservableObject
     public ObservableCollection<ParcelleCarte> Items { get; } = [];
 
     [ObservableProperty]
-    public partial string Resume { get; set; } = string.Empty;
-
-    [ObservableProperty]
     public partial bool IsBusy { get; set; } = true;
 
     [ObservableProperty]
@@ -56,8 +53,6 @@ public sealed partial class ParcellesViewModel : ObservableObject
 
     public bool IsContenuVisible => !IsBusy && !HasError;
 
-    public bool ListeVide => IsContenuVisible && Items.Count == 0;
-
     public bool NavigationErreurVisible => NavigationErreur.Length > 0;
 
     public ParcellesViewModel(IParcelleService parcelles, ITabNavigationService tabs)
@@ -67,20 +62,18 @@ public sealed partial class ParcellesViewModel : ObservableObject
     }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public ParcellesViewModel() : this(new FakeParcelleService(new FakeCultureService()), new TabNavigationService())
+    public ParcellesViewModel() : this(DefaultServices.Parcelles, DefaultServices.Navigation)
     {
     }
 
     partial void OnIsBusyChanged(bool value)
     {
         OnPropertyChanged(nameof(IsContenuVisible));
-        OnPropertyChanged(nameof(ListeVide));
     }
 
     partial void OnHasErrorChanged(bool value)
     {
         OnPropertyChanged(nameof(IsContenuVisible));
-        OnPropertyChanged(nameof(ListeVide));
     }
 
     partial void OnNavigationErreurChanged(string value) => OnPropertyChanged(nameof(NavigationErreurVisible));
@@ -95,11 +88,6 @@ public sealed partial class ParcellesViewModel : ObservableObject
         try
         {
             var parcelles = await _parcelles.GetParcellesAsync();
-            var total = parcelles.Sum(p => p.SurfaceHa);
-            Resume = string.Format(
-                AppResources.Parcelles_Resume,
-                parcelles.Count,
-                string.Format(AppResources.Accueil_Hectares, total.ToString("0.00", Francais)));
             Items.Clear();
             foreach (var parcelle in parcelles)
             {
@@ -119,7 +107,6 @@ public sealed partial class ParcellesViewModel : ObservableObject
                     SansTravail = travail is null,
                 });
             }
-            OnPropertyChanged(nameof(ListeVide));
         }
         catch
         {

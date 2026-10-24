@@ -10,31 +10,40 @@ internal static class PageSlideAnimator
     private const uint SlideOutDurationMs = 120;
     private const uint SlideInDurationMs = 200;
 
-    internal static Task SlideOutAsync(VisualElement? content, int step)
+    internal static async Task SlideOutAsync(VisualElement? content, int step)
     {
         if (content is null || step == 0)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        return content.TranslateToAsync(-SlideOffset * step, 0, SlideOutDurationMs, Easing.CubicIn);
+        await SlideXAsync(content, -SlideOffset * step, SlideOutDurationMs, Easing.CubicIn);
     }
 
-    internal static Task SlideInAsync(VisualElement? content, int step)
+    internal static async Task SlideInAsync(VisualElement? content, int step)
     {
         if (content is null)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         if (step == 0)
         {
             // Ouverture par onglet : instantané, état neutre garanti.
             content.TranslationX = 0;
-            return Task.CompletedTask;
+            return;
         }
 
         content.TranslationX = SlideOffset * step;
-        return content.TranslateToAsync(0, 0, SlideInDurationMs, Easing.CubicOut);
+        await SlideXAsync(content, 0, SlideInDurationMs, Easing.CubicOut);
+    }
+
+    // TranslationX seule : le fondu d'entrée (PageTransition) anime TranslationY,
+    // une animation sur les deux axes écraserait l'autre.
+    private static Task SlideXAsync(VisualElement content, double to, uint duration, Easing easing)
+    {
+        var animation = new Animation(value => content.TranslationX = value, content.TranslationX, to, easing);
+        animation.Commit(content, "TabSlideX", 16, duration, finished: (_, _) => content.TranslationX = to);
+        return Task.Delay((int)duration);
     }
 }

@@ -69,7 +69,7 @@ En attente : ta validation avant le commit et la tâche suivante.
 - **Langage** : C# avec `nullable` activé.
 - **Architecture** : **MVVM** avec `CommunityToolkit.Mvvm` (`[ObservableProperty]`, `[RelayCommand]`).
 - **Navigation** : `Shell` avec routes nommées.
-- **Stockage local** : **SQLite** (`sqlite-net-pcl`) pour les parcelles, rappels et préférences ; **données de référence** (cultures, calendriers, conseils) embarquées en **JSON** dans `Resources/Raw/` et chargées au premier lancement.
+- **Stockage local** : **SQLite** (`sqlite-net-pcl`) pour les parcelles, rappels et préférences ; **cultures, étapes et conseils** aussi en SQLite : un **jeu de départ** en JSON (`Resources/Raw/`) est importé au premier lancement, puis l'utilisateur peut le modifier et ajouter ses propres cultures.
 - **Compte et sauvegarde en ligne** : **Supabase** (Auth par email + mot de passe, base Postgres avec Row Level Security). Accès par **REST (`HttpClient`)** de préférence, sans gros SDK (écoconception). Utilisé **uniquement** pour le compte et la synchronisation.
 - **Notifications locales** : `Plugin.LocalNotification` (ou équivalent) pour les rappels, sans serveur.
 - **Injection de dépendances** : conteneur MAUI (`MauiProgram.cs`).
@@ -124,9 +124,11 @@ Avant de proposer un changement : le projet doit **compiler sans avertissement n
 | `Rappel` | Id, EtapeId ou ParcelleId, Date, Actif |
 
 Règles :
-- Les **données de référence** (cultures, étapes, conseils) sont **en lecture seule** dans l'application.
-- Les **données utilisateur** (parcelles, rappels, préférences) sont stockées **d'abord en local (SQLite)**. Si l'utilisateur a un compte et du réseau, elles sont **aussi synchronisées vers Supabase**. Sans compte, elles ne quittent jamais l'appareil.
-- Les périodes agricoles dépendent de la zone et de la saison : ne jamais coder une date en dur dans le code. Tout vient du JSON.
+- Les **cultures, étapes et conseils** sont **modifiables par l'utilisateur** et stockés en SQLite (tables `Cultures`, `Etapes`, `Conseils`). Un jeu de départ de 9 cultures d'exemple est importé au premier lancement ; il porte `EstDeDepart = true`.
+- L'identifiant d'une culture (`CultureId.Creer`) est dérivé de son nom ; les parcelles utilisent la même règle.
+- Les **données utilisateur** (cultures, parcelles, rappels, préférences) sont stockées **d'abord en local (SQLite)**. Si l'utilisateur a un compte et du réseau, elles sont **aussi synchronisées vers Supabase**. Sans compte, elles ne quittent jamais l'appareil.
+- Les périodes agricoles dépendent de la zone et de la saison : ne jamais coder une date en dur dans le code. Tout vient de la base SQLite (jeu de départ ou saisie de l'utilisateur).
+- Le contenu agricole saisi par l'utilisateur n'est pas vérifié par l'application : l'écran de saisie le rappelle.
 - Le contenu agricole d'exemple est **à valider avec une source fiable** (IRAD, MINADER ou un agronome). Ne jamais présenter ces données comme officielles.
 
 ## 6 bis. Compte et synchronisation Supabase
@@ -135,7 +137,7 @@ Règles :
 
 - **Compte** : Supabase Auth, **email + mot de passe**. Le téléphone `+237` est un champ optionnel du profil. Mot de passe oublié : lien envoyé **par email** par Supabase.
 - **Sans compte** : « Continuer sans compte » reste possible ; tout reste local, aucune synchronisation. L'utilisateur pourra créer un compte plus tard : ses données locales sont alors envoyées.
-- **Ce qui est synchronisé** : parcelles, rappels, préférences, profil. **Pas** les données de référence (cultures, étapes, conseils), qui restent embarquées dans l'application.
+- **Ce qui est synchronisé** : cultures, étapes, conseils, parcelles, rappels, préférences, profil.
 - **Colonnes de synchronisation** sur chaque table utilisateur (locale et distante) : `Id` (GUID créé sur l'appareil), `UserId`, `UpdatedAt` (UTC), `IsDeleted` (suppression logique : on marque, on n'efface pas tout de suite).
 - **Conflits** : **la dernière modification gagne** (comparaison de `UpdatedAt`).
 - **File d'attente** : toute écriture locale ajoute une opération à envoyer. L'envoi se fait en arrière-plan quand le réseau revient, avec reprise automatique et nouvelles tentatives espacées. Un échec réseau n'est **jamais** une erreur bloquante pour l'utilisateur ; afficher seulement un indicateur discret (« Synchronisé » / « En attente de réseau »).

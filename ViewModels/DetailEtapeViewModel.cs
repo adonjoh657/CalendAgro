@@ -95,7 +95,7 @@ public sealed partial class DetailEtapeViewModel : ObservableObject
     public DetailEtapeViewModel(ICultureService cultures) => _cultures = cultures;
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public DetailEtapeViewModel() : this(new FakeCultureService())
+    public DetailEtapeViewModel() : this(DefaultServices.Cultures)
     {
     }
 

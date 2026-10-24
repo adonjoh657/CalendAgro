@@ -10,18 +10,16 @@
     x:DataType="vm:DetailTacheViewModel"
     Title="{Binding Titre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding Titre}" />
 
-            <Button
-                Command="{Binding RetourCommand}"
-                ContentLayout="Left,8"
-                HorizontalOptions="Start"
-                ImageSource="arrow_left.svg"
-                Style="{StaticResource TextButton}"
-                Text="{x:Static strings:AppResources.Detail_Retour}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -46,25 +44,18 @@
                 Spacing="24"
                 IsVisible="{Binding IsContenuVisible}">
 
-                <VerticalStackLayout Spacing="4">
-                    <Label
-                        Style="{StaticResource Body}"
-                        Text="{Binding Titre}" />
-                    <Label
-                        Style="{StaticResource BodySmall}"
-                        Text="{Binding Accroche}" />
-                </VerticalStackLayout>
-
-                <HorizontalStackLayout Spacing="8">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                     <controls:StepBadge
+                        Grid.Column="0"
                         Kind="{Binding Kind}"
                         Text="{Binding Phase}"
                         VerticalOptions="Center" />
                     <Label
+                        Grid.Column="1"
                         Style="{StaticResource BodySmall}"
                         Text="{Binding Statut}"
                         VerticalOptions="Center" />
-                </HorizontalStackLayout>
+                </Grid>
 
                 <Border Style="{StaticResource Card}">
                     <VerticalStackLayout Spacing="4">
@@ -125,7 +116,8 @@
 
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

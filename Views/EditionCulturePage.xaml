@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.EditionCulturePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:EditionCultureViewModel"
+    Title="{Binding Titre}">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding Titre}" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Culture_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RetourCommand}"
+                ActionText="{x:Static strings:AppResources.Culture_Retour}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsFormVisible}">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Culture_Nom}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Placeholder="{x:Static strings:AppResources.Culture_NomExemple}"
+                            ReturnType="Next"
+                            Text="{Binding Nom}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
+                        IsVisible="{Binding NomErreurVisible}">
+                        <Image
+                            Grid.Column="0"
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding NomErreur}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Culture_Categorie}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Picker
+                            ItemsSource="{Binding Categories}"
+                            SelectedIndex="{Binding CategorieIndex}"
+                            VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Culture_Cycle}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Entry
+                            Keyboard="Numeric"
+                            ReturnType="Done"
+                            Text="{Binding CycleTexte}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{x:Static strings:AppResources.Culture_CycleAide}" />
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
+                        IsVisible="{Binding CycleErreurVisible}">
+                        <Image
+                            Grid.Column="0"
+                            HeightRequest="20"
+                            Source="x.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource ErrorText}"
+                            Text="{Binding CycleErreur}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </VerticalStackLayout>
+
+                <controls:AppButton
+                    Command="{Binding EnregistrerCommand}"
+                    Text="{x:Static strings:AppResources.Culture_Enregistrer}"
+                    Variant="Accent" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Culture_NoteVerif}" />
+
+            </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

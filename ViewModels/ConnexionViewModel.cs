@@ -52,7 +52,7 @@ public sealed partial class ConnexionViewModel : ObservableObject
     public ConnexionViewModel(IAuthService auth) => _auth = auth;
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public ConnexionViewModel() : this(new FakeAuthService())
+    public ConnexionViewModel() : this(DefaultServices.Authentification)
     {
     }
 
@@ -131,6 +131,9 @@ public sealed partial class ConnexionViewModel : ObservableObject
 
     [RelayCommand]
     private Task ContinuerSansCompteAsync() => Shell.Current.GoToAsync("///accueil");
+
+    [RelayCommand]
+    private Task RetourAsync() => Shell.Current.GoToAsync("..");
 
     private string ValidateIdentifiant(string value)
     {

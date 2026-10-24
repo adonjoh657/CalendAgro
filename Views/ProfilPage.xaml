@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.ProfilPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:ProfilViewModel"
+    Title="{x:Static strings:AppResources.Profil_Titre}">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{x:Static strings:AppResources.Profil_Entete}" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="16,16,16,16"
+                Spacing="16">
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Profil_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RechargerCommand}"
+                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Profil_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsContenuVisible}">
+
+                <VerticalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="8">
+                    <Border
+                        BackgroundColor="{StaticResource Primary}"
+                        HeightRequest="72"
+                        StrokeShape="RoundRectangle 999"
+                        StrokeThickness="0"
+                        WidthRequest="72">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            HorizontalOptions="Center"
+                            Text="{Binding Initiales}"
+                            TextColor="{StaticResource OnPrimary}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Title2}"
+                        Text="{Binding NomAffiche}" />
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource BodySmall}"
+                        Text="{Binding Details}" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label
+                            Style="{StaticResource Title2}"
+                            Text="{x:Static strings:AppResources.Profil_Compte}" />
+
+                        <VerticalStackLayout
+                            Spacing="12"
+                            IsVisible="{Binding EstInvite}">
+                            <controls:AppButton
+                                Command="{Binding CreerCompteCommand}"
+                                Text="{x:Static strings:AppResources.Profil_CreerCompte}" />
+                            <controls:AppButton
+                                Command="{Binding SeConnecterCommand}"
+                                Text="{x:Static strings:AppResources.Profil_SeConnecter}"
+                                Variant="Secondary" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout
+                            Spacing="8"
+                            IsVisible="{Binding EstConnecte}">
+                            <Label
+                                Style="{StaticResource BodySmall}"
+                                Text="{x:Static strings:AppResources.Profil_CompteLocal}" />
+                            <Button
+                                Command="{Binding SeDeconnecterCommand}"
+                                HorizontalOptions="Start"
+                                Style="{StaticResource TextButton}"
+                                Text="{x:Static strings:AppResources.Profil_Deconnexion}"
+                                TextColor="{StaticResource Error}" />
+                            <Label
+                                Style="{StaticResource BodySmall}"
+                                Text="{x:Static strings:AppResources.Profil_DeconnexionNote}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="16">
+                        <Label
+                            Style="{StaticResource Title2}"
+                            Text="{x:Static strings:AppResources.Profil_Preferences}" />
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                Style="{StaticResource Legend}"
+                                Text="{x:Static strings:AppResources.Profil_Langue}" />
+                            <Label
+                                Style="{StaticResource Body}"
+                                Text="{x:Static strings:AppResources.Profil_LangueFrancais}" />
+                            <Label
+                                Style="{StaticResource BodySmall}"
+                                Text="{x:Static strings:AppResources.Profil_LangueNote}" />
+                        </VerticalStackLayout>
+
+                        <BoxView
+                            Color="{StaticResource Border}"
+                            HeightRequest="1" />
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                Style="{StaticResource Legend}"
+                                Text="{x:Static strings:AppResources.Profil_Donnees}" />
+                            <Label
+                                Style="{StaticResource Body}"
+                                Text="{x:Static strings:AppResources.Profil_DonneesEmbarquees}" />
+                            <Label
+                                Style="{StaticResource BodySmall}"
+                                Text="{x:Static strings:AppResources.Profil_DonneesNote}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label
+                    Style="{StaticResource ErrorText}"
+                    IsVisible="{Binding ErreurActionVisible}"
+                    Text="{Binding ErreurAction}" />
+
+            </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

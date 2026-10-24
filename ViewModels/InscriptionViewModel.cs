@@ -70,7 +70,7 @@ public sealed partial class InscriptionViewModel : ObservableObject
     public InscriptionViewModel(IAuthService auth) => _auth = auth;
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public InscriptionViewModel() : this(new FakeAuthService())
+    public InscriptionViewModel() : this(DefaultServices.Authentification)
     {
     }
 
@@ -159,10 +159,10 @@ public sealed partial class InscriptionViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private Task RetourAsync() => Shell.Current.GoToAsync("..");
+    private Task AllerConnexionAsync() => Shell.Current.GoToAsync("connexion");
 
     [RelayCommand]
-    private Task AllerConnexionAsync() => Shell.Current.GoToAsync("connexion");
+    private Task RetourAsync() => Shell.Current.GoToAsync("..");
 
     private bool CanCreerCompte() =>
         !IsBusy

@@ -9,23 +9,16 @@
     x:DataType="vm:InscriptionViewModel"
     Title="{x:Static strings:AppResources.Inscription_Titre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{x:Static strings:AppResources.Inscription_Titre}" />
 
-            <VerticalStackLayout Spacing="8">
-                <Button
-                    Command="{Binding RetourCommand}"
-                    ContentLayout="Left,8"
-                    HorizontalOptions="Start"
-                    ImageSource="arrow_left.svg"
-                    Style="{StaticResource TextButton}"
-                    Text="{x:Static strings:AppResources.Inscription_Retour}" />
-                <Label
-                    Style="{StaticResource BodySmall}"
-                    Text="{x:Static strings:AppResources.Inscription_SousTitre}" />
-            </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -80,13 +73,19 @@
                     Text="{Binding Telephone}" />
 
                 <VerticalStackLayout Spacing="4">
-                    <HorizontalStackLayout Spacing="8">
-                        <CheckBox IsChecked="{Binding Consentement}" VerticalOptions="Center" />
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="8">
+                        <CheckBox
+                            Grid.Column="0"
+                            IsChecked="{Binding Consentement}"
+                            VerticalOptions="Start" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource Body}"
                             Text="{x:Static strings:AppResources.Inscription_Consentement}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                     <Label
                         Style="{StaticResource ErrorText}"
                         Text="{Binding ConsentementErreur}" />
@@ -118,7 +117,8 @@
                 Style="{StaticResource BodySmall}"
                 Text="{x:Static strings:AppResources.Connexion_Pied}" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

@@ -9,23 +9,16 @@
     x:DataType="vm:AjoutParcelleViewModel"
     Title="{x:Static strings:AppResources.Parcelle_Titre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{x:Static strings:AppResources.Parcelle_Titre}" />
 
-            <VerticalStackLayout Spacing="8">
-                <Button
-                    Command="{Binding RetourCommand}"
-                    ContentLayout="Left,8"
-                    HorizontalOptions="Start"
-                    ImageSource="arrow_left.svg"
-                    Style="{StaticResource TextButton}"
-                    Text="{x:Static strings:AppResources.Parcelle_Retour}" />
-                <Label
-                    Style="{StaticResource BodySmall}"
-                    Text="{x:Static strings:AppResources.Parcelle_SousTitre}" />
-            </VerticalStackLayout>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -62,19 +55,22 @@
                     <Label
                         Style="{StaticResource BodySmall}"
                         Text="{x:Static strings:AppResources.Parcelle_NomAide}" />
-                    <HorizontalStackLayout
-                        Spacing="8"
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
                         IsVisible="{Binding NomErreurVisible}">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="20"
                             Source="x.svg"
                             VerticalOptions="Center"
                             WidthRequest="20" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource ErrorText}"
                             Text="{Binding NomErreur}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8">
@@ -88,27 +84,28 @@
                         Stroke="{StaticResource Border}"
                         StrokeShape="RoundRectangle 8"
                         StrokeThickness="1">
-                        <Entry
-                            ReturnType="Next"
-                            Text="{Binding Region}"
+                        <Picker
+                            ItemsSource="{Binding Regions}"
+                            SelectedItem="{Binding Region}"
+                            Title="{x:Static strings:AppResources.Parcelle_RegionChoisir}"
                             VerticalOptions="Center" />
                     </Border>
-                    <Label
-                        Style="{StaticResource BodySmall}"
-                        Text="{x:Static strings:AppResources.Parcelle_RegionAide}" />
-                    <HorizontalStackLayout
-                        Spacing="8"
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
                         IsVisible="{Binding RegionErreurVisible}">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="20"
                             Source="x.svg"
                             VerticalOptions="Center"
                             WidthRequest="20" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource ErrorText}"
                             Text="{Binding RegionErreur}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8">
@@ -123,24 +120,27 @@
                         StrokeShape="RoundRectangle 8"
                         StrokeThickness="1">
                         <Picker
-                            ItemsSource="{Binding CultureNoms}"
-                            SelectedItem="{Binding CultureChoisie}"
-                            Title="{x:Static strings:AppResources.Parcelle_CultureExemple}"
+                            ItemsSource="{Binding Cultures}"
+                            SelectedItem="{Binding Culture}"
+                            Title="{x:Static strings:AppResources.Parcelle_CultureChoisir}"
                             VerticalOptions="Center" />
                     </Border>
-                    <HorizontalStackLayout
-                        Spacing="8"
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
                         IsVisible="{Binding CultureErreurVisible}">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="20"
                             Source="x.svg"
                             VerticalOptions="Center"
                             WidthRequest="20" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource ErrorText}"
                             Text="{Binding CultureErreur}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8">
@@ -160,19 +160,22 @@
                             Text="{Binding SurfaceTexte}"
                             VerticalOptions="Center" />
                     </Border>
-                    <HorizontalStackLayout
-                        Spacing="8"
+                    <Grid
+                        ColumnDefinitions="20,*"
+                        ColumnSpacing="8"
                         IsVisible="{Binding SurfaceErreurVisible}">
                         <Image
+                            Grid.Column="0"
                             HeightRequest="20"
                             Source="x.svg"
                             VerticalOptions="Center"
                             WidthRequest="20" />
                         <Label
+                            Grid.Column="1"
                             Style="{StaticResource ErrorText}"
                             Text="{Binding SurfaceErreur}"
                             VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8">
@@ -208,7 +211,8 @@
 
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

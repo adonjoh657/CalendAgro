@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using CalendAgro.Models;
 using CalendAgro.Resources.Strings;
 using CalendAgro.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,27 +7,29 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CalendAgro.ViewModels;
 
-// Ajout d'une parcelle : nom + région + culture obligatoires,
+// Ajout d'une parcelle : nom, région et culture choisis dans les listes de l'app,
 // surface facultative, date de semis. Bouton désactivé tant qu'invalide.
-[QueryProperty(nameof(CultureId), "cultureId")]
+[QueryProperty(nameof(CultureProposee), "culture")]
 public sealed partial class AjoutParcelleViewModel : ObservableObject
 {
     private static readonly CultureInfo Francais = CultureInfo.GetCultureInfo("fr-FR");
-    private readonly ICultureService _cultures;
     private readonly IParcelleService _parcelles;
-    private readonly Dictionary<string, string> _idsParNom = [];
-    private string _cultureId = string.Empty;
+    private readonly ICultureService _cultures;
+    private string _cultureProposee = string.Empty;
+    private bool _loaded;
 
-    public ObservableCollection<string> CultureNoms { get; } = [];
+    public ObservableCollection<string> Regions { get; } = [];
+
+    public ObservableCollection<string> Cultures { get; } = [];
 
     [ObservableProperty]
     public partial string Nom { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Region { get; set; } = string.Empty;
+    public partial string? Region { get; set; }
 
     [ObservableProperty]
-    public partial string? CultureChoisie { get; set; }
+    public partial string? Culture { get; set; }
 
     [ObservableProperty]
     public partial string SurfaceTexte { get; set; } = string.Empty;
@@ -49,24 +50,30 @@ public sealed partial class AjoutParcelleViewModel : ObservableObject
     public partial string SurfaceErreur { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial bool IsBusy { get; set; }
+    public partial bool IsBusy { get; set; } = true;
 
     [ObservableProperty]
     public partial bool HasError { get; set; }
 
-    public string CultureId
+    [ObservableProperty]
+    public partial bool IsSaving { get; set; }
+
+    public string CultureProposee
     {
-        get => _cultureId;
+        get => _cultureProposee;
         set
         {
-            _cultureId = Uri.UnescapeDataString(value ?? string.Empty);
-            PreselectionnerCulture();
+            _cultureProposee = Uri.UnescapeDataString(value ?? string.Empty);
+            if (_cultureProposee.Length > 0)
+            {
+                Culture = _cultureProposee;
+            }
         }
     }
 
     public bool IsFormVisible => !IsBusy && !HasError;
 
-    public bool CultureEstChoisie => CultureChoisie is not null;
+    public bool CultureEstChoisie => !string.IsNullOrWhiteSpace(Culture);
 
     public bool NomErreurVisible => NomErreur.Length > 0;
 
@@ -76,17 +83,56 @@ public sealed partial class AjoutParcelleViewModel : ObservableObject
 
     public bool SurfaceErreurVisible => SurfaceErreur.Length > 0;
 
-    public AjoutParcelleViewModel(ICultureService cultures, IParcelleService parcelles)
+    public AjoutParcelleViewModel(IParcelleService parcelles, ICultureService cultures)
     {
-        _cultures = cultures;
         _parcelles = parcelles;
-        Region = AppResources.Fiche_ZoneCentre;
-        _ = ChargerCulturesAsync();
+        _cultures = cultures;
     }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public AjoutParcelleViewModel() : this(new FakeCultureService(), new FakeParcelleService(new FakeCultureService()))
+    public AjoutParcelleViewModel() : this(DefaultServices.Parcelles, DefaultServices.Cultures)
     {
+    }
+
+    public async Task LoadAsync()
+    {
+        if (_loaded)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        HasError = false;
+        try
+        {
+            var regions = await _cultures.GetZonesAsync();
+            var cultures = await _cultures.GetCulturesAsync();
+
+            Regions.Clear();
+            foreach (var region in regions)
+            {
+                Regions.Add(region);
+            }
+
+            Cultures.Clear();
+            foreach (var culture in cultures.OrderBy(c => c.Nom, StringComparer.CurrentCultureIgnoreCase))
+            {
+                Cultures.Add(culture.Nom);
+            }
+
+            Culture = _cultureProposee.Length > 0 && Cultures.Contains(_cultureProposee)
+                ? _cultureProposee
+                : null;
+            _loaded = true;
+        }
+        catch
+        {
+            HasError = true;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     partial void OnNomChanged(string value)
@@ -95,15 +141,15 @@ public sealed partial class AjoutParcelleViewModel : ObservableObject
         AjouterCommand.NotifyCanExecuteChanged();
     }
 
-    partial void OnRegionChanged(string value)
+    partial void OnRegionChanged(string? value)
     {
         RegionErreur = string.IsNullOrWhiteSpace(value) ? AppResources.Connexion_ChampObligatoire : string.Empty;
         AjouterCommand.NotifyCanExecuteChanged();
     }
 
-    partial void OnCultureChoisieChanged(string? value)
+    partial void OnCultureChanged(string? value)
     {
-        CultureErreur = value is null ? AppResources.Parcelle_CultureErreur : string.Empty;
+        CultureErreur = string.IsNullOrWhiteSpace(value) ? AppResources.Parcelle_CultureErreur : string.Empty;
         OnPropertyChanged(nameof(CultureEstChoisie));
         AjouterCommand.NotifyCanExecuteChanged();
     }
@@ -130,18 +176,20 @@ public sealed partial class AjoutParcelleViewModel : ObservableObject
 
     partial void OnHasErrorChanged(bool value) => OnPropertyChanged(nameof(IsFormVisible));
 
+    partial void OnIsSavingChanged(bool value) => AjouterCommand.NotifyCanExecuteChanged();
+
     [RelayCommand(CanExecute = nameof(PeutAjouter))]
     private async Task AjouterAsync()
     {
-        IsBusy = true;
+        IsSaving = true;
         HasError = false;
         try
         {
             await _parcelles.AjouterAsync(
                 Nom,
-                _idsParNom[CultureChoisie!],
+                Culture?.Trim() ?? string.Empty,
                 ConvertirSurface(SurfaceTexte),
-                Region,
+                Region ?? string.Empty,
                 DateOnly.FromDateTime(DateSemis));
             await Shell.Current.GoToAsync("..");
         }
@@ -151,7 +199,7 @@ public sealed partial class AjoutParcelleViewModel : ObservableObject
         }
         finally
         {
-            IsBusy = false;
+            IsSaving = false;
         }
     }
 
@@ -160,46 +208,14 @@ public sealed partial class AjoutParcelleViewModel : ObservableObject
 
     private bool PeutAjouter() =>
         !IsBusy
+        && !IsSaving
         && NomErreur.Length == 0
         && RegionErreur.Length == 0
         && CultureErreur.Length == 0
         && SurfaceErreur.Length == 0
-        && Nom.Length > 0
-        && Region.Length > 0
-        && CultureChoisie is not null;
-
-    private async Task ChargerCulturesAsync()
-    {
-        try
-        {
-            var cultures = await _cultures.GetCulturesAsync();
-            CultureNoms.Clear();
-            _idsParNom.Clear();
-            foreach (var culture in cultures)
-            {
-                CultureNoms.Add(culture.Nom);
-                _idsParNom[culture.Nom] = culture.Id;
-            }
-            PreselectionnerCulture();
-        }
-        catch
-        {
-            HasError = true;
-        }
-    }
-
-    private void PreselectionnerCulture()
-    {
-        if (_cultureId.Length == 0 || _idsParNom.Count == 0)
-        {
-            return;
-        }
-        var nom = _idsParNom.FirstOrDefault(p => p.Value == _cultureId).Key;
-        if (nom is not null)
-        {
-            CultureChoisie = nom;
-        }
-    }
+        && !string.IsNullOrWhiteSpace(Nom)
+        && !string.IsNullOrWhiteSpace(Region)
+        && !string.IsNullOrWhiteSpace(Culture);
 
     private static string ValiderSurface(string valeur)
     {

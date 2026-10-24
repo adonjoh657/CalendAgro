@@ -23,9 +23,6 @@ public sealed partial class DetailTacheViewModel : ObservableObject
     public partial string Titre { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Accroche { get; set; } = string.Empty;
-
-    [ObservableProperty]
     public partial StepKind Kind { get; set; } = StepKind.Entretien;
 
     [ObservableProperty]
@@ -69,7 +66,7 @@ public sealed partial class DetailTacheViewModel : ObservableObject
     public DetailTacheViewModel(IAccueilService accueil) => _accueil = accueil;
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public DetailTacheViewModel() : this(new FakeAccueilService())
+    public DetailTacheViewModel() : this(DefaultServices.Accueil)
     {
     }
 
@@ -104,7 +101,6 @@ public sealed partial class DetailTacheViewModel : ObservableObject
                 return;
             }
             Titre = detail.Titre;
-            Accroche = detail.Accroche;
             Kind = BadgeDe(detail.Phase);
             Phase = TypeEtapeLabels.Libelle(detail.Phase);
             EstTerminee = detail.Terminee;

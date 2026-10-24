@@ -10,14 +10,16 @@
     x:DataType="vm:CalendrierViewModel"
     Title="{x:Static strings:AppResources.Calendrier_Titre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="16"
-            Spacing="16">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            ShowBack="False"
+            Title="{x:Static strings:AppResources.Calendrier_Titre}" />
 
-            <Label
-                Style="{StaticResource BodySmall}"
-                Text="{x:Static strings:AppResources.Calendrier_SousTitre}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="16,16,16,16"
+                Spacing="16">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -181,16 +183,18 @@
                                         CommandParameter="{Binding Id}" />
                                 </Border.GestureRecognizers>
                                 <VerticalStackLayout Spacing="8">
-                                    <HorizontalStackLayout Spacing="8">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                         <controls:StepBadge
+                                            Grid.Column="0"
                                             Kind="{Binding Kind}"
                                             Text="{Binding Phase}"
                                             VerticalOptions="Center" />
                                         <Label
+                                            Grid.Column="1"
                                             Style="{StaticResource BodySmall}"
                                             Text="{Binding Jour}"
                                             VerticalOptions="Center" />
-                                    </HorizontalStackLayout>
+                                    </Grid>
                                     <Label
                                         Style="{StaticResource Title2}"
                                         Text="{Binding Titre}" />
@@ -238,7 +242,8 @@
 
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

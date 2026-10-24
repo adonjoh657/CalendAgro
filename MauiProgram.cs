@@ -1,4 +1,5 @@
-﻿using CalendAgro.Services;
+﻿using CalendAgro.Data;
+using CalendAgro.Services;
 using CalendAgro.ViewModels;
 using CalendAgro.Views;
 using Microsoft.Extensions.Logging;
@@ -17,12 +18,16 @@ namespace CalendAgro
                     fonts.AddFont("Inter-Variable.ttf", "Inter");
                 });
 
+            builder.Services.AddSingleton<AppDatabase>();
             builder.Services.AddSingleton<ITabNavigationService, TabNavigationService>();
+            builder.Services.AddSingleton<IProfilService, SQLiteProfilService>();
             builder.Services.AddSingleton<ISessionService, FakeSessionService>();
             builder.Services.AddSingleton<IAuthService, FakeAuthService>();
-            builder.Services.AddSingleton<ICultureService, FakeCultureService>();
-            builder.Services.AddSingleton<IAccueilService, FakeAccueilService>();
-            builder.Services.AddSingleton<IParcelleService, FakeParcelleService>();
+            builder.Services.AddSingleton<ICultureService, SQLiteCultureService>();
+            builder.Services.AddSingleton<ICalendrierService, CalendrierService>();
+            builder.Services.AddSingleton<IParcelleService, SQLiteParcelleService>();
+            builder.Services.AddSingleton<IRappelService, SQLiteRappelService>();
+            builder.Services.AddSingleton<IAccueilService, AccueilService>();
             builder.Services.AddTransient<ConnexionViewModel>();
             builder.Services.AddTransient<ConnexionPage>();
             builder.Services.AddTransient<InscriptionViewModel>();
@@ -35,14 +40,16 @@ namespace CalendAgro
             builder.Services.AddTransient<DetailTachePage>();
             builder.Services.AddTransient<DetailEtapeViewModel>();
             builder.Services.AddTransient<DetailEtapePage>();
+            builder.Services.AddTransient<EditionCultureViewModel>();
+            builder.Services.AddTransient<EditionCulturePage>();
+            builder.Services.AddTransient<EditionEtapeViewModel>();
+            builder.Services.AddTransient<EditionEtapePage>();
             builder.Services.AddTransient<AjoutParcelleViewModel>();
             builder.Services.AddTransient<AjoutParcellePage>();
             builder.Services.AddTransient<FicheParcelleViewModel>();
             builder.Services.AddTransient<FicheParcellePage>();
             builder.Services.AddTransient<DemarrageViewModel>();
             builder.Services.AddTransient<DemarragePage>();
-            builder.Services.AddTransient<CharteViewModel>();
-            builder.Services.AddTransient<ChartePage>();
             builder.Services.AddTransient<AccueilViewModel>();
             builder.Services.AddTransient<AccueilPage>();
             builder.Services.AddTransient<CulturesViewModel>();
@@ -51,8 +58,10 @@ namespace CalendAgro
             builder.Services.AddTransient<CalendrierPage>();
             builder.Services.AddTransient<ParcellesViewModel>();
             builder.Services.AddTransient<ParcellesPage>();
-            builder.Services.AddTransient<ComposantsViewModel>();
-            builder.Services.AddTransient<ComposantsPage>();
+            builder.Services.AddTransient<RappelsViewModel>();
+            builder.Services.AddTransient<RappelsPage>();
+            builder.Services.AddTransient<ProfilViewModel>();
+            builder.Services.AddTransient<ProfilPage>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

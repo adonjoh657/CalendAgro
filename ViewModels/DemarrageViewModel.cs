@@ -31,7 +31,7 @@ public sealed partial class DemarrageViewModel : ObservableObject
     public DemarrageViewModel(ISessionService session) => _session = session;
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public DemarrageViewModel() : this(new FakeSessionService())
+    public DemarrageViewModel() : this(DefaultServices.Session)
     {
     }
 

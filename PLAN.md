@@ -31,21 +31,26 @@ Pour chaque écran : ViewModel + vue + service factice via interface, états nor
 - [x] **14. Calendrier de la saison** (mois en cours, frise fiche avec choix zone et saison). Commit : `feat: calendrier de la saison`
 - [x] **15. Mes parcelles** (liste, état vide avec action). Commit : `feat: liste des parcelles`
 - [x] **16. Créer une parcelle et fiche parcelle** (formulaire validé, fiche avec suppression). Commit : `feat: création et fiche parcelle`
-- [ ] **17. Rappels** (liste, activer / désactiver). Commit : `feat: écran des rappels`
-- [ ] **18. Profil et paramètres** (avatar, langue, mise à jour des données, déconnexion). Commit : `feat: profil et paramètres`
+- [~] **17. Rappels** (liste, activer / désactiver). Commit : `feat: écran des rappels`
+- [~] **18. Profil et paramètres** (avatar, langue, mise à jour des données, déconnexion). Commit : `feat: profil et paramètres`
 
-## Phase C : Vraies données de référence (hors ligne)
+## Phase C : Cultures en SQLite, jeu de départ et saisie par l'utilisateur (hors ligne)
 
-- [ ] **19. Modèles** — `Culture`, `Etape`, `Conseil`, `Zone`, `Saison` (AGENTS.md §6). Commit : `feat: modèles de données`
-- [ ] **20. `cultures.json`** — 9 cultures, 4 zones, 4 saisons, conseils ≤ 12 mots, mention « à valider avec IRAD / MINADER ». Test : tests de chargement du JSON. Commit : `feat: données de référence embarquées`
+Décision : option C. L'app livre 9 cultures d'exemple (non officielles) et l'utilisateur peut les modifier et ajouter les siennes. Les anciennes tâches 19 à 23 sont remplacées par C1 à C5, puis 21, 22 et 23 restent pour les tests et la recherche.
+
+- [~] **C1. Tables et service SQLite des cultures** — `CultureRow`, `EtapeRow`, `ConseilRow`, `SQLiteCultureService` (lecture, recherche sans accents), branchement DI. Remplace `EmptyCultureService`. Commit : `feat: cultures en SQLite`
+- [~] **C2. Jeu de départ `cultures.json`** — 9 cultures, 4 zones, 4 saisons, conseils ≤ 12 mots, mention « exemples non officiels, à valider IRAD / MINADER » ; importé au premier lancement ; date « Données à jour au… ». Commit : `feat: jeu de départ de cultures`
+- [~] **C3. Ajouter, modifier, supprimer une culture** — formulaire validé, protection si une parcelle l'utilise. Commit : `feat: gestion des cultures`
+- [~] **C4. Saisie des étapes** — type, zone, saison, mois. Commit : `feat: saisie des étapes`
+- [~] **C5. Saisie des conseils** — 3 à 4 par étape, 12 mots maximum. Commit : `feat: saisie des conseils`
 - [ ] **21. Service de calendrier** — périodes par culture, zone et saison, avec tests xUnit. Commit : `feat: service de calendrier`
 - [ ] **22. Service de recherche** — accents et majuscules, avec tests. Test : « mais », « Maïs », « MAIS » donnent le même résultat. Commit : `feat: service de recherche`
-- [ ] **23. Brancher les écrans** — remplacer les services factices (catalogue, recherche, fiche, étape, calendrier) ; afficher « Données à jour au … ». Test : tout fonctionne en mode avion. Commit : `feat: branche les données réelles`
+- [ ] **23. Vérifier les écrans de bout en bout** — catalogue, recherche, fiche, étape, calendrier, avec le jeu de départ et une culture saisie. Test : tout fonctionne en mode avion. Commit : `test: cultures de bout en bout`
 
 ## Phase D : Données utilisateur (SQLite)
 
-- [ ] **24. Couche SQLite** — `sqlite-net-pcl`, dépôt asynchrone, création de la base au premier lancement, tests. Les tables utilisateur ont dès le départ `Id` (GUID), `UserId`, `UpdatedAt` (UTC), `IsDeleted`. Commit : `feat: couche SQLite`
-- [ ] **25. Parcelles réelles** — créer, modifier, supprimer, persistance. Test : créer, fermer l'app, retrouver la parcelle. Commit : `feat: parcelles persistées`
+- [x] **24. Couche SQLite** — `sqlite-net-pcl`, dépôt asynchrone, création de la base au premier lancement, tests. Les tables utilisateur ont dès le départ `Id` (GUID), `UserId`, `UpdatedAt` (UTC), `IsDeleted`. Commit : `feat: couche SQLite`
+- [x] **25. Parcelles réelles** — créer, modifier, supprimer, persistance. Test : créer, fermer l'app, retrouver la parcelle. Commit : `feat: parcelles persistées`
 - [ ] **26. Notifications locales** — planification des rappels (`Plugin.LocalNotification`), permission Android. Test (idéalement sur vrai appareil) : la notification arrive à l'heure, sans réseau. Commit : `feat: notifications locales`
 - [ ] **27. Rappels réels** — générés depuis les étapes et les parcelles, activer / désactiver. Commit : `feat: rappels de saison`
 

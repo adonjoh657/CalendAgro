@@ -30,33 +30,39 @@
         <Label
             x:Name="AideLabel"
             Style="{StaticResource BodySmall}" />
-        <HorizontalStackLayout
+        <Grid
             x:Name="ErreurRow"
-            IsVisible="False"
-            Spacing="8">
+            ColumnDefinitions="20,*"
+            ColumnSpacing="8"
+            IsVisible="False">
             <Image
+                Grid.Column="0"
                 HeightRequest="20"
                 Source="x.svg"
                 VerticalOptions="Center"
                 WidthRequest="20" />
             <Label
                 x:Name="ErreurLabel"
+                Grid.Column="1"
                 Style="{StaticResource ErrorText}"
                 VerticalOptions="Center" />
-        </HorizontalStackLayout>
-        <HorizontalStackLayout
+        </Grid>
+        <Grid
             x:Name="SuccesRow"
-            IsVisible="False"
-            Spacing="8">
+            ColumnDefinitions="20,*"
+            ColumnSpacing="8"
+            IsVisible="False">
             <Image
+                Grid.Column="0"
                 HeightRequest="20"
                 Source="check.svg"
                 VerticalOptions="Center"
                 WidthRequest="20" />
             <Label
                 x:Name="SuccesLabel"
+                Grid.Column="1"
                 Style="{StaticResource SuccessText}"
                 VerticalOptions="Center" />
-        </HorizontalStackLayout>
+        </Grid>
     </VerticalStackLayout>
 </ContentView>

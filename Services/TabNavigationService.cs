@@ -11,6 +11,25 @@ public sealed class TabNavigationService : ITabNavigationService
 
     public Task GoPreviousAsync() => GoAsync(-1);
 
+    public async Task GoHomeAsync()
+    {
+        var shell = Shell.Current;
+        if (shell is null)
+        {
+            return;
+        }
+
+        var current = shell.CurrentState?.Location.OriginalString.Split('/').LastOrDefault();
+        if (current == OrderedRoutes[0])
+        {
+            return;
+        }
+
+        _lastStep = -1;
+        await PageSlideAnimator.SlideOutAsync((shell.CurrentPage as ContentPage)?.Content as VisualElement, -1);
+        await shell.GoToAsync($"///{OrderedRoutes[0]}");
+    }
+
     public int ConsumeLastStep()
     {
         var step = _lastStep;

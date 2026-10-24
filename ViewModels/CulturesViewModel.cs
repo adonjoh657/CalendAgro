@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CalendAgro.ViewModels;
 
-// Catalogue : recherche directe, filtre par catégorie, états.
+// Catalogue : recherche directe et états.
 public sealed partial class CulturesViewModel : ObservableObject
 {
     private readonly ICultureService _cultures;
@@ -16,20 +16,11 @@ public sealed partial class CulturesViewModel : ObservableObject
 
     public ObservableCollection<Culture> Resultats { get; } = [];
 
-    public IReadOnlyList<string> Categories { get; } =
-    [
-        AppResources.Cultures_Toutes,
-        AppResources.Cultures_Cereale,
-        AppResources.Cultures_Tubercule,
-        AppResources.Cultures_Legume,
-        AppResources.Cultures_Rente,
-    ];
-
     [ObservableProperty]
     public partial string Recherche { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string CategorieChoisie { get; set; } = string.Empty;
+    public partial string NbResultats { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial bool IsBusy { get; set; } = true;
@@ -40,25 +31,36 @@ public sealed partial class CulturesViewModel : ObservableObject
     [ObservableProperty]
     public partial string NavigationErreur { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial bool RechercheVisible { get; set; }
+
     public bool IsListeVisible => !IsBusy && !HasError;
 
     public bool NavigationErreurVisible => NavigationErreur.Length > 0;
+
+    // Catalogue de référence vide (aucune recherche)
+    // ou aucun résultat pour la recherche en cours.
+    public bool CatalogueVide => Resultats.Count == 0 && Recherche.Length == 0;
+
+    public string MessageVide =>
+        CatalogueVide ? AppResources.Cultures_Aucune : AppResources.Cultures_AucunResultat;
+
+    public string ActionVide => CatalogueVide ? string.Empty : AppResources.Cultures_Effacer;
+
+    public bool NbResultatsVisible => Resultats.Count > 0;
 
     public CulturesViewModel(ICultureService cultures, ITabNavigationService tabs)
     {
         _cultures = cultures;
         _tabs = tabs;
-        CategorieChoisie = AppResources.Cultures_Toutes;
     }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public CulturesViewModel() : this(new FakeCultureService(), new TabNavigationService())
+    public CulturesViewModel() : this(DefaultServices.Cultures, DefaultServices.Navigation)
     {
     }
 
     partial void OnRechercheChanged(string value) => _ = FiltrerAsync();
-
-    partial void OnCategorieChoisieChanged(string value) => _ = FiltrerAsync();
 
     partial void OnIsBusyChanged(bool value) => OnPropertyChanged(nameof(IsListeVisible));
 
@@ -70,6 +72,8 @@ public sealed partial class CulturesViewModel : ObservableObject
     {
         if (_started)
         {
+            // Retour sur l'écran (après ajout, modification ou suppression) : liste à jour sans écran de chargement.
+            await FiltrerAsync();
             return;
         }
         _started = true;
@@ -83,7 +87,6 @@ public sealed partial class CulturesViewModel : ObservableObject
         HasError = false;
         try
         {
-            await _cultures.GetCulturesAsync();
             await FiltrerAsync();
         }
         catch
@@ -97,10 +100,19 @@ public sealed partial class CulturesViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void BasculerRecherche()
+    {
+        RechercheVisible = !RechercheVisible;
+        if (!RechercheVisible)
+        {
+            Recherche = string.Empty;
+        }
+    }
+
+    [RelayCommand]
     private void EffacerRecherche()
     {
         Recherche = string.Empty;
-        CategorieChoisie = AppResources.Cultures_Toutes;
     }
 
     [RelayCommand]
@@ -108,12 +120,28 @@ public sealed partial class CulturesViewModel : ObservableObject
     {
         try
         {
-            // Route enregistrée par l'écran fiche culture (tâche suivante).
             await Shell.Current.GoToAsync($"fiche-culture?cultureId={cultureId}");
         }
         catch
         {
             NavigationErreur = AppResources.Cultures_FicheEnCours;
+        }
+    }
+
+    [RelayCommand]
+    private async Task AjouterCultureAsync()
+    {
+        try
+        {
+            // La culture créée n'a pas encore d'étapes : on quitte la recherche en cours
+            // pour qu'elle soit visible au retour, sans filtre qui la masque.
+            Recherche = string.Empty;
+            RechercheVisible = false;
+            await Shell.Current.GoToAsync("edition-culture");
+        }
+        catch
+        {
+            NavigationErreur = AppResources.Connexion_ErreurLien;
         }
     }
 
@@ -128,12 +156,14 @@ public sealed partial class CulturesViewModel : ObservableObject
         try
         {
             NavigationErreur = string.Empty;
-            var cultures = await _cultures.SearchAsync(Recherche, CategorieDe(CategorieChoisie));
+            var cultures = await _cultures.SearchAsync(Recherche);
             Resultats.Clear();
             foreach (var culture in cultures)
             {
                 Resultats.Add(culture);
             }
+            NbResultats = string.Format(AppResources.Cultures_NbDisponibles, Resultats.Count);
+            NotifierEtatsVides();
         }
         catch
         {
@@ -141,24 +171,11 @@ public sealed partial class CulturesViewModel : ObservableObject
         }
     }
 
-    private static CategorieCulture? CategorieDe(string libelle)
+    private void NotifierEtatsVides()
     {
-        if (libelle == AppResources.Cultures_Cereale)
-        {
-            return CategorieCulture.Cereale;
-        }
-        if (libelle == AppResources.Cultures_Tubercule)
-        {
-            return CategorieCulture.Tubercule;
-        }
-        if (libelle == AppResources.Cultures_Legume)
-        {
-            return CategorieCulture.Legume;
-        }
-        if (libelle == AppResources.Cultures_Rente)
-        {
-            return CategorieCulture.Rente;
-        }
-        return null;
+        OnPropertyChanged(nameof(CatalogueVide));
+        OnPropertyChanged(nameof(MessageVide));
+        OnPropertyChanged(nameof(ActionVide));
+        OnPropertyChanged(nameof(NbResultatsVisible));
     }
 }

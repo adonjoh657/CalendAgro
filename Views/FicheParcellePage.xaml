@@ -9,18 +9,16 @@
     x:DataType="vm:FicheParcelleViewModel"
     Title="{Binding Nom}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding Nom}" />
 
-            <Button
-                Command="{Binding RetourCommand}"
-                ContentLayout="Left,8"
-                HorizontalOptions="Start"
-                ImageSource="arrow_left.svg"
-                Style="{StaticResource TextButton}"
-                Text="{x:Static strings:AppResources.Parcelle_Retour}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -72,16 +70,18 @@
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OuvrirTravailCommand}" />
                         </Border.GestureRecognizers>
-                        <HorizontalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                             <controls:StepBadge
+                                Grid.Column="0"
                                 Kind="{Binding Kind}"
                                 Text="{Binding Phase}"
                                 VerticalOptions="Center" />
                             <Label
+                                Grid.Column="1"
                                 Style="{StaticResource Body}"
                                 Text="{Binding Prochain}"
                                 VerticalOptions="Center" />
-                        </HorizontalStackLayout>
+                        </Grid>
                     </Border>
                     <Label
                         Style="{StaticResource Body}"
@@ -103,7 +103,8 @@
 
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

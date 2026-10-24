@@ -23,26 +23,15 @@ public sealed class MoisLigne
     public bool SansPhase => !AvecPhase;
 }
 
-// Conseils d'une phase : badge + textes.
-public sealed class PhaseConseils
-{
-    public StepKind Kind { get; init; }
-
-    public required string Titre { get; init; }
-
-    public required IReadOnlyList<string> Textes { get; init; }
-}
-
-// Fiche culture : frise 12 mois + conseils, exemple Centre non officiel.
+// Fiche culture : frise 12 mois, zone et saison.
 [QueryProperty(nameof(CultureId), "cultureId")]
 public sealed partial class FicheCultureViewModel : ObservableObject
 {
     private readonly ICultureService _cultures;
+    private readonly IParcelleService _parcelles;
     private string _cultureId = string.Empty;
 
     public ObservableCollection<MoisLigne> Mois { get; } = [];
-
-    public ObservableCollection<PhaseConseils> Phases { get; } = [];
 
     public ObservableCollection<string> Zones { get; } = [];
 
@@ -56,9 +45,6 @@ public sealed partial class FicheCultureViewModel : ObservableObject
 
     [ObservableProperty]
     public partial string Nom { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Cycle { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Region { get; set; } = string.Empty;
@@ -89,10 +75,14 @@ public sealed partial class FicheCultureViewModel : ObservableObject
 
     public bool NavigationErreurVisible => NavigationErreur.Length > 0;
 
-    public FicheCultureViewModel(ICultureService cultures) => _cultures = cultures;
+    public FicheCultureViewModel(ICultureService cultures, IParcelleService parcelles)
+    {
+        _cultures = cultures;
+        _parcelles = parcelles;
+    }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public FicheCultureViewModel() : this(new FakeCultureService())
+    public FicheCultureViewModel() : this(DefaultServices.Cultures, DefaultServices.Parcelles)
     {
     }
 
@@ -108,7 +98,7 @@ public sealed partial class FicheCultureViewModel : ObservableObject
     {
         if (value is not null && !IsBusy)
         {
-            _ = RechargerAsync();
+            _ = ChangerZoneAsync();
         }
     }
 
@@ -116,7 +106,7 @@ public sealed partial class FicheCultureViewModel : ObservableObject
     {
         if (value is not null && !IsBusy)
         {
-            _ = RechargerAsync();
+            _ = RechargerCalendrierAsync();
         }
     }
 
@@ -135,17 +125,20 @@ public sealed partial class FicheCultureViewModel : ObservableObject
                 return;
             }
             Nom = culture.Nom;
-            Cycle = string.Format(AppResources.Fiche_CycleIndicatif, culture.CycleTexte);
-            await ChargerListesAsync();
-            ZoneChoisie ??= AppResources.Fiche_ZoneCentre;
-            SaisonChoisie ??= AppResources.Fiche_SaisonPetitePluies;
-            Region = string.Format(AppResources.Fiche_RegionExemple, ZoneChoisie);
 
-            var etapes = await _cultures.GetEtapesAsync(_cultureId, ZoneChoisie, SaisonChoisie);
-            RemplirMois(etapes);
+            await ChargerZonesAsync();
+            if (ZoneChoisie is null || !Zones.Contains(ZoneChoisie))
+            {
+                ZoneChoisie = Zones.FirstOrDefault();
+            }
 
-            var conseils = await _cultures.GetConseilsAsync(_cultureId);
-            RemplirPhases(conseils);
+            await ChargerSaisonsAsync(ZoneChoisie);
+            if (SaisonChoisie is null || !Saisons.Contains(SaisonChoisie))
+            {
+                SaisonChoisie = Saisons.FirstOrDefault();
+            }
+
+            await RemplirCalendrierAsync();
         }
         catch
         {
@@ -157,25 +150,148 @@ public sealed partial class FicheCultureViewModel : ObservableObject
         }
     }
 
+    // La région change : ses saisons changent aussi, on repart de la première.
+    private async Task ChangerZoneAsync()
+    {
+        IsBusy = true;
+        HasError = false;
+        try
+        {
+            await ChargerSaisonsAsync(ZoneChoisie);
+            SaisonChoisie = Saisons.FirstOrDefault();
+            await RemplirCalendrierAsync();
+        }
+        catch
+        {
+            HasError = true;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private async Task RechargerCalendrierAsync()
+    {
+        IsBusy = true;
+        HasError = false;
+        try
+        {
+            await RemplirCalendrierAsync();
+        }
+        catch
+        {
+            HasError = true;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private async Task RemplirCalendrierAsync()
+    {
+        if (ZoneChoisie is null || SaisonChoisie is null)
+        {
+            return;
+        }
+
+        Region = string.Format(AppResources.Fiche_RegionExemple, ZoneChoisie);
+        var etapes = await _cultures.GetEtapesAsync(_cultureId, ZoneChoisie, SaisonChoisie);
+        RemplirMois(etapes);
+    }
+
     [RelayCommand]
-    private async Task OuvrirEtapeAsync(Controls.StepKind kind)
+    private async Task OuvrirOptionsAsync()
+    {
+        var choix = await Shell.Current.DisplayActionSheetAsync(
+            AppResources.Fiche_Options,
+            AppResources.Fiche_SupprimerNon,
+            AppResources.Fiche_Supprimer,
+            AppResources.Fiche_ModifierCulture,
+            AppResources.Fiche_ModifierSemis,
+            AppResources.Fiche_ModifierEntretien,
+            AppResources.Fiche_ModifierRecolte);
+
+        if (choix == AppResources.Fiche_ModifierCulture)
+        {
+            await ModifierCultureAsync();
+        }
+        else if (choix == AppResources.Fiche_ModifierSemis)
+        {
+            await OuvrirEditionEtapeAsync(TypeEtape.Semis);
+        }
+        else if (choix == AppResources.Fiche_ModifierEntretien)
+        {
+            await OuvrirEditionEtapeAsync(TypeEtape.Entretien);
+        }
+        else if (choix == AppResources.Fiche_ModifierRecolte)
+        {
+            await OuvrirEditionEtapeAsync(TypeEtape.Recolte);
+        }
+        else if (choix == AppResources.Fiche_Supprimer)
+        {
+            await SupprimerAsync();
+        }
+    }
+
+    private async Task ModifierCultureAsync()
     {
         try
         {
-            var phase = kind switch
-            {
-                Controls.StepKind.Entretien => TypeEtape.Entretien,
-                Controls.StepKind.Recolte => TypeEtape.Recolte,
-                _ => TypeEtape.Semis,
-            };
+            await Shell.Current.GoToAsync($"edition-culture?cultureId={Uri.EscapeDataString(_cultureId)}");
+        }
+        catch
+        {
+            NavigationErreur = AppResources.Connexion_ErreurLien;
+        }
+    }
+
+    // Ouvre la saisie de la période et des conseils d'une phase, pour la zone et la saison choisies.
+    private async Task OuvrirEditionEtapeAsync(TypeEtape phase)
+    {
+        try
+        {
             await Shell.Current.GoToAsync(
-                $"detail-etape?cultureId={_cultureId}&phase={phase}" +
+                $"edition-etape?cultureId={Uri.EscapeDataString(_cultureId)}&phase={phase}" +
                 $"&zone={Uri.EscapeDataString(ZoneChoisie ?? string.Empty)}" +
                 $"&saison={Uri.EscapeDataString(SaisonChoisie ?? string.Empty)}");
         }
         catch
         {
             NavigationErreur = AppResources.Connexion_ErreurLien;
+        }
+    }
+
+    private async Task SupprimerAsync()
+    {
+        NavigationErreur = string.Empty;
+        try
+        {
+            var utilisee = (await _parcelles.GetParcellesAsync())
+                .Any(p => string.Equals(p.CultureId, _cultureId, StringComparison.Ordinal));
+            if (utilisee)
+            {
+                NavigationErreur = AppResources.Fiche_SuppressionImpossible;
+                return;
+            }
+
+            var confirme = await Shell.Current.DisplayAlertAsync(
+                AppResources.Fiche_SupprimerTitre,
+                AppResources.Fiche_SupprimerMessage,
+                AppResources.Fiche_SupprimerOui,
+                AppResources.Fiche_SupprimerNon);
+            if (!confirme)
+            {
+                return;
+            }
+
+            await _cultures.SupprimerCultureAsync(_cultureId);
+            await Shell.Current.GoToAsync("..");
+        }
+        catch
+        {
+            NavigationErreur = AppResources.Fiche_SuppressionErreur;
         }
     }
 
@@ -191,7 +307,7 @@ public sealed partial class FicheCultureViewModel : ObservableObject
         try
         {
             // Route enregistrée par l'écran ajout de parcelle (tâche suivante).
-            await Shell.Current.GoToAsync($"ajout-parcelle?cultureId={_cultureId}");
+            await Shell.Current.GoToAsync($"ajout-parcelle?culture={Uri.EscapeDataString(Nom)}");
         }
         catch
         {
@@ -199,21 +315,30 @@ public sealed partial class FicheCultureViewModel : ObservableObject
         }
     }
 
-    private async Task ChargerListesAsync()
+    private async Task ChargerZonesAsync()
     {
-        if (Zones.Count == 0)
+        if (Zones.Count > 0)
         {
-            foreach (var zone in await _cultures.GetZonesAsync())
-            {
-                Zones.Add(zone);
-            }
+            return;
         }
-        if (Saisons.Count == 0)
+
+        foreach (var zone in await _cultures.GetZonesAsync())
         {
-            foreach (var saison in await _cultures.GetSaisonsAsync())
-            {
-                Saisons.Add(saison);
-            }
+            Zones.Add(zone);
+        }
+    }
+
+    private async Task ChargerSaisonsAsync(string? zone)
+    {
+        Saisons.Clear();
+        if (zone is null)
+        {
+            return;
+        }
+
+        foreach (var saison in await _cultures.GetSaisonsAsync(zone))
+        {
+            Saisons.Add(saison);
         }
     }
 
@@ -241,31 +366,6 @@ public sealed partial class FicheCultureViewModel : ObservableObject
                 Kind = kind,
                 PhaseLabel = TypeEtapeLabels.Libelle(PhaseDe(kind)),
                 AvecPhase = etape is not null,
-            });
-        }
-    }
-
-    private void RemplirPhases(IReadOnlyList<Conseil> conseils)
-    {
-        Phases.Clear();
-        foreach (var phase in new[] { TypeEtape.Semis, TypeEtape.Entretien, TypeEtape.Recolte })
-        {
-            var kind = phase switch
-            {
-                TypeEtape.Semis => StepKind.Semis,
-                TypeEtape.Entretien => StepKind.Entretien,
-                _ => StepKind.Recolte,
-            };
-            var textes = conseils
-                .Where(c => c.Phase == phase)
-                .OrderBy(c => c.Ordre)
-                .Select(c => c.Texte)
-                .ToArray();
-            Phases.Add(new PhaseConseils
-            {
-                Kind = kind,
-                Titre = TypeEtapeLabels.Libelle(PhaseDe(kind)),
-                Textes = textes,
             });
         }
     }

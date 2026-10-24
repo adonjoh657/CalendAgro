@@ -88,7 +88,7 @@ public sealed partial class MotDePasseOublieViewModel : ObservableObject
     public MotDePasseOublieViewModel(IAuthService auth) => _auth = auth;
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public MotDePasseOublieViewModel() : this(new FakeAuthService())
+    public MotDePasseOublieViewModel() : this(DefaultServices.Authentification)
     {
     }
 
@@ -226,13 +226,13 @@ public sealed partial class MotDePasseOublieViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private Task RetourAsync() => Shell.Current.GoToAsync("..");
-
-    [RelayCommand]
     private Task RetourConnexionAsync() => Shell.Current.GoToAsync("connexion");
 
     [RelayCommand]
     private Task ContinuerSansCompteAsync() => Shell.Current.GoToAsync("///accueil");
+
+    [RelayCommand]
+    private Task RetourAsync() => Shell.Current.GoToAsync("..");
 
     private bool CanEnvoyerCode() =>
         !IsBusy && Identifiant.Length > 0 && IdentifiantErreur.Length == 0;

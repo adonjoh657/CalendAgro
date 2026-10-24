@@ -9,18 +9,16 @@
     x:DataType="vm:DetailEtapeViewModel"
     Title="{Binding PhaseTitre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding NomCulture}" />
 
-            <Button
-                Command="{Binding RetourCommand}"
-                ContentLayout="Left,8"
-                HorizontalOptions="Start"
-                ImageSource="arrow_left.svg"
-                Style="{StaticResource TextButton}"
-                Text="{Binding NomCulture}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -67,17 +65,19 @@
                     BindableLayout.ItemsSource="{Binding Conseils}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <HorizontalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
                                 <Image
+                                    Grid.Column="0"
                                     HeightRequest="20"
                                     Source="check.svg"
                                     VerticalOptions="Start"
                                     WidthRequest="20" />
                                 <Label
+                                    Grid.Column="1"
                                     Style="{StaticResource Body}"
                                     Text="{Binding .}"
                                     VerticalOptions="Center" />
-                            </HorizontalStackLayout>
+                            </Grid>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
@@ -88,7 +88,8 @@
 
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

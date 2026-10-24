@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CalendAgro.Views.EditionEtapePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:CalendAgro.Controls"
+    xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
+    xmlns:vm="clr-namespace:CalendAgro.ViewModels"
+    x:DataType="vm:EditionEtapeViewModel"
+    Title="{Binding Titre}">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding Titre}" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,24"
+                Spacing="24">
+
+            <controls:StateView
+                IsVisible="{Binding IsBusy}"
+                Message="{x:Static strings:AppResources.Culture_Chargement}"
+                State="Loading" />
+
+            <controls:StateView
+                ActionCommand="{Binding RetourCommand}"
+                ActionText="{x:Static strings:AppResources.Culture_Retour}"
+                IsVisible="{Binding HasError}"
+                Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                State="Error" />
+
+            <VerticalStackLayout
+                Spacing="16"
+                IsVisible="{Binding IsFormVisible}">
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Etape_Debut}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Picker
+                            ItemsSource="{Binding Mois}"
+                            SelectedIndex="{Binding DebutIndex}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource ErrorText}"
+                        IsVisible="{Binding DebutErreurVisible}"
+                        Text="{x:Static strings:AppResources.Etape_MoisErreur}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Style="{StaticResource Legend}"
+                        Text="{x:Static strings:AppResources.Etape_Fin}" />
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        HeightRequest="56"
+                        Padding="16,0"
+                        Stroke="{StaticResource Border}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="1">
+                        <Picker
+                            ItemsSource="{Binding Mois}"
+                            SelectedIndex="{Binding FinIndex}"
+                            VerticalOptions="Center" />
+                    </Border>
+                    <Label
+                        Style="{StaticResource BodySmall}"
+                        Text="{x:Static strings:AppResources.Etape_FinAide}" />
+                    <Label
+                        Style="{StaticResource ErrorText}"
+                        IsVisible="{Binding FinErreurVisible}"
+                        Text="{x:Static strings:AppResources.Etape_MoisErreur}" />
+                </VerticalStackLayout>
+
+                <Label
+                    Style="{StaticResource Title2}"
+                    Text="{x:Static strings:AppResources.Etape_Conseils}" />
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Etape_ConseilsNote}" />
+
+                <VerticalStackLayout
+                    Spacing="16"
+                    BindableLayout.ItemsSource="{Binding Conseils}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ConseilSaisie">
+                            <VerticalStackLayout Spacing="8">
+                                <Label
+                                    Style="{StaticResource Legend}"
+                                    Text="{Binding Libelle}" />
+                                <Border
+                                    BackgroundColor="{StaticResource Surface}"
+                                    HeightRequest="56"
+                                    Padding="16,0"
+                                    Stroke="{StaticResource Border}"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="1">
+                                    <Entry
+                                        ReturnType="Next"
+                                        Text="{Binding Texte}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                                <Label
+                                    Style="{StaticResource BodySmall}"
+                                    Text="{x:Static strings:AppResources.Etape_ConseilAide}" />
+                                <Grid
+                                    ColumnDefinitions="20,*"
+                                    ColumnSpacing="8"
+                                    IsVisible="{Binding ErreurVisible}">
+                                    <Image
+                                        Grid.Column="0"
+                                        HeightRequest="20"
+                                        Source="x.svg"
+                                        VerticalOptions="Center"
+                                        WidthRequest="20" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Style="{StaticResource ErrorText}"
+                                        Text="{Binding Erreur}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <controls:AppButton
+                    Command="{Binding EnregistrerCommand}"
+                    Text="{x:Static strings:AppResources.Culture_Enregistrer}"
+                    Variant="Accent" />
+
+                <controls:AppButton
+                    Command="{Binding SupprimerEtapeCommand}"
+                    IsVisible="{Binding EtapeExiste}"
+                    Text="{x:Static strings:AppResources.Etape_Supprimer}"
+                    Variant="Secondary" />
+
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{x:Static strings:AppResources.Culture_NoteVerif}" />
+
+            </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

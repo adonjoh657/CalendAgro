@@ -51,21 +51,6 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <!-- Page test charte graphique (français par défaut) -->
-  <data name="Charte_Titre" xml:space="preserve"><value>Charte graphique</value></data>
-  <data name="Charte_SousTitre" xml:space="preserve"><value>Couleurs, titres et boutons de CalendAgro.</value></data>
-  <data name="Charte_SectionCouleurs" xml:space="preserve"><value>Couleurs</value></data>
-  <data name="Charte_SectionTypo" xml:space="preserve"><value>Titres et textes</value></data>
-  <data name="Charte_SectionBoutons" xml:space="preserve"><value>Boutons 56</value></data>
-  <data name="Charte_SectionPhases" xml:space="preserve"><value>Phases : icône et libellé</value></data>
-  <data name="Charte_TitreExemple" xml:space="preserve"><value>Chaque saison se prépare.</value></data>
-  <data name="Charte_SousTitreExemple" xml:space="preserve"><value>Les prochains travaux</value></data>
-  <data name="Charte_CorpsExemple" xml:space="preserve"><value>Retrouvez vos tâches, même sans réseau.</value></data>
-  <data name="Charte_PetitExemple" xml:space="preserve"><value>Dates indicatives, à adapter aux conditions locales.</value></data>
-  <data name="Charte_LegendeExemple" xml:space="preserve"><value>Enregistré sur cet appareil</value></data>
-  <data name="Charte_BoutonPrimaire" xml:space="preserve"><value>Continuer</value></data>
-  <data name="Charte_BoutonAccent" xml:space="preserve"><value>Voir la récolte</value></data>
-  <data name="Charte_BoutonDesactive" xml:space="preserve"><value>Chargement…</value></data>
-  <data name="Charte_NoteHorsLigne" xml:space="preserve"><value>Utilisable hors ligne</value></data>
   <data name="Charte_BadgeSemis" xml:space="preserve"><value>Semis</value></data>
   <data name="Charte_BadgeEntretien" xml:space="preserve"><value>Entretien</value></data>
   <data name="Charte_BadgeRecolte" xml:space="preserve"><value>Récolte</value></data>
@@ -77,9 +62,7 @@
   <!-- Pages vides -->
   <data name="Accueil_Titre" xml:space="preserve"><value>Accueil</value></data>
   <!-- Accueil réel -->
-  <data name="Accueil_Bonjour" xml:space="preserve"><value>Bonjour, {0}</value></data>
-  <data name="Accueil_Pays" xml:space="preserve"><value>Cameroun</value></data>
-  <data name="Accueil_CetteSemaine" xml:space="preserve"><value>cette semaine</value></data>
+  <data name="Accueil_ATraiter" xml:space="preserve"><value>à venir</value></data>
   <data name="Accueil_DansCarnet" xml:space="preserve"><value>dans votre carnet</value></data>
   <data name="Accueil_TravauxAVenir" xml:space="preserve"><value>Travaux à venir</value></data>
   <data name="Accueil_Aujourdhui" xml:space="preserve"><value>Aujourd'hui</value></data>
@@ -89,37 +72,61 @@
   <data name="Accueil_AuTotal" xml:space="preserve"><value>{0} au total</value></data>
   <data name="Accueil_NoteIndicative" xml:space="preserve"><value>Repères indicatifs : adaptez les travaux à la météo et à vos observations.</value></data>
   <data name="Accueil_AucunTravail" xml:space="preserve"><value>Aucun travail à venir.</value></data>
+  <data name="Accueil_AucuneParcelle" xml:space="preserve"><value>Aucune parcelle enregistrée.</value></data>
   <data name="Accueil_Chargement" xml:space="preserve"><value>Chargement de l'accueil…</value></data>
   <data name="Accueil_DetailEnCours" xml:space="preserve"><value>Écran détail en cours de création.</value></data>
   <data name="Cultures_Titre" xml:space="preserve"><value>Cultures</value></data>
   <data name="Cultures_Recherche" xml:space="preserve"><value>Rechercher une culture</value></data>
-  <data name="Cultures_Categorie" xml:space="preserve"><value>Catégorie</value></data>
-  <data name="Cultures_Toutes" xml:space="preserve"><value>Toutes</value></data>
-  <data name="Cultures_Cereale" xml:space="preserve"><value>Céréale</value></data>
-  <data name="Cultures_Tubercule" xml:space="preserve"><value>Tubercule</value></data>
-  <data name="Cultures_Legume" xml:space="preserve"><value>Légume</value></data>
-  <data name="Cultures_Rente" xml:space="preserve"><value>Culture de rente</value></data>
-  <data name="Cultures_CycleJours" xml:space="preserve"><value>Cycle de {0} jours</value></data>
+  <data name="Cultures_Aucune" xml:space="preserve"><value>Aucune culture disponible pour le moment.</value></data>
   <data name="Cultures_AucunResultat" xml:space="preserve"><value>Aucun résultat.</value></data>
   <data name="Cultures_Effacer" xml:space="preserve"><value>Effacer la recherche</value></data>
-  <data name="Cultures_NoteExemple" xml:space="preserve"><value>Périodes d'exemple, à valider localement.</value></data>
   <data name="Cultures_FicheEnCours" xml:space="preserve"><value>Fiche culture en cours de création.</value></data>
   <data name="Cultures_Chargement" xml:space="preserve"><value>Chargement des cultures…</value></data>
+  <data name="Cultures_Entete" xml:space="preserve"><value>Catalogue</value></data>
+  <data name="Cultures_NbDisponibles" xml:space="preserve"><value>{0} cultures disponibles</value></data>
+  <data name="Cultures_CycleCourt" xml:space="preserve"><value>Cycle court</value></data>
+  <data name="Cultures_CycleLong" xml:space="preserve"><value>Cycle long</value></data>
   <data name="Calendrier_Titre" xml:space="preserve"><value>Calendrier</value></data>
-  <data name="Calendrier_Vide" xml:space="preserve"><value>Vos repères culturaux apparaîtront ici.</value></data>
   <data name="Parcelles_Titre" xml:space="preserve"><value>Parcelles</value></data>
-  <data name="Parcelles_Vide" xml:space="preserve"><value>Ajoutez votre première parcelle.</value></data>
+  <data name="Parcelles_Entete" xml:space="preserve"><value>Parcelles</value></data>
   <!-- Parcelles réelles -->
-  <data name="Parcelles_Resume" xml:space="preserve"><value>{0} parcelles · {1} suivis dans votre carnet</value></data>
-  <data name="Parcelles_Exploitation" xml:space="preserve"><value>Exploitation de Mireille · Cameroun</value></data>
+  <data name="Parcelles_Exploitation" xml:space="preserve"><value>Votre exploitation · Cameroun</value></data>
   <data name="Parcelles_Ajouter" xml:space="preserve"><value>Ajouter une parcelle</value></data>
-  <data name="Parcelles_NoteConnexion" xml:space="preserve"><value>Vos parcelles restent consultables et peuvent être ajoutées sans connexion.</value></data>
-  <data name="Parcelles_Aucune" xml:space="preserve"><value>Aucune parcelle</value></data>
-  <data name="Parcelles_AucuneAide" xml:space="preserve"><value>Ajoutez votre première parcelle pour commencer.</value></data>
   <data name="Parcelles_FicheEnCours" xml:space="preserve"><value>Fiche parcelle en cours de création.</value></data>
   <data name="Parcelles_Chargement" xml:space="preserve"><value>Chargement des parcelles…</value></data>
+  <!-- Rappels -->
+  <data name="Rappels_Titre" xml:space="preserve"><value>Rappels</value></data>
+  <data name="Rappels_Entete" xml:space="preserve"><value>Rappels de saison</value></data>
+  <data name="Rappels_Chargement" xml:space="preserve"><value>Chargement des rappels…</value></data>
+  <data name="Rappels_Erreur" xml:space="preserve"><value>Chargement des rappels impossible. Réessayez.</value></data>
+  <data name="Rappels_AucunAide" xml:space="preserve"><value>Ajoutez une parcelle pour suivre vos travaux de saison.</value></data>
+  <data name="Rappels_Active" xml:space="preserve"><value>Activé</value></data>
+  <data name="Rappels_Desactive" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="Rappels_Basculer" xml:space="preserve"><value>Activer ou désactiver le rappel : {0}</value></data>
+  <data name="Rappels_ErreurBascule" xml:space="preserve"><value>Modification impossible. Réessayez.</value></data>
+  <data name="Rappels_Note" xml:space="preserve"><value>Vos choix restent sur cet appareil et fonctionnent hors ligne.</value></data>
+  <!-- Profil -->
+  <data name="Profil_Titre" xml:space="preserve"><value>Profil</value></data>
+  <data name="Profil_Entete" xml:space="preserve"><value>Mon profil</value></data>
+  <data name="Profil_Chargement" xml:space="preserve"><value>Chargement du profil…</value></data>
+  <data name="Profil_Erreur" xml:space="preserve"><value>Chargement du profil impossible. Réessayez.</value></data>
+  <data name="Profil_Compte" xml:space="preserve"><value>Compte</value></data>
+  <data name="Profil_CompteLocal" xml:space="preserve"><value>Connecté sur cet appareil.</value></data>
+  <data name="Profil_Invite" xml:space="preserve"><value>Mode sans compte</value></data>
+  <data name="Profil_InviteAide" xml:space="preserve"><value>Vos données restent sur ce téléphone.</value></data>
+  <data name="Profil_CreerCompte" xml:space="preserve"><value>Créer un compte</value></data>
+  <data name="Profil_SeConnecter" xml:space="preserve"><value>Se connecter</value></data>
+  <data name="Profil_Deconnexion" xml:space="preserve"><value>Se déconnecter</value></data>
+  <data name="Profil_DeconnexionNote" xml:space="preserve"><value>Vos parcelles restent sur cet appareil.</value></data>
+  <data name="Profil_DeconnexionErreur" xml:space="preserve"><value>Déconnexion impossible. Réessayez.</value></data>
+  <data name="Profil_Preferences" xml:space="preserve"><value>Préférences</value></data>
+  <data name="Profil_Langue" xml:space="preserve"><value>Langue</value></data>
+  <data name="Profil_LangueFrancais" xml:space="preserve"><value>Français</value></data>
+  <data name="Profil_LangueNote" xml:space="preserve"><value>D'autres langues arrivent bientôt.</value></data>
+  <data name="Profil_Donnees" xml:space="preserve"><value>Mise à jour des données</value></data>
+  <data name="Profil_DonneesEmbarquees" xml:space="preserve"><value>Données embarquées dans l'application.</value></data>
+  <data name="Profil_DonneesNote" xml:space="preserve"><value>Elles restent consultables hors ligne.</value></data>
   <!-- Calendrier -->
-  <data name="Calendrier_SousTitre" xml:space="preserve"><value>Vos repères culturaux, mois après mois.</value></data>
   <data name="Calendrier_JoursLettres" xml:space="preserve"><value>L M M J V S D</value></data>
   <data name="Calendrier_Precedent" xml:space="preserve"><value>‹</value></data>
   <data name="Calendrier_Suivant" xml:space="preserve"><value>›</value></data>
@@ -130,23 +137,9 @@
   <data name="Calendrier_EnsuiteLigne" xml:space="preserve"><value>{0} · {1}</value></data>
   <data name="Calendrier_NoteExemple" xml:space="preserve"><value>Dates saisies à titre d'exemple, à ajuster aux conditions de vos parcelles.</value></data>
   <data name="Calendrier_Chargement" xml:space="preserve"><value>Chargement du calendrier…</value></data>
-  <!-- Page démo des composants -->
-  <data name="Composants_Titre" xml:space="preserve"><value>Composants</value></data>
-  <data name="Composants_SousTitre" xml:space="preserve"><value>Boutons, cartes, badges et états.</value></data>
-  <data name="Composants_SectionBoutons" xml:space="preserve"><value>Boutons</value></data>
-  <data name="Composants_SectionCartes" xml:space="preserve"><value>Cartes</value></data>
-  <data name="Composants_SectionBadges" xml:space="preserve"><value>Badges d'étape</value></data>
-  <data name="Composants_SectionEtats" xml:space="preserve"><value>États vide, chargement, erreur</value></data>
-  <data name="Composants_SectionDirect" xml:space="preserve"><value>En direct</value></data>
-  <data name="Composants_CarteTitre" xml:space="preserve"><value>Parcelle du bas</value></data>
-  <data name="Composants_CarteCorps" xml:space="preserve"><value>Maïs · 0,30 ha · semis le 12 oct.</value></data>
-  <data name="Composants_EtatVide" xml:space="preserve"><value>Aucune parcelle pour l'instant.</value></data>
-  <data name="Composants_EtatChargement" xml:space="preserve"><value>Chargement des cultures…</value></data>
-  <data name="Composants_EtatErreur" xml:space="preserve"><value>Affichage impossible. Réessayez.</value></data>
+  <!-- Actions réutilisées par les états chargement, vide et erreur -->
   <data name="Composants_Reessayer" xml:space="preserve"><value>Réessayer</value></data>
-  <data name="Composants_ChangerEtat" xml:space="preserve"><value>Changer d'état</value></data>
-  <data name="Composants_VoirDemo" xml:space="preserve"><value>Voir la démo des composants</value></data>
-  <data name="Composants_SectionChamps" xml:space="preserve"><value>Champs</value></data>
+  <data name="Composants_Retour" xml:space="preserve"><value>Retour</value></data>
   <!-- Écran de démarrage -->
   <data name="App_Nom" xml:space="preserve"><value>CalendAgro</value></data>
   <data name="Demarrage_Accroche" xml:space="preserve"><value>Votre calendrier cultural, même sans connexion.</value></data>
@@ -159,9 +152,8 @@
   <data name="Demarrage_ErreurConnexion" xml:space="preserve"><value>Écran de connexion en cours de création.</value></data>
   <!-- Écran de connexion -->
   <data name="Connexion_Titre" xml:space="preserve"><value>Connexion</value></data>
-  <data name="Connexion_SousTitre" xml:space="preserve"><value>Retrouvez votre carnet CalendAgro.</value></data>
   <data name="Connexion_Identifiant" xml:space="preserve"><value>Téléphone ou e-mail</value></data>
-  <data name="Connexion_IdentifiantExemple" xml:space="preserve"><value>mireille@example.cm</value></data>
+  <data name="Connexion_IdentifiantExemple" xml:space="preserve"><value>exemple@courriel.cm</value></data>
   <data name="Connexion_MotDePasse" xml:space="preserve"><value>Mot de passe</value></data>
   <data name="Connexion_Afficher" xml:space="preserve"><value>Afficher</value></data>
   <data name="Connexion_Masquer" xml:space="preserve"><value>Masquer</value></data>
@@ -179,13 +171,11 @@
   <data name="Connexion_Pied" xml:space="preserve"><value>CalendAgro · Votre carnet cultural</value></data>
   <!-- Écran d'inscription -->
   <data name="Inscription_Titre" xml:space="preserve"><value>Inscription</value></data>
-  <data name="Inscription_SousTitre" xml:space="preserve"><value>Créez votre compte en quelques étapes.</value></data>
-  <data name="Inscription_Retour" xml:space="preserve"><value>Connexion</value></data>
   <data name="Inscription_Nom" xml:space="preserve"><value>Nom</value></data>
-  <data name="Inscription_NomExemple" xml:space="preserve"><value>Mireille</value></data>
+  <data name="Inscription_NomExemple" xml:space="preserve"><value>Exemple</value></data>
   <data name="Inscription_NomValide" xml:space="preserve"><value>Nom renseigné.</value></data>
   <data name="Inscription_NomCourt" xml:space="preserve"><value>Saisissez au moins 2 lettres.</value></data>
-  <data name="Inscription_TelephoneExemple" xml:space="preserve"><value>656190590</value></data>
+  <data name="Inscription_TelephoneExemple" xml:space="preserve"><value>6XX XX XX XX</value></data>
   <data name="Inscription_MotDePasseCourt" xml:space="preserve"><value>8 caractères minimum.</value></data>
   <data name="Inscription_MotDePasseValide" xml:space="preserve"><value>8 caractères minimum : validé.</value></data>
   <data name="Inscription_Confirmation" xml:space="preserve"><value>Confirmer le mot de passe</value></data>
@@ -195,7 +185,6 @@
   <data name="Inscription_Creer" xml:space="preserve"><value>Créer mon compte</value></data>
   <data name="Inscription_Resume" xml:space="preserve"><value>Corrigez l'identifiant et confirmez le mot de passe pour continuer.</value></data>
   <data name="Inscription_LienConnexion" xml:space="preserve"><value>Déjà un compte ? Connexion</value></data>
-  <data name="Inscription_CompteExistant" xml:space="preserve"><value>Un compte existe déjà.</value></data>
   <data name="Inscription_Chargement" xml:space="preserve"><value>Création du compte…</value></data>
   <data name="Inscription_Telephone" xml:space="preserve"><value>Téléphone (optionnel)</value></data>
   <data name="Inscription_TelExemple" xml:space="preserve"><value>+237 6XX XX XX XX</value></data>
@@ -204,7 +193,6 @@
   <data name="Inscription_ConsentementErreur" xml:space="preserve"><value>Cochez la case pour continuer.</value></data>
   <!-- Écran mot de passe oublié -->
   <data name="Mdp_Titre" xml:space="preserve"><value>Mot de passe oublié</value></data>
-  <data name="Mdp_SousTitre" xml:space="preserve"><value>Retrouvez l'accès à votre compte.</value></data>
   <data name="Mdp_Explication" xml:space="preserve"><value>Saisissez le téléphone ou l'e-mail utilisé à l'inscription. Nous vous enverrons un code de récupération.</value></data>
   <data name="Mdp_IdentifiantAide" xml:space="preserve"><value>Votre identifiant de connexion.</value></data>
   <data name="Mdp_Envoyer" xml:space="preserve"><value>Envoyer le code</value></data>
@@ -217,7 +205,6 @@
   <data name="Mdp_CodeErreur" xml:space="preserve"><value>Code incorrect.</value></data>
   <data name="Mdp_Nouveau" xml:space="preserve"><value>Nouveau mot de passe</value></data>
   <data name="Mdp_Valider" xml:space="preserve"><value>Choisir ce mot de passe</value></data>
-  <data name="Mdp_Demo" xml:space="preserve"><value>Démo : utilisez le code 123456.</value></data>
   <data name="Mdp_Chargement" xml:space="preserve"><value>Envoi en cours…</value></data>
   <data name="Mdp_Verification" xml:space="preserve"><value>Vérification en cours…</value></data>
   <!-- Fiche culture -->
@@ -225,7 +212,6 @@
   <data name="Fiche_Mois" xml:space="preserve"><value>Mois</value></data>
   <data name="Fiche_Phase" xml:space="preserve"><value>Phase indicative</value></data>
   <data name="Fiche_HorsCycle" xml:space="preserve"><value>Hors cycle</value></data>
-  <data name="Fiche_CycleIndicatif" xml:space="preserve"><value>Cycle indicatif : {0}</value></data>
   <data name="Fiche_Calendrier" xml:space="preserve"><value>Calendrier sur 12 mois</value></data>
   <data name="Fiche_Conseils" xml:space="preserve"><value>Sur le terrain</value></data>
   <data name="Fiche_RegionExemple" xml:space="preserve"><value>Exemple région {0}</value></data>
@@ -247,7 +233,6 @@
   <data name="Fiche_NoteCalendrier" xml:space="preserve"><value>Dates indicatives : adaptez les périodes aux pluies locales et à votre région.</value></data>
   <data name="Fiche_NoteConseils" xml:space="preserve"><value>En cas de doute, demandez conseil à un accompagnateur local.</value></data>
   <!-- Détail d'une tâche -->
-  <data name="Detail_Retour" xml:space="preserve"><value>Calendrier</value></data>
   <data name="Detail_RetourListe" xml:space="preserve"><value>Retour</value></data>
   <data name="Detail_DatePrevue" xml:space="preserve"><value>Date prévue</value></data>
   <data name="Detail_AFaire" xml:space="preserve"><value>À faire</value></data>
@@ -257,16 +242,22 @@
   <data name="Detail_NoteEnregistree" xml:space="preserve"><value>La mise à jour est enregistrée sur cet appareil, même hors ligne.</value></data>
   <data name="Detail_Chargement" xml:space="preserve"><value>Chargement de la tâche…</value></data>
   <data name="Detail_Introuvable" xml:space="preserve"><value>Tâche introuvable.</value></data>
+  <!-- Travaux d'une parcelle (titres déduits de la phase) -->
+  <data name="Travail_Semis" xml:space="preserve"><value>Préparer le semis</value></data>
+  <data name="Travail_SemisAccroche" xml:space="preserve"><value>Un temps de préparation pour votre culture.</value></data>
+  <data name="Travail_Entretien" xml:space="preserve"><value>Observer les plants</value></data>
+  <data name="Travail_EntretienAccroche" xml:space="preserve"><value>Un temps d'observation pour votre culture.</value></data>
+  <data name="Travail_Recolte" xml:space="preserve"><value>Vérifier la maturité</value></data>
+  <data name="Travail_RecolteAccroche" xml:space="preserve"><value>Un temps de contrôle pour votre culture.</value></data>
   <!-- Ajout de parcelle -->
   <data name="Parcelle_Titre" xml:space="preserve"><value>Ajouter une parcelle</value></data>
-  <data name="Parcelle_SousTitre" xml:space="preserve"><value>Un nom et quelques repères suffisent.</value></data>
   <data name="Parcelle_Retour" xml:space="preserve"><value>Parcelles</value></data>
   <data name="Parcelle_Nom" xml:space="preserve"><value>Nom de la parcelle</value></data>
   <data name="Parcelle_NomAide" xml:space="preserve"><value>Un nom facile à reconnaître.</value></data>
   <data name="Parcelle_Region" xml:space="preserve"><value>Région</value></data>
-  <data name="Parcelle_RegionAide" xml:space="preserve"><value>Précisez votre région.</value></data>
+  <data name="Parcelle_RegionChoisir" xml:space="preserve"><value>Choisir une région</value></data>
   <data name="Parcelle_Culture" xml:space="preserve"><value>Culture</value></data>
-  <data name="Parcelle_CultureExemple" xml:space="preserve"><value>Choisir une culture</value></data>
+  <data name="Parcelle_CultureChoisir" xml:space="preserve"><value>Choisir une culture</value></data>
   <data name="Parcelle_CultureErreur" xml:space="preserve"><value>Sélectionnez une culture pour continuer.</value></data>
   <data name="Parcelle_Surface" xml:space="preserve"><value>Surface en hectares · facultatif</value></data>
   <data name="Parcelle_SurfaceErreur" xml:space="preserve"><value>Saisissez une surface positive.</value></data>
@@ -274,7 +265,7 @@
   <data name="Parcelle_DateAide" xml:space="preserve"><value>Disponible après le choix de la culture.</value></data>
   <data name="Parcelle_Ajouter" xml:space="preserve"><value>Ajouter la parcelle</value></data>
   <data name="Parcelle_NoteEnregistrer" xml:space="preserve"><value>Choisissez une culture et une date de semis pour enregistrer la parcelle.</value></data>
-  <data name="Parcelle_Chargement" xml:space="preserve"><value>Enregistrement en cours…</value></data>
+  <data name="Parcelle_Chargement" xml:space="preserve"><value>Chargement des cultures…</value></data>
   <!-- Détail d'étape -->
   <data name="Etape_EnMois" xml:space="preserve"><value>En {0}</value></data>
   <data name="Etape_PeriodeMois" xml:space="preserve"><value>De {0} à {1}</value></data>
@@ -288,4 +279,48 @@
   <data name="FicheParcelle_Supprimer" xml:space="preserve"><value>Supprimer la parcelle</value></data>
   <data name="FicheParcelle_Chargement" xml:space="preserve"><value>Chargement de la parcelle…</value></data>
   <data name="FicheParcelle_Introuvable" xml:space="preserve"><value>Parcelle introuvable.</value></data>
+  <data name="Cultures_Ajouter" xml:space="preserve"><value>Ajouter une culture</value></data>
+  <data name="Fiche_Options" xml:space="preserve"><value>Options de la culture</value></data>
+  <data name="Fiche_ModifierCulture" xml:space="preserve"><value>Modifier le nom et le cycle</value></data>
+  <data name="Fiche_ModifierSemis" xml:space="preserve"><value>Modifier le semis</value></data>
+  <data name="Fiche_ModifierEntretien" xml:space="preserve"><value>Modifier l'entretien</value></data>
+  <data name="Fiche_ModifierRecolte" xml:space="preserve"><value>Modifier la récolte</value></data>
+  <data name="Fiche_Supprimer" xml:space="preserve"><value>Supprimer la culture</value></data>
+  <data name="Fiche_SupprimerTitre" xml:space="preserve"><value>Supprimer cette culture ?</value></data>
+  <data name="Fiche_SupprimerMessage" xml:space="preserve"><value>La culture, ses périodes et ses conseils seront supprimés de ce téléphone.</value></data>
+  <data name="Fiche_SupprimerOui" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="Fiche_SupprimerNon" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Fiche_SuppressionImpossible" xml:space="preserve"><value>Cette culture est utilisée par une parcelle. Supprimez d'abord la parcelle.</value></data>
+  <data name="Fiche_SuppressionErreur" xml:space="preserve"><value>Suppression impossible. Réessayez.</value></data>
+  <data name="Culture_TitreAjout" xml:space="preserve"><value>Nouvelle culture</value></data>
+  <data name="Culture_TitreModif" xml:space="preserve"><value>Modifier la culture</value></data>
+  <data name="Culture_Nom" xml:space="preserve"><value>Nom de la culture</value></data>
+  <data name="Culture_NomExemple" xml:space="preserve"><value>Ex. gombo</value></data>
+  <data name="Culture_NomErreur" xml:space="preserve"><value>Indiquez un nom de 2 à 40 lettres.</value></data>
+  <data name="Culture_NomExistant" xml:space="preserve"><value>Cette culture existe déjà.</value></data>
+  <data name="Culture_Categorie" xml:space="preserve"><value>Catégorie</value></data>
+  <data name="Culture_CatCereale" xml:space="preserve"><value>Céréale</value></data>
+  <data name="Culture_CatTubercule" xml:space="preserve"><value>Tubercule</value></data>
+  <data name="Culture_CatLegume" xml:space="preserve"><value>Légume</value></data>
+  <data name="Culture_CatRente" xml:space="preserve"><value>Culture de rente</value></data>
+  <data name="Culture_Cycle" xml:space="preserve"><value>Durée du cycle (en mois)</value></data>
+  <data name="Culture_CycleAide" xml:space="preserve"><value>De 1 à 120 mois.</value></data>
+  <data name="Culture_CycleErreur" xml:space="preserve"><value>Indiquez un nombre de mois entre 1 et 120.</value></data>
+  <data name="Culture_CycleMois" xml:space="preserve"><value>{0} mois</value></data>
+  <data name="Culture_CycleAns" xml:space="preserve"><value>{0} ans</value></data>
+  <data name="Culture_Enregistrer" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="Culture_NoteVerif" xml:space="preserve"><value>L'application ne vérifie pas ces informations. Faites-les valider par un conseiller agricole.</value></data>
+  <data name="Culture_Chargement" xml:space="preserve"><value>Chargement…</value></data>
+  <data name="Culture_Retour" xml:space="preserve"><value>Retour</value></data>
+  <data name="Etape_TitreEdition" xml:space="preserve"><value>Modifier : {0}</value></data>
+  <data name="Etape_Debut" xml:space="preserve"><value>Mois de début</value></data>
+  <data name="Etape_Fin" xml:space="preserve"><value>Mois de fin</value></data>
+  <data name="Etape_FinAide" xml:space="preserve"><value>Si la fin est avant le début, la période passe sur la fin de l'année.</value></data>
+  <data name="Etape_MoisErreur" xml:space="preserve"><value>Choisissez un mois.</value></data>
+  <data name="Etape_Conseils" xml:space="preserve"><value>Conseils (3 à 4 conseils courts)</value></data>
+  <data name="Etape_ConseilN" xml:space="preserve"><value>Conseil {0}</value></data>
+  <data name="Etape_ConseilAide" xml:space="preserve"><value>12 mots au maximum.</value></data>
+  <data name="Etape_ConseilErreur" xml:space="preserve"><value>{0} mots : 12 au maximum.</value></data>
+  <data name="Etape_ConseilsNote" xml:space="preserve"><value>Les conseils sont les mêmes pour toutes les zones et saisons de cette culture.</value></data>
+  <data name="Etape_Supprimer" xml:space="preserve"><value>Supprimer cette période</value></data>
 </root>

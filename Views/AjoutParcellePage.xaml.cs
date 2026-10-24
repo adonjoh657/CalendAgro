@@ -10,4 +10,13 @@ public partial class AjoutParcellePage : ContentPage
         BindingContext = App.Current?.Handler?.MauiContext?.Services?.GetService<AjoutParcelleViewModel>()
             ?? new AjoutParcelleViewModel();
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is AjoutParcelleViewModel viewModel)
+        {
+            await viewModel.LoadAsync();
+        }
+    }
 }

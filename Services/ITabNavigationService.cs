@@ -11,6 +11,9 @@ public interface ITabNavigationService
 
     Task GoPreviousAsync();
 
+    // Retour direct à l'accueil depuis un autre onglet.
+    Task GoHomeAsync();
+
     // Direction du dernier déplacement : +1 (gauche), -1 (droite), 0 (aucun).
     // Remet à zéro après lecture, pour un seul effet par déplacement.
     int ConsumeLastStep();

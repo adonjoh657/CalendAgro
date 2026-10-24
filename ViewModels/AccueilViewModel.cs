@@ -36,12 +36,6 @@ public sealed partial class AccueilViewModel : ObservableObject
     public ObservableCollection<TravailCarte> Travaux { get; } = [];
 
     [ObservableProperty]
-    public partial string Bonjour { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string DateLigne { get; set; } = string.Empty;
-
-    [ObservableProperty]
     public partial int NbTravaux { get; set; }
 
     [ObservableProperty]
@@ -76,7 +70,7 @@ public sealed partial class AccueilViewModel : ObservableObject
     }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public AccueilViewModel() : this(new FakeAccueilService(), new TabNavigationService())
+    public AccueilViewModel() : this(DefaultServices.Accueil, DefaultServices.Navigation)
     {
     }
 
@@ -88,31 +82,37 @@ public sealed partial class AccueilViewModel : ObservableObject
 
     public async Task LoadAsync()
     {
-        if (_started)
-        {
-            return;
-        }
+        var premier = !_started;
         _started = true;
-        await RechargerAsync();
+        await RechargerAsync(premier);
     }
 
     [RelayCommand]
-    private async Task RechargerAsync()
+    private Task Recharger() => RechargerAsync(avecSquelette: true);
+
+    // Le premier chargement affiche le squelette ; les retours d'écran rafraîchissent
+    // sans clignotement, pour voir tout de suite une parcelle ajoutée.
+    private async Task RechargerAsync(bool avecSquelette)
     {
-        IsBusy = true;
+        if (avecSquelette)
+        {
+            IsBusy = true;
+        }
         HasError = false;
         try
         {
             var donnees = await _accueil.GetAccueilAsync();
             var aujourdHui = DateOnly.FromDateTime(DateTime.Today);
-            Bonjour = string.Format(AppResources.Accueil_Bonjour, donnees.UserName);
-            DateLigne = Capitaliser(aujourdHui.ToString("dddd d MMMM yyyy", Francais)) + " · " + AppResources.Accueil_Pays;
             NbTravaux = donnees.NbTravaux;
             NbParcelles = donnees.NbParcelles;
-            CulturesResume = donnees.CulturesResume;
-            SurfaceTotale = string.Format(
-                AppResources.Accueil_AuTotal,
-                string.Format(AppResources.Accueil_Hectares, donnees.SurfaceTotaleHa.ToString("0.00", Francais)));
+            CulturesResume = donnees.CulturesResume.Length > 0
+                ? donnees.CulturesResume
+                : AppResources.Accueil_AucuneParcelle;
+            SurfaceTotale = donnees.NbParcelles > 0
+                ? string.Format(
+                    AppResources.Accueil_AuTotal,
+                    string.Format(AppResources.Accueil_Hectares, donnees.SurfaceTotaleHa.ToString("0.00", Francais)))
+                : string.Empty;
             Travaux.Clear();
             foreach (var travail in donnees.Travaux)
             {
@@ -165,9 +165,17 @@ public sealed partial class AccueilViewModel : ObservableObject
     [RelayCommand]
     private Task GoPrevious() => _tabs.GoPreviousAsync();
 
-    // Entrée provisoire vers la page de démo (retirée quand l'accueil aura son contenu).
     [RelayCommand]
-    private Task OpenDemo() => Shell.Current.GoToAsync("composants");
+    private Task OuvrirRappels() => Shell.Current.GoToAsync("rappels");
+
+    [RelayCommand]
+    private Task OuvrirProfil() => Shell.Current.GoToAsync("profil");
+
+    [RelayCommand]
+    private Task OuvrirCalendrier() => Shell.Current.GoToAsync("//calendrier");
+
+    [RelayCommand]
+    private Task OuvrirParcelles() => Shell.Current.GoToAsync("//parcelles");
 
     private static StepKind BadgeDe(TypeEtape phase) => phase switch
     {
@@ -175,11 +183,6 @@ public sealed partial class AccueilViewModel : ObservableObject
         TypeEtape.Recolte => StepKind.Recolte,
         _ => StepKind.Semis,
     };
-
-    private static string Capitaliser(string valeur) =>
-        valeur.Length == 0
-            ? valeur
-            : char.ToUpperInvariant(valeur[0]) + valeur[1..];
 
     private static string Minuscule(string valeur) =>
         valeur.Length == 0

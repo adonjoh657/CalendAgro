@@ -75,7 +75,7 @@ public sealed partial class FicheParcelleViewModel : ObservableObject
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
     public FicheParcelleViewModel()
-        : this(new FakeParcelleService(new FakeCultureService()))
+        : this(DefaultServices.Parcelles)
     {
     }
 

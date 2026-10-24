@@ -7,6 +7,9 @@ public sealed class Conseil
 
     public TypeEtape Phase { get; init; }
 
+    // Titre court du bloc affiché dans le détail d'une tâche.
+    public required string Titre { get; init; }
+
     public required string Texte { get; init; }
 
     public int Ordre { get; init; }

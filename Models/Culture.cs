@@ -18,15 +18,18 @@ public sealed class Culture
 
     public required string IconeKey { get; init; }
 
-    public string CategorieLabel => Categorie switch
-    {
-        CategorieCulture.Cereale => AppResources.Cultures_Cereale,
-        CategorieCulture.Tubercule => AppResources.Cultures_Tubercule,
-        CategorieCulture.Legume => AppResources.Cultures_Legume,
-        _ => AppResources.Cultures_Rente,
-    };
+    // Aperçu de conseil montré dans la carte du catalogue (12 mots max).
+    public string ConseilApercu { get; init; } = string.Empty;
 
-    public string CycleLabel => string.Format(AppResources.Cultures_CycleJours, DureeCycleJours);
+    // Phase montrée en badge sur la carte du catalogue.
+    public TypeEtape PhaseApercu { get; init; }
 
-    public string MetaLabel => $"{CategorieLabel} · {CycleLabel}";
+    // Cycle court (< 6 mois) ou long, qualifié pour la carte du catalogue.
+    public string CycleQualifier => DureeCycleJours < 180
+        ? AppResources.Cultures_CycleCourt
+        : AppResources.Cultures_CycleLong;
+
+    public string CycleApercu => $"{CycleQualifier} · {CycleTexte}";
+
+    public string PhaseLabel => TypeEtapeLabels.Libelle(PhaseApercu);
 }

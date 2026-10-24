@@ -2,10 +2,9 @@ using CalendAgro.Models;
 
 namespace CalendAgro.Services;
 
-// Données d'accueil : salutation, chiffres, travaux, résumé parcelles.
-// JSON/SQLite plus tard ; factice pour la phase B.
+// Données d'accueil : chiffres, travaux à venir et résumé des parcelles.
+// Tout est calculé à partir des parcelles enregistrées, rien n'est simulé.
 public sealed record AccueilDonnees(
-    string UserName,
     int NbTravaux,
     int NbParcelles,
     string CulturesResume,

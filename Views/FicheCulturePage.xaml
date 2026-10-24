@@ -5,23 +5,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:CalendAgro.Controls"
     xmlns:strings="clr-namespace:CalendAgro.Resources.Strings"
-    xmlns:views="clr-namespace:CalendAgro.Views"
     xmlns:vm="clr-namespace:CalendAgro.ViewModels"
     x:DataType="vm:FicheCultureViewModel"
     Title="{Binding Nom}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="24"
-            Spacing="24">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            BackCommand="{Binding RetourCommand}"
+            Title="{Binding Nom}">
+            <controls:PageHeader.Actions>
+                <ImageButton
+                    BackgroundColor="Transparent"
+                    Command="{Binding OuvrirOptionsCommand}"
+                    HeightRequest="48"
+                    Padding="12"
+                    SemanticProperties.Description="{x:Static strings:AppResources.Fiche_Options}"
+                    Source="menu.svg"
+                    WidthRequest="48" />
+            </controls:PageHeader.Actions>
+        </controls:PageHeader>
 
-            <Button
-                Command="{Binding RetourCommand}"
-                ContentLayout="Left,8"
-                HorizontalOptions="Start"
-                ImageSource="arrow_left.svg"
-                Style="{StaticResource TextButton}"
-                Text="{x:Static strings:AppResources.Fiche_Retour}" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout
+                Padding="24,16,24,88"
+                Spacing="24">
 
             <controls:StateView
                 IsVisible="{Binding IsBusy}"
@@ -46,42 +54,42 @@
                 Spacing="24"
                 IsVisible="{Binding IsContenuVisible}">
 
-                <VerticalStackLayout Spacing="4">
-                    <Label
-                        Style="{StaticResource Title1}"
-                        Text="{Binding Nom}" />
-                    <Label
-                        Style="{StaticResource BodySmall}"
-                        Text="{Binding Cycle}" />
-                    <Label
-                        Style="{StaticResource BodySmall}"
-                        Text="{Binding Region}" />
-                </VerticalStackLayout>
+                <Label
+                    Style="{StaticResource BodySmall}"
+                    Text="{Binding Region}" />
 
                 <VerticalStackLayout Spacing="12">
                     <Label
                         Style="{StaticResource Title2}"
                         Text="{x:Static strings:AppResources.Fiche_Calendrier}" />
                     <Grid
-                        ColumnDefinitions="Auto,*,Auto,*"
-                        ColumnSpacing="8">
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="8"
+                        RowDefinitions="Auto,Auto"
+                        RowSpacing="8">
                         <Label
+                            Grid.Row="0"
                             Grid.Column="0"
                             Style="{StaticResource Legend}"
                             Text="{x:Static strings:AppResources.Fiche_Zone}"
                             VerticalOptions="Center" />
                         <Picker
+                            Grid.Row="0"
                             Grid.Column="1"
+                            HorizontalOptions="Fill"
                             ItemsSource="{Binding Zones}"
                             SelectedItem="{Binding ZoneChoisie}"
                             VerticalOptions="Center" />
                         <Label
-                            Grid.Column="2"
+                            Grid.Row="1"
+                            Grid.Column="0"
                             Style="{StaticResource Legend}"
                             Text="{x:Static strings:AppResources.Fiche_Saison}"
                             VerticalOptions="Center" />
                         <Picker
-                            Grid.Column="3"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalOptions="Fill"
                             ItemsSource="{Binding Saisons}"
                             SelectedItem="{Binding SaisonChoisie}"
                             VerticalOptions="Center" />
@@ -154,67 +162,27 @@
                 </VerticalStackLayout>
 
                 <Label
-                    Style="{StaticResource Title2}"
-                    Text="{x:Static strings:AppResources.Fiche_Conseils}" />
-
-                <VerticalStackLayout
-                    Spacing="16"
-                    BindableLayout.ItemsSource="{Binding Phases}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="vm:PhaseConseils">
-                            <VerticalStackLayout Spacing="8">
-                                <HorizontalStackLayout Spacing="8">
-                                    <HorizontalStackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:FicheCulturePage}}, Path=BindingContext.OuvrirEtapeCommand}"
-                                            CommandParameter="{Binding Kind}" />
-                                    </HorizontalStackLayout.GestureRecognizers>
-                                    <controls:StepBadge
-                                        Kind="{Binding Kind}"
-                                        Text="{Binding Titre}"
-                                        VerticalOptions="Center" />
-                                </HorizontalStackLayout>
-                                <VerticalStackLayout
-                                    Spacing="8"
-                                    BindableLayout.ItemsSource="{Binding Textes}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate x:DataType="x:String">
-                                            <HorizontalStackLayout Spacing="8">
-                                                <Image
-                                                    HeightRequest="20"
-                                                    Source="check.svg"
-                                                    VerticalOptions="Start"
-                                                    WidthRequest="20" />
-                                                <Label
-                                                    Style="{StaticResource Body}"
-                                                    Text="{Binding .}"
-                                                    VerticalOptions="Center" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </VerticalStackLayout>
-
-                <Label
-                    Style="{StaticResource BodySmall}"
-                    Text="{x:Static strings:AppResources.Fiche_NoteConseils}" />
-
-                <Label
                     Style="{StaticResource ErrorText}"
                     IsVisible="{Binding NavigationErreurVisible}"
                     Text="{Binding NavigationErreur}" />
 
-                <controls:AppButton
-                    Command="{Binding AjouterParcelleCommand}"
-                    Text="{x:Static strings:AppResources.Fiche_AjouterParcelle}"
-                    Variant="Accent" />
-
             </VerticalStackLayout>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            Grid.Row="1"
+            Margin="0,0,16,16"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding AjouterParcelleCommand}"
+            CornerRadius="28"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            ImageSource="plus.svg"
+            SemanticProperties.Description="{x:Static strings:AppResources.Fiche_AjouterParcelle}"
+            VerticalOptions="End"
+            WidthRequest="56" />
+    </Grid>
 
 </ContentPage>

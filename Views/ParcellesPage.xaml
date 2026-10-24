@@ -10,104 +10,144 @@
     x:DataType="vm:ParcellesViewModel"
     Title="{x:Static strings:AppResources.Parcelles_Titre}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="16"
-            Spacing="16">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            ShowBack="False"
+            Title="{x:Static strings:AppResources.Parcelles_Entete}" />
 
-            <VerticalStackLayout Spacing="4">
-                <Label
-                    Style="{StaticResource Body}"
-                    Text="{Binding Resume}" />
-                <Label
-                    Style="{StaticResource BodySmall}"
-                    Text="{x:Static strings:AppResources.Parcelles_Exploitation}" />
-            </VerticalStackLayout>
-
-            <controls:StateView
-                IsVisible="{Binding IsBusy}"
-                Message="{x:Static strings:AppResources.Parcelles_Chargement}"
-                State="Loading" />
-
-            <controls:StateView
-                ActionCommand="{Binding RechargerCommand}"
-                ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
-                IsVisible="{Binding HasError}"
-                Message="{x:Static strings:AppResources.Connexion_Erreur}"
-                State="Error" />
-
+        <ScrollView Grid.Row="1">
             <VerticalStackLayout
-                Spacing="16"
-                IsVisible="{Binding IsContenuVisible}">
+                Padding="16,16,16,88"
+                Spacing="16">
 
                 <controls:StateView
-                    ActionCommand="{Binding AjouterParcelleCommand}"
-                    ActionText="{x:Static strings:AppResources.Parcelles_Ajouter}"
-                    IsVisible="{Binding ListeVide}"
-                    Message="{x:Static strings:AppResources.Parcelles_AucuneAide}"
-                    State="Empty" />
+                    IsVisible="{Binding IsBusy}"
+                    Message="{x:Static strings:AppResources.Parcelles_Chargement}"
+                    State="Loading" />
+
+                <controls:StateView
+                    ActionCommand="{Binding RechargerCommand}"
+                    ActionText="{x:Static strings:AppResources.Composants_Reessayer}"
+                    IsVisible="{Binding HasError}"
+                    Message="{x:Static strings:AppResources.Connexion_Erreur}"
+                    State="Error" />
 
                 <VerticalStackLayout
-                    Spacing="12"
-                    BindableLayout.ItemsSource="{Binding Items}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ParcelleCarte">
-                            <Border Style="{StaticResource Card}">
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type views:ParcellesPage}}, Path=BindingContext.OuvrirFicheParcelleCommand}"
-                                        CommandParameter="{Binding Id}" />
-                                </Border.GestureRecognizers>
-                                <VerticalStackLayout Spacing="4">
-                                    <Label
-                                        Style="{StaticResource Title2}"
-                                        Text="{Binding CultureNom}" />
-                                    <Label
-                                        Style="{StaticResource Body}"
-                                        Text="{Binding Surface}" />
-                                    <Label
-                                        Style="{StaticResource Legend}"
-                                        Text="{Binding Nom}" />
-                                    <HorizontalStackLayout
-                                        Spacing="8"
-                                        IsVisible="{Binding AvecTravail}">
-                                        <HorizontalStackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:ParcellesPage}}, Path=BindingContext.OuvrirTravailCommand}"
-                                                CommandParameter="{Binding TravailId}" />
-                                        </HorizontalStackLayout.GestureRecognizers>
-                                        <controls:StepBadge
-                                            Kind="{Binding Kind}"
-                                            Text="{Binding Phase}"
-                                            VerticalOptions="Center" />
+                    Spacing="16"
+                    IsVisible="{Binding IsContenuVisible}">
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                        <Image
+                            Grid.Column="0"
+                            HeightRequest="20"
+                            Source="map_pin.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource BodySmall}"
+                            Text="{x:Static strings:AppResources.Parcelles_Exploitation}"
+                            VerticalOptions="Center" />
+                    </Grid>
+
+                    <VerticalStackLayout
+                        Spacing="12"
+                        BindableLayout.ItemsSource="{Binding Items}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ParcelleCarte">
+                                <Border Style="{StaticResource Card}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:ParcellesPage}}, Path=BindingContext.OuvrirFicheParcelleCommand}"
+                                            CommandParameter="{Binding Id}" />
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="12">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                            <Border
+                                                Grid.Column="0"
+                                                BackgroundColor="{StaticResource Surface}"
+                                                HeightRequest="40"
+                                                Stroke="{StaticResource Border}"
+                                                StrokeShape="RoundRectangle 999"
+                                                StrokeThickness="1"
+                                                WidthRequest="40">
+                                                <Image
+                                                    HeightRequest="20"
+                                                    Source="sprout.svg"
+                                                    WidthRequest="20" />
+                                            </Border>
+                                            <VerticalStackLayout
+                                                Grid.Column="1"
+                                                Spacing="2"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    Style="{StaticResource Title2}"
+                                                    Text="{Binding CultureNom}" />
+                                                <Label
+                                                    Style="{StaticResource BodySmall}"
+                                                    Text="{Binding Surface}" />
+                                            </VerticalStackLayout>
+                                            <Image
+                                                Grid.Column="2"
+                                                HeightRequest="20"
+                                                Source="chevron_right.svg"
+                                                VerticalOptions="Center"
+                                                WidthRequest="20" />
+                                        </Grid>
                                         <Label
-                                            Style="{StaticResource BodySmall}"
-                                            Text="{Binding Prochain}"
-                                            VerticalOptions="Center" />
-                                    </HorizontalStackLayout>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                                            Style="{StaticResource Legend}"
+                                            Text="{Binding Nom}" />
+                                        <Grid
+                                            ColumnDefinitions="Auto,*"
+                                            ColumnSpacing="8"
+                                            IsVisible="{Binding AvecTravail}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type views:ParcellesPage}}, Path=BindingContext.OuvrirTravailCommand}"
+                                                    CommandParameter="{Binding TravailId}" />
+                                            </Grid.GestureRecognizers>
+                                            <controls:StepBadge
+                                                Grid.Column="0"
+                                                Kind="{Binding Kind}"
+                                                Text="{Binding Phase}"
+                                                VerticalOptions="Center" />
+                                            <Label
+                                                Grid.Column="1"
+                                                Style="{StaticResource BodySmall}"
+                                                Text="{Binding Prochain}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+
+                    <Label
+                        Style="{StaticResource ErrorText}"
+                        IsVisible="{Binding NavigationErreurVisible}"
+                        Text="{Binding NavigationErreur}" />
+
                 </VerticalStackLayout>
 
-                <controls:AppButton
-                    Command="{Binding AjouterParcelleCommand}"
-                    Text="{x:Static strings:AppResources.Parcelles_Ajouter}"
-                    Variant="Accent" />
-
-                <Label
-                    Style="{StaticResource ErrorText}"
-                    IsVisible="{Binding NavigationErreurVisible}"
-                    Text="{Binding NavigationErreur}" />
-
-                <Label
-                    Style="{StaticResource BodySmall}"
-                    Text="{x:Static strings:AppResources.Parcelles_NoteConnexion}" />
-
             </VerticalStackLayout>
+        </ScrollView>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <Button
+            Grid.Row="1"
+            SemanticProperties.Description="{x:Static strings:AppResources.Parcelles_Ajouter}"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding AjouterParcelleCommand}"
+            CornerRadius="28"
+            HeightRequest="56"
+            HorizontalOptions="End"
+            ImageSource="plus.svg"
+            Margin="0,0,16,16"
+            Padding="0"
+            VerticalOptions="End"
+            WidthRequest="56" />
+
+    </Grid>
 
 </ContentPage>

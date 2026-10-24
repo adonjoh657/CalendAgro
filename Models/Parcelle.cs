@@ -1,6 +1,6 @@
 namespace CalendAgro.Models;
 
-// Parcelle de l'utilisateur : exemple local, stockée en SQLite plus tard.
+// Parcelle de l'utilisateur, stockée en SQLite (données personnelles locales).
 public sealed class Parcelle
 {
     public required string Id { get; init; }
@@ -17,5 +17,6 @@ public sealed class Parcelle
 
     public DateOnly DateSemis { get; init; }
 
-    public Travail? ProchainTravail { get; init; }
+    // Rempli à la lecture par le service des parcelles, jamais stocké tel quel.
+    public Travail? ProchainTravail { get; set; }
 }

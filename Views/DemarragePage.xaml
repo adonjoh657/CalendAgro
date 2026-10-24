@@ -9,10 +9,17 @@
     x:DataType="vm:DemarrageViewModel"
     Title="{x:Static strings:AppResources.App_Nom}">
 
-    <VerticalStackLayout
-        Padding="24"
-        Spacing="16"
-        VerticalOptions="Center">
+    <Grid RowDefinitions="Auto,*">
+        <controls:PageHeader
+            Grid.Row="0"
+            ShowBack="False"
+            Title="{x:Static strings:AppResources.App_Nom}" />
+
+        <VerticalStackLayout
+            Grid.Row="1"
+            Padding="24,16,24,24"
+            Spacing="16"
+            VerticalOptions="Center">
 
         <Image
             HeightRequest="96"
@@ -20,10 +27,6 @@
             Source="logo.svg"
             WidthRequest="96" />
 
-        <Label
-            Style="{StaticResource Title1}"
-            HorizontalTextAlignment="Center"
-            Text="{x:Static strings:AppResources.App_Nom}" />
         <Label
             Style="{StaticResource Body}"
             HorizontalTextAlignment="Center"
@@ -80,6 +83,7 @@
                 Text="{x:Static strings:AppResources.Demarrage_Invite}" />
         </VerticalStackLayout>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 
 </ContentPage>

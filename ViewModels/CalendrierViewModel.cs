@@ -88,7 +88,7 @@ public sealed partial class CalendrierViewModel : ObservableObject
     }
 
     // Repli hors DI (Shell DataTemplate = constructeur sans paramètre).
-    public CalendrierViewModel() : this(new FakeAccueilService(), new TabNavigationService())
+    public CalendrierViewModel() : this(DefaultServices.Accueil, DefaultServices.Navigation)
     {
     }
 
@@ -100,18 +100,20 @@ public sealed partial class CalendrierViewModel : ObservableObject
 
     public async Task LoadAsync()
     {
-        if (_started)
-        {
-            return;
-        }
+        var premier = !_started;
         _started = true;
-        await RechargerAsync();
+        await RechargerAsync(premier);
     }
 
     [RelayCommand]
-    private async Task RechargerAsync()
+    private Task Recharger() => RechargerAsync(avecSquelette: true);
+
+    private async Task RechargerAsync(bool avecSquelette)
     {
-        IsBusy = true;
+        if (avecSquelette)
+        {
+            IsBusy = true;
+        }
         HasError = false;
         try
         {
